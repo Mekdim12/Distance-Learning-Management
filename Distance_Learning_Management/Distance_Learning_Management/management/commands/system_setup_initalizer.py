@@ -28,7 +28,6 @@ class Command(BaseCommand):
         try:
             my_group = Group.objects.get_or_create(name='School_Manager') 
             my_group = Group.objects.get(name='School_Manager')
-            # my_group.user_set.add(userObject)
             userObject.groups.add(my_group) 
 
             admin_emply.save()
@@ -38,5 +37,5 @@ class Command(BaseCommand):
             return
         
 
-        print("--------------- system setup with access for admin is done -------------")
+        print("xxxxxxxxxxxxxxxxxx system setup with access for admin is done xxxxxxxxxxxxxxxxxxxx")
        
