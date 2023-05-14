@@ -7,5 +7,8 @@ urlpatterns = [
     path('Adminlogout', views.school_admin_logout, name="school_admin_logout") , 
     path('AdminPersonalAccount',views.school_admin_personal_account, name="admin_personal_account"),
     path('AdminViewTeachers',views.admin_manage_teacher ,name="view_list_teachers"),
-    path('AdminTeacherInformationInsert', views.admin_teacher_inserting_information, name="admin_teacher_information_insert")
+    path('AdminTeacherInformationInsert', views.admin_teacher_inserting_information, name="admin_teacher_information_insert"),
+    path('AdminTeacherInformation/Delete/<slug:eployee_id>' , views.admin_teacher_information_deleting_url, name="teacher_info_delete"),
+    path('AdminTeacherInformation/Edit/<slug:eployee_id>' , views.admin_teacher_information_editing_url, name="teacher_info_edit"),
+    
 ]

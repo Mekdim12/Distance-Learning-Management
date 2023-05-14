@@ -17,8 +17,8 @@
             {% for employee in teacher_object %}
              <tr>
                 <td>{{ employee.employee.firstname }} -  {{ employee.employee.middlename }} - {{ employee.employee.lastname }}  </td>
-                <td> <a href="">Edit</a></td>
-                <td><a href="">Delete</a></td>
+                <td><a href="{% url 'teacher_info_edit'  employee.employee.employeeid %}">Edit</a></td>
+                <td><a href="{% url 'teacher_info_delete' employee.employee.employeeid %}">Delete</a></td>
              </tr>
 
             {% endfor %}

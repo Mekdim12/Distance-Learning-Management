@@ -195,17 +195,39 @@ def admin_teacher_inserting_information(request):
 
     return render(request, 'School_Admin/teacher_information_inserting_page.html')
 
-def admin_teacher_information_editing_page(request, eployee_id):
+def admin_teacher_information_deleting_url(request, eployee_id):
     try:
-        teacher_id = Employee.objects.get(id = eployee_id)
-        
+        teacher_id = Employee.objects.get(employeeid = eployee_id)
+        user_object = teacher_id.userObject
+        user_object.delete()
+        teacher_id.delete()
+        print("xxxxxx  6 successfully delete info teacher xxxxxx")
+        return redirect('view_list_teachers')
     except Exception as e:
         print(e)
-        print("xxxxxxx 5 Failed to edit teacher information xxxxxxxxxx")
+        print("xxxxxxx 5 Failed to delete teacher information xxxxxxxxxx")
+        return redirect('view_list_teachers')
 
 
-def admin_teacher_information_deleting_url(request, employee_id):
-    pass
+def admin_teacher_information_editing_url(request, eployee_id):
+    try:
+        teacher_id = Employee.objects.get(employeeid = eployee_id)
+        user_object = teacher_id.userObject
+        
+        if request.method == "POST":
+            pass
+        
+        context = {
+            'teacher_info':teacher_id,
+            'user_object':user_object
+        }
+
+        return render(request, 'School_Admin/teacher_information_editing_page.html', context = context)
+    except Exception as e:
+        print(e)
+        print("xxxxxxx 5 Failed to delete teacher information xxxxxxxxxx")
+        return redirect('view_list_teachers')
+
 
 
 
