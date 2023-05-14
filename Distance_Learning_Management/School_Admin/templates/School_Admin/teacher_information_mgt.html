@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teachers Management</title>
+</head>
+<body>
+    <a href="{% url 'admin_teacher_information_insert' %}"><button>Add Teacher +</button></a>
+    <br><br>
+    <h3>List of employee will be displayed</h3>
+    <br>
+    <br>
+    <table>
+        {% if is_empty  > 0 %}
+            {% for employee in teacher_object %}
+             <tr>
+                <td>{{ employee.employee.firstname }} -  {{ employee.employee.middlename }} - {{ employee.employee.lastname }}  </td>
+                <td> <a href="">Edit</a></td>
+                <td><a href="">Delete</a></td>
+             </tr>
+
+            {% endfor %}
+        {% endif %}
+    </table>
+
+
+</body>
+</html>

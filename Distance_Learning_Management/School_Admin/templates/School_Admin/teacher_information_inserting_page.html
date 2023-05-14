@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register New Teachers</title>
+</head>
+<body>
+
+    <h2> Register new teacher</h2>
+    <br>
+
+    <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="firstname">Teacher's First name</label>
+        <input type="text" name="firstname"  required>
+        <br>
+        <br>
+        <label for="middlename">Teacher's middle Name</label>
+        <input type="text" name="middlename"  required>
+        <br>
+        <br>
+        <label for="lastname">Teacher's Last Name</label>
+        <input type="text" name="lastname" required>
+        <br>
+        <br>
+        <label for="username">Teacher's User Name</label>
+        <input type="text" name="username"  required>
+        
+        <br>
+        <br>
+
+        <label for="gender">Teacher's Gender</label>
+        <input type="text" name="gender"  required>
+        
+        <br>
+        <br>
+
+        <label for="phonenumber">Teacher's Phone number</label>
+        <input type="tel" name="phonenumber"  required>
+        
+        <br>
+        <br>
+
+        <label for="address">Teacher's Address</label>
+        <input type="text" name="address" required>
+        <br>
+        <br>
+
+        <label for="email">Teacher's Email</label>
+        <input type="email" name="email"  required>
+        
+        <br>
+        <button type="submit">Register</button>
+
+
+    </form>
+
+    
+</body>
+</html>

@@ -21,5 +21,5 @@ from .views import landing_page
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing_page, name="site_main_landing_page"),
-    path('school_admin', include('School_Admin.urls'))
+    path('school_admin/', include('School_Admin.urls'))
 ]

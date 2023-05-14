@@ -9,6 +9,6 @@ def school_manager_only(view_func):
         if group == 'School_Manager':
             return view_func(request,*args,**kwargs)
         else:
-            return redirect('schoolsHome')
+            return redirect('landing_page_school_admin')
 
     return wrapper_function

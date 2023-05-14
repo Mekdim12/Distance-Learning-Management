@@ -7,6 +7,10 @@ CHOICE2 = [
         ('Male','Male'),
         ('Female', 'Female')
     ]
+ROLE = [
+    ('Teacher', 'Teacher'),
+
+]
 
 class Employee(models.Model):
     firstname = models.CharField(db_column='FirstName', max_length=140)  # Field name made lowercase.
@@ -23,3 +27,12 @@ class Employee(models.Model):
         db_table = 'employee'
     def __str__(self):
         return f'{self.firstname} {self.lastname}'
+    
+class RoleInSchool(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    employee_role = models.CharField(choices=ROLE, max_length=150)
+
+    def __str__(self):
+
+         return f'{self.employee.firstname} {self.employee.lastname}'
+    
