@@ -11,7 +11,9 @@
     
     <h3>Teacher Information Update page </h3>
     <form  method="post" enctype="multipart/form-data">
+        
         {% csrf_token %}
+
         <label for="firstname">Teacher's First name</label>
         <input type="text" name="firstname"  value = "{{ teacher_info.firstname }}" required>
         <br>

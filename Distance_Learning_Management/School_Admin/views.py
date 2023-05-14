@@ -126,7 +126,6 @@ def admin_manage_teacher(request):
     }
     return render(request, 'School_Admin/teacher_information_mgt.html',context=context)
 
-
 @login_required(login_url='admin_login_page')
 @school_manager_only
 def admin_teacher_inserting_information(request):
@@ -195,6 +194,8 @@ def admin_teacher_inserting_information(request):
 
     return render(request, 'School_Admin/teacher_information_inserting_page.html')
 
+@login_required(login_url='admin_login_page')
+@school_manager_only
 def admin_teacher_information_deleting_url(request, eployee_id):
     try:
         teacher_id = Employee.objects.get(employeeid = eployee_id)
@@ -208,14 +209,44 @@ def admin_teacher_information_deleting_url(request, eployee_id):
         print("xxxxxxx 5 Failed to delete teacher information xxxxxxxxxx")
         return redirect('view_list_teachers')
 
-
+@login_required(login_url='admin_login_page')
+@school_manager_only
 def admin_teacher_information_editing_url(request, eployee_id):
     try:
         teacher_id = Employee.objects.get(employeeid = eployee_id)
         user_object = teacher_id.userObject
         
         if request.method == "POST":
-            pass
+            first_name = request.POST['firstname'].strip()
+            middle_name = request.POST['middlename'].strip()
+            last_name = request.POST['lastname'].strip()
+            username = request.POST['username'].strip()
+            gender = request.POST['gender'].strip()
+            phone_number = request.POST['phonenumber'].strip()
+            address = request.POST['address'].strip()
+            email = request.POST['email'].strip()
+            
+            teacher_id.firstname = first_name
+            teacher_id.middlename = middle_name
+            teacher_id.lastname = last_name
+            teacher_id.username = username
+            teacher_id.gender = gender
+            teacher_id.phonenumber = phone_number
+            teacher_id.address = address
+            teacher_id.email = email
+            user_object.username = username
+
+            try:
+                user_object.save()
+                teacher_id.save()
+                print('XXXXXXXXXXXXXXXXXXXXXX 7 Successfully updated XXXXXXXXXXXXXXXXXXXXXX')
+                return redirect('view_list_teachers')
+                
+            except:
+                print("XXXXXXXXXXXXXXXXXXXXX 6 Fail message to update teacher information xxxxxxxxxxxxxxxx")
+
+
+
         
         context = {
             'teacher_info':teacher_id,
