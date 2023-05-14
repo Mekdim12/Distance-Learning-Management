@@ -260,11 +260,145 @@ def admin_teacher_information_editing_url(request, eployee_id):
         return redirect('view_list_teachers')
 
 
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_manage_registerar(request):
+    registerar_roles = RoleInSchool.objects.filter(employee_role = 'Registrar')
+
+    context = {
+        'staff_object': registerar_roles,
+        'is_empty' : len(registerar_roles)
+    }
+    return render(request, 'School_Admin/registerar_information_mgt.html',context=context)
+
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_registerar_info_insert(request):
+    if request.method == "POST":
+        first_name = request.POST['firstname'].strip()
+        middle_name = request.POST['middlename'].strip()
+        last_name = request.POST['lastname'].strip()
+        username = request.POST['username'].strip()
+        gender = request.POST['gender'].strip()
+        phone_number = request.POST['phonenumber'].strip()
+        address = request.POST['address'].strip()
+        email = request.POST['email'].strip()
+
+        
+        flag = True
+        while flag:         
+            randomeNumber = random.randint(1, 1000000000000000000)
+            id_generated = f"RG{randomeNumber}"
+            try:
+                id_generated = Employee.objects.get(employeeid = id_generated)
+            except:
+                flag = False
+                break
+
+        try:
+            user_object = User.objects.create(
+                username = username,
+                password = username
+            )
+            user_object.set_password(username)
+            user_object.save()
+
+            employee = Employee.objects.create(
+                    firstname = first_name,
+                    middlename = middle_name,
+                    lastname = last_name,
+                    username = username,
+                    gender = gender,
+                    phonenumber = phone_number,
+                    address = address,
+                    email = email,
+                    userObject = user_object,
+                    employeeid = id_generated,
+            )
+
+            employee.save()
+
+
+            role = RoleInSchool.objects.create(employee = employee, employee_role = 'Registrar')
+            role.save()
+
+            print("xxxxxxxxxxxxx 8 success Registering registerar")
+            return redirect('view_list_registerar')
+
+        except Exception as e:
+            print(e)
+            # return fail message with it 
+            print("XXXXXXXX 9 Fail registering registerar XXXXXXXXXXXXXXX")
+        
+
+        
+
+    return render(request, 'School_Admin/registerar_information_inserting_page.html')
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+
+def admin_registerar_delete(request, eployee_id):
+    try:
+        registerar_id = Employee.objects.get(employeeid = eployee_id)
+        user_object = registerar_id.userObject
+        user_object.delete()
+        registerar_id.delete()
+        print("xxxxxx  9 successfully delete info Registerar xxxxxx")
+        return redirect('view_list_registerar')
+    except Exception as e:
+        print(e)
+        print("xxxxxxx 10 Failed to delete Registerar information xxxxxxxxxx")
+        return redirect('view_list_registerar')
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_regiseterar_information_edit(request, eployee_id):
+    try:
+        teacher_id = Employee.objects.get(employeeid = eployee_id)
+        user_object = teacher_id.userObject
+        
+        if request.method == "POST":
+            first_name = request.POST['firstname'].strip()
+            middle_name = request.POST['middlename'].strip()
+            last_name = request.POST['lastname'].strip()
+            username = request.POST['username'].strip()
+            gender = request.POST['gender'].strip()
+            phone_number = request.POST['phonenumber'].strip()
+            address = request.POST['address'].strip()
+            email = request.POST['email'].strip()
+            
+            teacher_id.firstname = first_name
+            teacher_id.middlename = middle_name
+            teacher_id.lastname = last_name
+            teacher_id.username = username
+            teacher_id.gender = gender
+            teacher_id.phonenumber = phone_number
+            teacher_id.address = address
+            teacher_id.email = email
+            user_object.username = username
+
+            try:
+                user_object.save()
+                teacher_id.save()
+                print('XXXXXXXXXXXXXXXXXXXXXX 11 Successfully updated regiseterar info XXXXXXXXXXXXXXXXXXXXXX')
+                return redirect('view_list_registerar')
+                
+            except:
+                print("XXXXXXXXXXXXXXXXXXXXX 12 Fail to update registerar information xxxxxxxxxxxxxxxx")
 
 
 
+        
+        context = {
+            'staff_info':teacher_id,
+            'user_object':user_object
+        }
 
-
-
+        return render(request, 'School_Admin/registerar_information_editing_page.html', context = context)
+    except Exception as e:
+        print("xxxxxxx 15 Failed to delete registerar information xxxxxxxxxx")
+        return redirect('view_list_registerar')
 
 

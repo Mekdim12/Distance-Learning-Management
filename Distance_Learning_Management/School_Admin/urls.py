@@ -10,5 +10,9 @@ urlpatterns = [
     path('AdminTeacherInformationInsert', views.admin_teacher_inserting_information, name="admin_teacher_information_insert"),
     path('AdminTeacherInformation/Delete/<slug:eployee_id>' , views.admin_teacher_information_deleting_url, name="teacher_info_delete"),
     path('AdminTeacherInformation/Edit/<slug:eployee_id>' , views.admin_teacher_information_editing_url, name="teacher_info_edit"),
+    path('AdminViewRegisterar', views.admin_manage_registerar, name='view_list_registerar'),
+    path('AdminRegisterar/insert', views.admin_registerar_info_insert, name="admin_registerar_information_insert"),
+    path('AdminRegisterar/Delete/<slug:eployee_id>', views.admin_registerar_delete, name="admin_delete_registerar"),
+    path('AdminRegisterar/Edit/<slug:eployee_id>', views.admin_regiseterar_information_edit, name="admin_edit_registerar"),
     
 ]
