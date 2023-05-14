@@ -12,9 +12,20 @@ import random
 
 
 def school_admin_landingpage(request):
+    if request.user.is_authenticated: # if alrady logged in
+        group = request.user.groups.all()[0].name
+        if str(group).strip().lower() == 'School_Manager'.lower():
+            return redirect('admin_main_landing_page')
+        
     return render(request, "School_Admin/index.html")
 
 def login_page(request):
+    if request.user.is_authenticated: # if alrady logged in
+        group = request.user.groups.all()[0].name
+        if str(group).strip().lower() == 'School_Manager'.lower():
+            return redirect('admin_main_landing_page')
+        
+
     if request.method == 'POST':
         user_name = request.POST['username'].strip()
         password =  request.POST['password'].strip()
@@ -187,11 +198,6 @@ def admin_teacher_inserting_information(request):
             # return fail message with it 
             print("XXXXXXXX 3 Fail registering teacher XXXXXXXXXXXXXXX")
         
-
-
-
-        
-
     return render(request, 'School_Admin/teacher_information_inserting_page.html')
 
 @login_required(login_url='admin_login_page')
@@ -338,7 +344,6 @@ def admin_registerar_info_insert(request):
 
 @login_required(login_url='admin_login_page')
 @school_manager_only
-
 def admin_registerar_delete(request, eployee_id):
     try:
         registerar_id = Employee.objects.get(employeeid = eployee_id)
@@ -401,4 +406,98 @@ def admin_regiseterar_information_edit(request, eployee_id):
         print("xxxxxxx 15 Failed to delete registerar information xxxxxxxxxx")
         return redirect('view_list_registerar')
 
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_list_of_adminstrations_staffs(request):
+
+    admins_object = RoleInSchool.objects.filter(employee_role = 'Admin')
+    print(admins_object)
+    print("---")
+    context = {
+        'admins_object': admins_object,
+        'is_empty' : len(admins_object)
+    }
+
+    return render(request, 'School_Admin/school_admins_listViewPage.html', context=context)
+
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def school_admin_registering_page(request):
+    if request.method == "POST":
+        first_name = request.POST['firstname'].strip()
+        middle_name = request.POST['middlename'].strip()
+        last_name = request.POST['lastname'].strip()
+        username = request.POST['username'].strip()
+        gender = request.POST['gender'].strip()
+        phone_number = request.POST['phonenumber'].strip()
+        address = request.POST['address'].strip()
+        email = request.POST['email'].strip()
+
+        
+        flag = True
+        while flag:         
+            randomeNumber = random.randint(1, 1000000000000000000)
+            id_generated = f"AD{randomeNumber}"
+            try:
+                id_generated = Employee.objects.get(employeeid = id_generated)
+            except:
+                flag = False
+                break
+
+        try:
+            user_object = User.objects.create(
+                username = username,
+                password = username
+            )
+            user_object.set_password(username)
+            user_object.save()
+
+            employee = Employee.objects.create(
+                    firstname = first_name,
+                    middlename = middle_name,
+                    lastname = last_name,
+                    username = username,
+                    gender = gender,
+                    phonenumber = phone_number,
+                    address = address,
+                    email = email,
+                    userObject = user_object,
+                    employeeid = id_generated,
+            )
+
+            employee.save()
+
+
+            role = RoleInSchool.objects.create(employee = employee, employee_role = 'Admin')
+            role.save()
+
+            print("xxxxxxxxxxxxx 16 success Registering Admin")
+            return redirect('admin_staffs_display_page')
+
+        except Exception as e:
+            print(e)
+            # return fail message with it 
+            print("XXXXXXXX 17 Fail registering  Admin XXXXXXXXXXXXXXX")
+        
+
+        
+
+    return render(request, 'School_Admin/school_admin_new_admin_regisetering_page.html')
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def school_admin_account_delete(request, eployee_id):
+    try:
+        admin_id = Employee.objects.get(employeeid = eployee_id)
+        user_object = admin_id.userObject
+        user_object.delete()
+        admin_id.delete()
+        print("xxxxxx  19 successfully delete info school Admin  xxxxxx")
+        return redirect('admin_staffs_display_page')
+    except Exception as e:
+        print(e)
+        print("xxxxxxx 20 Failed to delete school admin information xxxxxxxxxx")
+        return redirect('admin_staffs_display_page')
 

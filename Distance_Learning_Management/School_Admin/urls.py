@@ -11,8 +11,10 @@ urlpatterns = [
     path('AdminTeacherInformation/Delete/<slug:eployee_id>' , views.admin_teacher_information_deleting_url, name="teacher_info_delete"),
     path('AdminTeacherInformation/Edit/<slug:eployee_id>' , views.admin_teacher_information_editing_url, name="teacher_info_edit"),
     path('AdminViewRegisterar', views.admin_manage_registerar, name='view_list_registerar'),
-    path('AdminRegisterar/insert', views.admin_registerar_info_insert, name="admin_registerar_information_insert"),
+    path('AdminRegisterar/Insert', views.admin_registerar_info_insert, name="admin_registerar_information_insert"),
     path('AdminRegisterar/Delete/<slug:eployee_id>', views.admin_registerar_delete, name="admin_delete_registerar"),
     path('AdminRegisterar/Edit/<slug:eployee_id>', views.admin_regiseterar_information_edit, name="admin_edit_registerar"),
-    
+    path('AdminView',views.admin_list_of_adminstrations_staffs, name="admin_staffs_display_page"), 
+    path('AdminView/Insert',views.school_admin_registering_page, name="new_admin_info_inserting_page"),
+    path('AdminView/Delete/<slug:eployee_id>',views.school_admin_account_delete, name="admin_info_deleting_page")
 ]

@@ -10,6 +10,7 @@ CHOICE2 = [
 ROLE = [
     ('Teacher', 'Teacher'),
     ('Registrar', 'Registrar'),
+     ('Admin', 'Admin'),
 
 ]
 

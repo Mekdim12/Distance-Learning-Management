@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adminstrations staff's  </title>
+</head>
+<body>
+
+    <a href="{% url 'new_admin_info_inserting_page' %}"><button>Add New  Admin +</button></a>
+    <br><br>
+    <h3>List of Adminstrations staff will be displayed</h3>
+    <br>
+    <br>
+    <table>
+        {% if is_empty  > 0 %}
+            {% for employee in admins_object %}
+             <tr>
+                <td>{{ employee.employee.firstname }} -  {{ employee.employee.middlename }} - {{ employee.employee.lastname }}  </td>
+                <td><a href="{% url 'admin_info_deleting_page' employee.employee.employeeid %}">Delete</a></td>
+             </tr>
+
+            {% endfor %}
+        {% else %}
+             <tr>
+                <td> No registered account </td>
+             </tr>
+        {% endif %}
+    </table>
+    
+</body>
+</html>
