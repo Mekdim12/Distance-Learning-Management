@@ -43,3 +43,13 @@ class Faculty(models.Model):
     facult_adminstrator = models.OneToOneField(Employee, models.DO_NOTHING)
     full_faculty_name = models.CharField(max_length = 500)
 
+    def __str__(self) -> str:
+        return self.full_faculty_name
+  
+class Department(models.Model):
+    name_of_department = models.CharField(max_length=250)
+    faculty_info = models.ForeignKey(Faculty, models.DO_NOTHING)
+    departement_head = models.OneToOneField(Employee, models.DO_NOTHING)
+    
+    def __str__(self) -> str:
+        return self.name_of_department

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from .decorators  import *
-from .models import Employee,RoleInSchool,Faculty
+from .models import Employee,RoleInSchool,Faculty,Department
 
 
 import random
@@ -562,7 +562,6 @@ def admin_view_faculty_info_delete(request, faculty_id):
     return redirect('admin_manage_faculty_info')
 
 
-
 @login_required(login_url='admin_login_page')
 @school_manager_only
 def admin_view_update_faculty_info(request, faculty_id):
@@ -607,4 +606,48 @@ def admin_view_update_faculty_info(request, faculty_id):
         print(e)
         return redirect('admin_manage_faculty_info')
 
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_manage_departement(request):
+    return render(request, 'School_Admin/departement_info_mgt.html')
+
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_manage_departement_info_insert(request):
+    if request.method == "POST":
+        pass
+
     
+    current_employees_with_teacher_role = RoleInSchool.objects.filter(employee_role = 'Teacher')
+    
+    
+    final_list = []
+    for teacher in current_employees_with_teacher_role:
+        try:
+            Faculty.objects.get(facult_adminstrator = teacher.employee)
+        except:
+            final_list.append(teacher)
+
+    final_list2 = []
+    print(Faculty.objects.all())
+    for faculty in Faculty.objects.all():
+        try:
+            Department.objects.get(faculty_info = faculty)
+        except:
+            final_list2.append(faculty)
+
+        
+
+
+   
+    context = {
+        'availabel_teachers' :final_list,
+        'is_empty':len(final_list),
+        'availabel_faculties' :  final_list2,
+        "is_empty2":len(final_list2)
+
+    }
+
+    return render(request, 'School_Admin/departement_registering_page.html', context = context)

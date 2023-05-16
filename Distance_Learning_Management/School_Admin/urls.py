@@ -21,6 +21,9 @@ urlpatterns = [
     path('FacultyView/Insert', views.admin_new_faculty_register, name="admin_view_fault_new_register"),
     path('FacultyView/Delete/<slug:faculty_id>', views.admin_view_faculty_info_delete, name="admin_delete_faculty_info"),
     path('FacultyView/Edit/<slug:faculty_id>', views.admin_view_update_faculty_info, name="admin_view_update_faculty_info"),
+    path('DepartementView', views.admin_manage_departement, name="admin_manage_departement_info"),
+    path('DepartementView', views.admin_manage_departement, name="admin_manage_departement_info"),
+    path('DepartementView/Insert', views.admin_manage_departement_info_insert, name="admin_manage_departement_info_insert"),
 
 ]
 

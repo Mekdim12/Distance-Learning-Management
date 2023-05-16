@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Department</title>
+</head>
+<body>
+
+    <h5> Register New Departement</h5>
+    {% if is_empty > 0 %}
+        {% if  is_empty2 > 0 %}
+            <form  method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="name_of_department"> Name of department</label>
+                <input type="text" name="name_of_department"  required>
+                <br>
+                <br>
+                <label for="faculty"> Faculty Name</label>
+                <select name="faculty" id="">
+                    {% for faculty in availabel_faculties %}
+                        <option value="{{ faculty.id }}"> {{ faculty.faculty_info.full_faculty_name }}</option>
+                    {% endfor %}
+                </select>
+                
+                <br>
+
+                <br>
+                <label for="doh"> Departement Head</label>
+                <select name="head" id="">
+                    {% for teachers in availabel_teachers %}
+                        <option value="{{ teachers.employee.employeeid }}"> {{ teachers.employee.firstname}}</option>
+                    {% endfor %}
+                </select>
+                
+                <br>
+
+                <button type="submit">Register</button>
+            </form>
+        {% else %}
+            <h5> There is no department registered or all have assinged so make sure registred new one</h5>
+        {% endif %}
+
+    {% else %}
+            <h5> There is no teacher registred for assigning as doh</h5>
+    {% endif %}
+    
+</body>
+</html>
