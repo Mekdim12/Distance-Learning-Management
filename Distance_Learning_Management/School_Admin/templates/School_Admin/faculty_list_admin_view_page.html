@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty List</title>
+</head>
+<body>
+    
+    <a href="{% url 'admin_view_fault_new_register' %}"><button>Add New Faculty +</button></a>
+    <br><br>
+    <h3>List of Faculties will be displayed</h3>
+    <br>
+    <br>
+    <table>
+        {% if is_empty  > 0 %}
+            {% for faculty in faculty_info %}
+             <tr>
+                <td>{{faculty.full_faculty_name}}</td>
+                <td>{{ faculty.facult_adminstrator.firstname }} -  {{ faculty.facult_adminstrator.middlename }} - {{ faculty.facult_adminstrator.lastname }}  </td>
+                <td><a href="{% url 'admin_view_update_faculty_info' faculty.id %}">Edit</a></td>
+                <td><a href="{% url 'admin_delete_faculty_info' faculty.id %}">Delete</a></td>
+             </tr>
+
+            {% endfor %}
+        {% else %}
+             <tr>
+                <td> No registered Faculty Information </td>
+             </tr>
+        {% endif %}
+    </table>
+
+
+</body>
+</html>

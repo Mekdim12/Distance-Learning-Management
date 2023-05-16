@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Faculty</title>
+</head>
+<body>
+
+
+    {% if is_empty > 0 %}
+        <form  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="faculty_name"> Faculty Name</label>
+            <input type="text" name="faculty_name"  required>
+            <br>
+            <br>
+            <label for="faculty admin"> Faculty Admin</label>
+            <select name="choosen_teacher" id="">
+                {% for teacher in availabel_teachers %}
+                        <option value="{{ teacher.employee.employeeid }}"> {{teacher.employee.firstname}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
+            
+            <button type="submit">Register</button>
+
+
+        </form>
+    {% else %}
+        
+        <h3>No teachers is registered make sure u have teacher added first to assing faulty dean </h3>
+
+    {% endif %}
+    
+</body>
+</html>

@@ -16,5 +16,12 @@ urlpatterns = [
     path('AdminRegisterar/Edit/<slug:eployee_id>', views.admin_regiseterar_information_edit, name="admin_edit_registerar"),
     path('AdminView',views.admin_list_of_adminstrations_staffs, name="admin_staffs_display_page"), 
     path('AdminView/Insert',views.school_admin_registering_page, name="new_admin_info_inserting_page"),
-    path('AdminView/Delete/<slug:eployee_id>',views.school_admin_account_delete, name="admin_info_deleting_page")
+    path('AdminView/Delete/<slug:eployee_id>',views.school_admin_account_delete, name="admin_info_deleting_page"),
+    path('FacultyView', views.admin_manage_faculty, name="admin_manage_faculty_info"),
+    path('FacultyView/Insert', views.admin_new_faculty_register, name="admin_view_fault_new_register"),
+    path('FacultyView/Delete/<slug:faculty_id>', views.admin_view_faculty_info_delete, name="admin_delete_faculty_info"),
+    path('FacultyView/Edit/<slug:faculty_id>', views.admin_view_update_faculty_info, name="admin_view_update_faculty_info"),
+
 ]
+
+

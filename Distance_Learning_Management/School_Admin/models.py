@@ -38,3 +38,8 @@ class RoleInSchool(models.Model):
 
          return f'{self.employee.firstname} {self.employee.lastname}'
     
+
+class Faculty(models.Model):
+    facult_adminstrator = models.OneToOneField(Employee, models.DO_NOTHING)
+    full_faculty_name = models.CharField(max_length = 500)
+

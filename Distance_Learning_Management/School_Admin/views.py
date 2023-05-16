@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from .decorators  import *
-from .models import Employee,RoleInSchool
+from .models import Employee,RoleInSchool,Faculty
 
 
 import random
@@ -412,8 +412,7 @@ def admin_regiseterar_information_edit(request, eployee_id):
 def admin_list_of_adminstrations_staffs(request):
 
     admins_object = RoleInSchool.objects.filter(employee_role = 'Admin')
-    print(admins_object)
-    print("---")
+    
     context = {
         'admins_object': admins_object,
         'is_empty' : len(admins_object)
@@ -501,3 +500,111 @@ def school_admin_account_delete(request, eployee_id):
         print("xxxxxxx 20 Failed to delete school admin information xxxxxxxxxx")
         return redirect('admin_staffs_display_page')
 
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_manage_faculty(request):
+    stored_faculty = Faculty.objects.all()
+    context = {
+        "faculty_info" :stored_faculty, 
+        "is_empty": len(stored_faculty)
+    }
+    
+    return render(request, 'School_Admin/faculty_list_admin_view_page.html', context = context)
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_new_faculty_register(request):
+    
+    if request.method == "POST":
+        name_of_faculty = request.POST['faculty_name'].strip()
+        choosen_teacher = request.POST['choosen_teacher'].strip()
+
+        try:
+            Faculty.objects.create(facult_adminstrator =Employee.objects.get(employeeid = choosen_teacher ) , full_faculty_name = name_of_faculty)
+
+            print("xxxxxxxxxxxxxxxxxxx 23 successfull storing new faculty xxxxxxxxxxxxxxxxxxxxxxxx")
+            return redirect('admin_manage_faculty_info')
+        except:
+            print("xxxxxxxxxxxxxxxxxxxxx  22  Failed to store new fauculty infor xxxxxxxxxxxxx")
+        
+        
+
+    current_employees_with_teacher_role = RoleInSchool.objects.filter(employee_role = 'Teacher')
+    # if teacher is already have assigned to faculty
+    
+    final_list = []
+    for teacher in current_employees_with_teacher_role:
+        try:
+            Faculty.objects.get(facult_adminstrator = teacher.employee)
+        except:
+            final_list.append(teacher)
+
+    context = {
+        'availabel_teachers' :final_list,
+        'is_empty':len(final_list)
+    }
+
+
+    return render(request, 'School_Admin/faculty_register_new_faculty_info.html', context= context)
+
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_view_faculty_info_delete(request, faculty_id):
+    try:
+        faculty = Faculty.objects.get(id = faculty_id)
+        faculty.delete()
+        
+        print("xxxxxxxxxxxxxx 25 successfully deleted faculty info xxxxxxxxxxxx")
+    except:
+        print("xxxxxxxxxxxxxxx 24 Failed to delete faculthy info  xxxxxxxxxxxxxxxxx")
+    return redirect('admin_manage_faculty_info')
+
+
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_view_update_faculty_info(request, faculty_id):
+    
+    if request.method == "POST":
+        name_of_faculty = request.POST['faculty_name'].strip()
+        choosen_teacher = request.POST['choosen_teacher'].strip()
+        faculty = Faculty.objects.get(id = faculty_id)
+    
+        faculty.full_faculty_name = name_of_faculty
+        faculty.facult_adminstrator = Employee.objects.get(employeeid = choosen_teacher )
+
+        try:
+            faculty.save()
+            print("xxxxxxxxx 27 successfully update the fauclty data xxxxxxxxx")
+        except:
+            print("xxxxxxxxxxx 26 Failes to update faculty info xxxxxxxxxxxx")
+        return redirect('admin_manage_faculty_info')
+
+    try:   
+        faculty = Faculty.objects.get(id = faculty_id)
+        
+        final_list = []
+        teachers = RoleInSchool.objects.filter(employee_role = 'Teacher')
+        
+        for teacher in teachers:
+            try:
+                if teacher.employee.employeeid == faculty.facult_adminstrator.employeeid:
+                    raise Exception
+                
+                Faculty.objects.get(facult_adminstrator = teacher.employee)
+            except Exception:
+                final_list.append(teacher)
+
+        context = {
+            "faculty_info":faculty,
+            "availabel_teachers": final_list
+        }
+        return render(request, 'School_Admin/faculty_info_editing_page.html', context = context)
+    except Exception as e:
+        
+        print(e)
+        return redirect('admin_manage_faculty_info')
+
+    
