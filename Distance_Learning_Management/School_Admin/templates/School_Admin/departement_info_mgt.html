@@ -15,12 +15,13 @@
     <br>
     <table>
         {% if is_empty  > 0 %}
-            {% for faculty in faculty_info %}
+            {% for departement in departements %}
              <tr>
-                <td>{{faculty.full_faculty_name}}</td>
-                <td>{{ faculty.facult_adminstrator.firstname }} -  {{ faculty.facult_adminstrator.middlename }} - {{ faculty.facult_adminstrator.lastname }}  </td>
-                <td><a href="{% url 'admin_view_update_faculty_info' faculty.id %}">Edit</a></td>
-                <td><a href="{% url 'admin_delete_faculty_info' faculty.id %}">Delete</a></td>
+                <td>{{departement.name_of_department}}</td>
+                <td>{{ departement.faculty_info.full_faculty_name }} </td>
+                <td>{{ departement.departement_head.firstname }}  {{ departement.departement_head.middlename }}</td>
+                <td><a href="{% url 'admin_manage_departement_info_edit' departement.id %}">Edit</a></td>
+                <td><a href="{% url 'admin_manage_departement_info_delete' departement.id %}">Delete</a></td>
              </tr>
 
             {% endfor %}

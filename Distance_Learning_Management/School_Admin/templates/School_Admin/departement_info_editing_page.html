@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Department</title>
+    <title>Update  Department</title>
 </head>
 <body>
 
-    <h5> Register New Departement</h5>
+    <h5> Update  Departement</h5>
+
+
     {% if is_empty > 0 %}
         {% if  is_empty2 > 0 %}
             <form  method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <label for="name_of_department"> Name of department</label>
-                <input type="text" name="name_of_department"  required>
+                <input type="text" name="name_of_department" value="{{ current_departement_info.name_of_department }}" required>
                 <br>
+                <br>
+                <label for="faculty_name_current"> current Faculty Name : {{ current_departement_info.faculty_info.full_faculty_name }} </label>
                 <br>
                 <label for="faculty"> Faculty Name</label>
                 <select name="faculty" id="">
@@ -26,6 +30,8 @@
                 
                 <br>
 
+                <br>
+                <label for="doh_current"> current Departement Head : {{ current_departement_info.departement_head.firstname }}  {{ current_departement_info.departement_head.middlename }} </label>
                 <br>
                 <label for="doh"> Departement Head</label>
                 <select name="doh" id="">

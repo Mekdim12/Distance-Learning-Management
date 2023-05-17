@@ -610,16 +610,35 @@ def admin_view_update_faculty_info(request, faculty_id):
 @login_required(login_url='admin_login_page')
 @school_manager_only
 def admin_manage_departement(request):
-    return render(request, 'School_Admin/departement_info_mgt.html')
+    departements = Department.objects.all()
+    context = {
+        'departements':departements,
+        'is_empty': len(departements)
+    }
+    return render(request, 'School_Admin/departement_info_mgt.html', context= context)
 
 
 @login_required(login_url='admin_login_page')
 @school_manager_only
 def admin_manage_departement_info_insert(request):
-    if request.method == "POST":
-        pass
 
-    
+    if request.method == "POST":
+        name_of_department = request.POST['name_of_department'].strip()
+        faculty_choosen  = request.POST['faculty'].strip()
+        doh = request.POST['doh'].strip()
+
+        try:
+            Department.objects.create(
+                name_of_department = name_of_department ,
+                faculty_info = Faculty.objects.get(id =faculty_choosen ),
+                departement_head = Employee.objects.get(employeeid = doh)
+            )
+            print("xxxxxxxxxxxxxxxxxx  29 successful inserting  xxxxxxxxxxxxxxxxxxx")
+            return redirect('admin_manage_departement_info')
+        except Exception as e:
+            print("xxxxxxxxxxxxxxxxxx 28 Fail to insert departement data xxxxxxxxxxxxxxxxxxx")
+        
+       
     current_employees_with_teacher_role = RoleInSchool.objects.filter(employee_role = 'Teacher')
     
     
@@ -627,27 +646,106 @@ def admin_manage_departement_info_insert(request):
     for teacher in current_employees_with_teacher_role:
         try:
             Faculty.objects.get(facult_adminstrator = teacher.employee)
+            
         except:
-            final_list.append(teacher)
+            try:
+                Department.objects.get(departement_head = teacher.employee)
+            except:
+                final_list.append(teacher)
 
     final_list2 = []
-    print(Faculty.objects.all())
+    
     for faculty in Faculty.objects.all():
+        
         try:
             Department.objects.get(faculty_info = faculty)
         except:
             final_list2.append(faculty)
 
-        
-
-
-   
     context = {
         'availabel_teachers' :final_list,
         'is_empty':len(final_list),
         'availabel_faculties' :  final_list2,
         "is_empty2":len(final_list2)
-
     }
 
     return render(request, 'School_Admin/departement_registering_page.html', context = context)
+
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_delete_departement_information(request, departement_id):
+    try:
+        department = Department.objects.get(id = departement_id)
+        department.delete()
+        print("xxxxxxxxxxxxxx 30 successfully deleted departement info xxxxxxxxxxxx")
+    except:
+        print("xxxxxxxxxxxxxxx 31 Failed to delete departement info  xxxxxxxxxxxxxxxxx")
+    return redirect('admin_manage_departement_info')
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_editing_departement_info(request, departement_id):
+    
+    if request.method == "POST":
+        name_of_department = request.POST['name_of_department'].strip()
+        faculty_choosen  = request.POST['faculty'].strip()
+        doh = request.POST['doh'].strip()
+
+        current_to_be_edit_dep = Department.objects.get(id = departement_id)
+
+        try:
+
+            current_to_be_edit_dep.name_of_department = name_of_department
+            current_to_be_edit_dep.faculty_info = Faculty.objects.get(id = faculty_choosen )
+            current_to_be_edit_dep.departement_head = Employee.objects.get(employeeid = doh)
+            current_to_be_edit_dep.save()
+            
+            print("xxxxxxxxxxxxxxxxxx  31 successful Updating  xxxxxxxxxxxxxxxxxxx")
+            return redirect('admin_manage_departement_info')
+        except Exception as e:
+            print(e)
+            print("xxxxxxxxxxxxxxxxxx 32 Fail to Update departement data xxxxxxxxxxxxxxxxxxx")
+        
+       
+    current_employees_with_teacher_role = RoleInSchool.objects.filter(employee_role = 'Teacher')
+    
+    
+    final_list = []
+    for teacher in current_employees_with_teacher_role:
+        try:
+            Faculty.objects.get(facult_adminstrator = teacher.employee)
+            
+        except:
+            try:
+                dep = Department.objects.get(departement_head = teacher.employee)
+
+                if str(dep.id) == str(departement_id):
+                    raise Exception
+            except Exception:
+                final_list.append(teacher)
+
+    final_list2 = []
+    
+    for faculty in Faculty.objects.all():
+        
+        try:
+            dep = Department.objects.get(faculty_info = faculty)
+            if str(dep.id) == str(departement_id):
+                    raise Exception
+        except Exception:
+            final_list2.append(faculty)
+
+    current_to_be_edit_dep = Department.objects.get(id = departement_id)
+    context = {
+        'availabel_teachers' :final_list,
+        'is_empty':len(final_list),
+        'availabel_faculties' :  final_list2,
+        "is_empty2":len(final_list2),
+        "current_departement_info":current_to_be_edit_dep
+    }
+
+    return render(request, 'School_Admin/departement_info_editing_page.html', context = context)
+
+
+
