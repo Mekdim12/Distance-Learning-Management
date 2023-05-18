@@ -25,7 +25,10 @@ urlpatterns = [
     path('DepartementView/Insert', views.admin_manage_departement_info_insert, name="admin_manage_departement_info_insert"),
     path('DepartementView/Delete/<slug:departement_id>', views.admin_delete_departement_information, name="admin_manage_departement_info_delete"),
     path('DepartementView/Edit/<slug:departement_id>', views.admin_editing_departement_info, name="admin_manage_departement_info_edit"),
-
+    path('CourseInformation/View', views.admin_coures_information_management, name="course_information_view_management"),
+    path('CourseInformation/Insert', views.admin_course_information_inserting, name="admin_course_information_insert"),
+    path('CourseInformation/Delete/<slug:course_id>', views.admin_course_information_deleting, name="admin_course_information_delete"),
+   
 ]
 
 

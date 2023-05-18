@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register New Course Information</title>
+</head>
+<body>
+
+    <h2> Register Course Information</h2>
+    <br>
+
+    {% if is_empty >  0 %}
+
+    <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="course_name"> Course Name</label>
+        <input type="text" name="course_name"  required>
+        <br>
+        <br>
+        <label for="level_of_difficulties"> Level of Difficulties </label>
+        <input type="number" name="level_of_difficulties"  min="0" max="5" required>
+        <br>
+        <br>
+        <label for="objectiveOfCourse">Objective of the course </label>
+        <input type="text" name="objectiveOfCourse" required>
+        <br>
+        <br>
+        <label for="lanaguage">Language</label>
+        <input type="text" name="lanaguage"  required>
+        
+        <br>
+        <br>
+        <label for="tottal_credit_hour">Total Credit Hour </label>
+        <input type="number" name="tottal_credit_hour"  required>
+        
+        <br>
+        <br>
+
+    
+        <label for="departements">Select Departements </label>
+        <select name="departements" id="" multiple>
+            {% for departement in  departements %}
+                    <option value="{{ departement.id }}">{{ departement.name_of_department }} </option>
+            {% endfor %}
+        </select>
+
+
+        
+        <br>
+        <button type="submit">Register</button>
+
+
+    </form>
+    {% else  %}
+
+            <h4>Please make sure u have at least one departement registered first</h4>
+    {% endif %}
+
+    
+</body>
+</html>

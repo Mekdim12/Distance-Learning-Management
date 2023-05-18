@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Information Management </title>
+</head>
+<body>
+
+    <a href="{% url 'admin_course_information_insert' %}"><button>Add Courses +</button></a>
+    <br><br>
+    <h3>List of Courses Resgistered will be displayed</h3>
+    <br>
+    <br>
+    <table>
+        {% if is_empty  > 0 %}
+            {% for course_infomation in course_infomations %}
+             <tr>
+                <td>{{ course_infomation.course_name }} {{course_infomation.departement.name_of_department }}  </td>
+                <td><a href="">Edit</a></td>
+                <td><a href="{% url 'admin_course_information_delete' course_infomation.course_id %}">Delete</a></td>
+             </tr>
+
+            {% endfor %}
+        {% else %}
+             <tr>
+                <td> No registered Course Information </td>
+             </tr>
+        {% endif %}
+    </table>
+    
+</body>
+</html>

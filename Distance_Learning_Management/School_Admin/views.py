@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from .decorators  import *
-from .models import Employee,RoleInSchool,Faculty,Department
+from .models import Employee,RoleInSchool,Faculty,Department,Courseinformations
 
 
 import random
@@ -749,3 +749,78 @@ def admin_editing_departement_info(request, departement_id):
 
 
 
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_coures_information_management(request):
+
+    course_infomations = Courseinformations.objects.all()
+    
+    context = {
+        'course_infomations': course_infomations,
+        'is_empty': len(course_infomations)
+    }
+    return render(request, 'School_Admin/course_info_management_by_admin.html', context)
+
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_course_information_inserting(request):
+    if request.method == "POST":
+        course_name = request.POST['course_name'].strip()
+        level_of_difficulties = request.POST['level_of_difficulties'].strip()
+        objectiveOfCourse = request.POST['objectiveOfCourse'].strip()
+        lanaguage = request.POST['lanaguage'].strip()
+        tottal_credit_hour = request.POST['tottal_credit_hour'].strip()
+        departements_selected = request.POST.getlist('departements')
+        
+        for dep in departements_selected:
+            departement_ = Department.objects.get(id = dep)
+            
+
+            flag = True
+            while flag:         
+                randomeNumber = random.randint(1, 100000000000000000000)
+                id_generated = f"{randomeNumber}"
+                try:
+                    id_generated = Courseinformations.objects.get(course_id = id_generated)
+                except:
+                    flag = False
+                    break
+            
+            try:
+                course_information = Courseinformations.objects.create(
+                    course_id = id_generated,
+                    course_name = course_name,
+                    level_of_difficulties = level_of_difficulties,
+                    objectiveOfCourse = objectiveOfCourse,
+                    lanaguage = lanaguage,
+                    tottal_credit_hour = tottal_credit_hour,
+                    departement = departement_
+                )
+                print('xxxxxxxxxxxxxxxxx 35 Successfully inserted course info xxxxxxxxxxxxxxxxxxxxx')
+                
+            except Exception as e:
+                print(e)
+                print("xxxxxxxxxxxxxxxxxxxxxx 34 Failed to inserte course info")
+
+        return redirect('course_information_view_management')
+
+
+    departements = Department.objects.all()
+
+    context = {
+        'departements':departements,
+        'is_empty': len(departements)
+    }
+    
+    return render(request, 'School_Admin/course_info_inserting_page.html', context = context)
+
+def admin_course_information_deleting(request, course_id):
+    try:
+        course_object = Courseinformations.objects.get(course_id = course_id)
+        course_object.delete()
+        print("xxxxxxxxxxxxxx 34 successfully deleted Course info xxxxxxxxxxxx")
+    except:
+        print("xxxxxxxxxxxxxxx 35 Failed to delete Course info  xxxxxxxxxxxxxxxxx")
+    
+    return redirect('course_information_view_management')
