@@ -28,6 +28,11 @@ urlpatterns = [
     path('CourseInformation/View', views.admin_coures_information_management, name="course_information_view_management"),
     path('CourseInformation/Insert', views.admin_course_information_inserting, name="admin_course_information_insert"),
     path('CourseInformation/Delete/<slug:course_id>', views.admin_course_information_deleting, name="admin_course_information_delete"),
+    path('DepartementPrice', views.admin_departement_price_fixation, name="admin_manage_departement_price"),
+    path('DepartementPrice/Insert', views.admin_departement_price_inserting, name="admin_manage_departement_price_insert"),
+    path('DepartementPrice/Edit/<slug:price_id>', views.admin_departement_price_editing, name="admin_manage_departement_price_edit"),
+    path('DepartementPrice/Delete/<slug:price_id>', views.admin_departement_price_delete, name="admin_manage_departement_price_delete"),
+
    
 ]
 

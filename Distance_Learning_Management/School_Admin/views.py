@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from .decorators  import *
-from .models import Employee,RoleInSchool,Faculty,Department,Courseinformations
+from .models import Employee,RoleInSchool,Faculty,Department,Courseinformations,PriceForDepartements
 
 
 import random
@@ -815,6 +815,8 @@ def admin_course_information_inserting(request):
     
     return render(request, 'School_Admin/course_info_inserting_page.html', context = context)
 
+@login_required(login_url='admin_login_page')
+@school_manager_only
 def admin_course_information_deleting(request, course_id):
     try:
         course_object = Courseinformations.objects.get(course_id = course_id)
@@ -824,3 +826,112 @@ def admin_course_information_deleting(request, course_id):
         print("xxxxxxxxxxxxxxx 35 Failed to delete Course info  xxxxxxxxxxxxxxxxx")
     
     return redirect('course_information_view_management')
+
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_departement_price_fixation(request):
+
+    price_of_departements = PriceForDepartements.objects.all()
+    context = {
+        'price_of_departements' : price_of_departements,
+        'is_empty': len(price_of_departements)
+    }
+    return render(request, 'School_Admin/price_fixation_management_page.html', context = context)
+
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_departement_price_inserting(request):
+    
+    if request.method == 'POST':
+        school_fee = request.POST['school_fee'].strip()
+        departements_id = request.POST['departement_selected'].strip()
+
+        try:
+            PriceForDepartements.objects.create(
+                department = Department.objects.get(id = departements_id),
+                price = float(school_fee)
+            )
+            print("xxxxxxxxxxxxxxx 36 Sucessfully insert price for departement  xxxxxxxxxxxxxxxx")
+            return redirect('admin_manage_departement_price')
+        except Exception as e:
+            print(e)
+            print('xxxxxxxxxxxxxx 35 Failed to insert school fee for students xxxxxxxx ')
+
+        
+
+    all_dep = Department.objects.all()
+    
+    
+    final_list_holder = []
+    for dep in all_dep:
+        try:
+            PriceForDepartements.objects.get(department = dep)
+        except:
+            final_list_holder.append(dep)
+    context = {
+        'departements':final_list_holder,
+        'is_empty':len(final_list_holder)
+    }
+        
+    return render(request, 'School_Admin/price_fixation_inserting_page.html',context = context)
+
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_departement_price_editing(request, price_id):
+
+    price_object = PriceForDepartements.objects.get(id = price_id)
+    if request.method == "POST":
+        school_fee = request.POST['school_fee'].strip()
+        departements_id = request.POST['departement_selected'].strip()
+
+        try:
+
+            price_object.department = Department.objects.get(id = departements_id)
+            price_object.price = float(school_fee)
+            price_object.save()
+           
+            print("xxxxxxxxxxxxxxx 38 Sucessfully updated price for departement  xxxxxxxxxxxxxxxx")
+            return redirect('admin_manage_departement_price')
+        except Exception as e:
+            print(e)
+            print('xxxxxxxxxxxxxx 37 Failed to update school fee for students xxxxxxxx ')
+
+        
+    
+
+    all_dep = Department.objects.all()
+    
+    
+    final_list_holder = []
+    for dep in all_dep:
+        try:
+            
+            PriceForDepartements.objects.get(department = dep)
+            if price_object.department.id == dep.id:
+                final_list_holder.append(dep)
+        except:
+            final_list_holder.append(dep)
+
+    context = {
+        'departements':final_list_holder,
+        'is_empty':len(final_list_holder),
+        'price_object':price_object
+    }
+
+    return render(request, 'School_Admin/price_fixation_editing_page.html', context = context)
+
+
+@login_required(login_url='admin_login_page')
+@school_manager_only
+def admin_departement_price_delete(request, price_id):
+    try:
+        price_object = PriceForDepartements.objects.get(id = price_id)
+        price_object.delete()
+        print("xxxxxxxxxxxxxx 39 successfully deleted Price info xxxxxxxxxxxx")
+    except:
+        print("xxxxxxxxxxxxxxx 35 Failed to delete Price info  xxxxxxxxxxxxxxxxx")
+    
+    return redirect('admin_manage_departement_price')

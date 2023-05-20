@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Price For Departement </title>
+</head>
+<body>
+
+    <a href="{% url 'admin_manage_departement_price_insert' %}"><button>Add Price Fixation For Departments +</button></a>
+    <br><br>
+    <h3>List of departments Price Fixation</h3>
+    <br>
+    <br>
+    <table>
+        {% if is_empty  > 0 %}
+            {% for price_of_departement in price_of_departements %}
+            
+             <tr>
+                <td> {{ price_of_departement.department.name_of_department }}  </td>
+                <td>   {{ price_of_departement.price }} </td>
+                <td><a href="{% url 'admin_manage_departement_price_edit' price_of_departement.id %}">Edit</a></td>
+                <td><a href="{% url 'admin_manage_departement_price_delete' price_of_departement.id %}">Delete</a></td>
+              
+                
+            </tr>
+            <tr>
+             
+            </tr>
+
+            {% endfor %}
+        {% else %}
+             <tr>
+                <td> No Departements have price  </td>
+             </tr>
+        {% endif %}
+    </table>
+    
+</body>
+</html>

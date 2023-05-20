@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit the Price</title>
+</head>
+<body>
+
+    <br>
+
+    {% if is_empty > 0 %}
+
+        <form  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for=""> current Selcted departement : {{ price_object.department.name_of_department }}</label>
+            <br>
+            <label for="departement_selected">Choose Departement</label>
+                <select name="departement_selected" id="">
+                    {% for departement in departements %}
+                        <option value="{{ departement.id }}"> {{ departement.name_of_department }}</option>
+                    {% endfor %}
+                </select>
+            <br>
+            <br>
+            
+            <label for="school_fee">School Monthly Fee</label>
+            <input type="number" name="school_fee" value="{{ price_object.price }}"required>
+        
+            <br>
+            <button type="submit">Edit and Continue</button>
+
+
+        </form>
+    {% else %}
+
+        <h3>NO departement or all departement are have already priced</h3>
+
+    {% endif %}
+
+    
+</body>
+</html>
