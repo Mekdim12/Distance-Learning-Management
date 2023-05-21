@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import landing_page
+from .views import landing_page,login_page
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -30,6 +30,7 @@ from django.views.decorators.cache import never_cache
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing_page, name="site_main_landing_page"),
+    path('login',login_page, name="base_login_page" ),
     path('school_admin/', include('School_Admin.urls')),
     path('ckeditor/upload/', login_required(ckeditor_views.upload), name='ckeditor_upload'),
     path('ckeditor/browse/', never_cache(login_required(ckeditor_views.browse)), name='ckeditor_browse'),
