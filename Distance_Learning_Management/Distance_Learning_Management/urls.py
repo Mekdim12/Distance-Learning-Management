@@ -31,7 +31,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing_page, name="site_main_landing_page"),
     path('login',login_page, name="base_login_page" ),
-    path('school_admin/', include('School_Admin.urls')),
+    path('SchoolAdmin/', include('School_Admin.urls')),
+    path('Registerar/', include('Reception.urls')),
     path('ckeditor/upload/', login_required(ckeditor_views.upload), name='ckeditor_upload'),
     path('ckeditor/browse/', never_cache(login_required(ckeditor_views.browse)), name='ckeditor_browse'),
     

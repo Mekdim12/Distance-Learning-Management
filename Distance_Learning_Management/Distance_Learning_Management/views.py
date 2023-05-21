@@ -15,9 +15,14 @@ def landing_page(request):
 
 def login_page(request):
     if request.user.is_authenticated: # if alrady logged in
-        group = request.user.groups.all()[0].name
-        if str(group).strip().lower() == 'School_Manager'.lower():
-            return redirect('admin_main_landing_page')
+        try:
+            group = request.user.groups.all()[0].name
+            if str(group).strip().lower() == 'School_Manager'.lower():
+                return redirect('admin_main_landing_page')
+            else:
+                logout(request)
+        except:
+            logout(request)
         
 
     if request.method == 'POST':
@@ -32,7 +37,9 @@ def login_page(request):
                     group = request.user.groups.all()[0].name
                     if str(group).strip().lower() == 'School_Manager'.lower():
                         return redirect('admin_main_landing_page')
-                   
+                    elif str(group).strip().lower() == 'Registerar'.lower():
+                        return redirect('registerar_main_landing_page')
+                    
                                       
                 logout(request)
                 return redirect('base_login_page')

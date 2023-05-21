@@ -13,10 +13,13 @@ import random
 
 def school_admin_landingpage(request):
     if request.user.is_authenticated: # if alrady logged in
-        group = request.user.groups.all()[0].name
-        if str(group).strip().lower() == 'School_Manager'.lower():
-            return redirect('admin_main_landing_page')
-        
+        try:
+            group = request.user.groups.all()[0].name
+            if str(group).strip().lower() == 'School_Manager'.lower():
+                return redirect('admin_main_landing_page')
+        except:
+            logout(request)
+            
     return render(request, "School_Admin/index.html")
 
 def login_page(request):
@@ -188,7 +191,13 @@ def admin_teacher_inserting_information(request):
 
 
             role = RoleInSchool.objects.create(employee = employee, employee_role = 'Teacher')
+
             role.save()
+
+            my_group = Group.objects.get_or_create(name='Teacher') 
+            my_group = Group.objects.get(name='Teacher')
+            user_object.groups.add(my_group) 
+
 
             print("xxxxxxxxxxxxx 4 success Registering teacher")
             return redirect('view_list_teachers')
@@ -329,6 +338,10 @@ def admin_registerar_info_insert(request):
             role = RoleInSchool.objects.create(employee = employee, employee_role = 'Registrar')
             role.save()
 
+            my_group = Group.objects.get_or_create(name='Registerar') 
+            my_group = Group.objects.get(name='Registerar')
+            user_object.groups.add(my_group) 
+
             print("xxxxxxxxxxxxx 8 success Registering registerar")
             return redirect('view_list_registerar')
 
@@ -350,6 +363,7 @@ def admin_registerar_delete(request, eployee_id):
         user_object = registerar_id.userObject
         user_object.delete()
         registerar_id.delete()
+        
         print("xxxxxx  9 successfully delete info Registerar xxxxxx")
         return redirect('view_list_registerar')
     except Exception as e:
@@ -471,6 +485,10 @@ def school_admin_registering_page(request):
 
             role = RoleInSchool.objects.create(employee = employee, employee_role = 'Admin')
             role.save()
+
+            my_group = Group.objects.get_or_create(name='School_Manager') 
+            my_group = Group.objects.get(name='School_Manager')
+            user_object.groups.add(my_group) 
 
             print("xxxxxxxxxxxxx 16 success Registering Admin")
             return redirect('admin_staffs_display_page')
