@@ -6,7 +6,21 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from .decorators import *
 from School_Admin.models import *
+from .models import *
+import random
+import os
 # Create your views here.
+
+
+def fileTypeChecker(fileName , listofExetensions):
+    loweredName = fileName
+   
+    
+    for extension in listofExetensions:
+        if loweredName.endswith(extension.lower()):
+            return True
+    
+    return False
 
 
 @login_required(login_url='base_login_page')
@@ -95,4 +109,186 @@ def registerar_logout(request):
 @school_registerar_only
 def student_information_management_page(request):
     
-    return render(request, 'Reception/student_information_mgt.html')
+    student_object = StudentInformation.objects.all()
+    context = {
+        'student_object':student_object,
+        'is_empty': len(student_object)
+    }
+    return render(request, 'Reception/student_information_mgt.html',context=context)
+
+@login_required(login_url='base_login_page')
+@school_registerar_only
+def student_information_inserting_page(request):
+    if request.method == 'POST':
+        first_name = request.POST['first_name'].strip()
+        middle_name = request.POST['middle_name'].strip()
+        last_name = request.POST['last_name'].strip()
+        age = request.POST['age'].strip()
+        country = request.POST['country'].strip()
+        woreda = request.POST['woreda'].strip()
+        street = request.POST['street'].strip()
+        phone_number = request.POST['phone_number'].strip()
+        profile_pictures = request.FILES['profile_pictures']
+        email = request.POST['email'].strip()
+        username = request.POST['username'].strip()
+        cv = request.FILES['cv']
+
+
+        listofImage = [".jpg",".png", ".jpeg", ".gif", ".bmp", '.tif' ]
+        listOfPDFTypes = ['.DOC', '.DOCX','.PDF' ]
+
+        extesionpdf   =  os.path.splitext(str(cv))
+        extesionImg   =  os.path.splitext(str(profile_pictures))
+
+        if fileTypeChecker(extesionpdf[1], listOfPDFTypes ):
+            pass
+        else:
+            print("Document Mismatch")
+            # display error message tells user to change the file typeuse for pdf file
+            print("tttttttttttttttttttt 1000 Error Mismatch in cv file format tttttttttttttttttttttttttt")
+            return render(request, 'Reception/student_information_inserting_page.html')
+
+        if fileTypeChecker(extesionImg[1], listofImage ):
+            pass
+        else:
+            print("Image Mismatch")
+            # display error message tells user to change the file typeuse for pdf file
+            print("tttttttttttttttttttt 1001 Error Mismatch in profile pic file format tttttttttttttttttttttttttt")
+            return render(request, 'Reception/student_information_inserting_page.html')
+
+        try:
+            flag = True
+            while flag:         
+                randomeNumber = random.randint(1, 1000000000000000000)
+                id_generated = f"ST{randomeNumber}"
+                try:
+                    id_generated = Employee.objects.get(employeeid = id_generated)
+                except:
+                    flag = False
+                    break
+            user_object = User.objects.create(
+                username = username,
+                password = username
+            )
+            user_object.set_password(username)
+            user_object.save()
+
+
+            student = StudentInformation.objects.create(
+                userid = id_generated,
+                firstname = first_name,
+                middlename = middle_name,
+                lastname = last_name,
+                age = age,
+                country = country,
+                woredazone = woreda,
+                streetkebele = street,
+                phonenumber = phone_number,
+                profilePicture = profile_pictures,
+                student_cv_pdf_file = cv,
+                email = email,
+                userObject = user_object
+            )
+
+            my_group = Group.objects.get_or_create(name='Student') 
+            my_group = Group.objects.get(name='Student')
+            user_object.groups.add(my_group)
+            print('xxxxxxxxxxxxxxxxxxx 46 successfully registred student Info xxxxxxxxxxxxxxxxx') 
+            return redirect('registerar_student_info_mgt')
+        except Exception as e:
+           print(e)
+           print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx 45 Failed to store student info xxxxxxxxxxxxxxxxxxxx')
+        
+   
+    return render(request, 'Reception/student_information_inserting_page.html')
+
+@login_required(login_url='base_login_page')
+@school_registerar_only
+def student_information_editing_page(request, stud_id):
+    student = StudentInformation.objects.get(userid = stud_id)
+
+    if request.method == 'POST':
+        first_name = request.POST['first_name'].strip()
+        middle_name = request.POST['middle_name'].strip()
+        last_name = request.POST['last_name'].strip()
+        age = request.POST['age'].strip()
+        country = request.POST['country'].strip()
+        woreda = request.POST['woreda'].strip()
+        street = request.POST['street'].strip()
+        phone_number = request.POST['phone_number'].strip()
+        profile_pictures = request.FILES['profile_pictures']
+        email = request.POST['email'].strip()
+        username = request.POST['username'].strip()
+        cv = request.FILES['cv']
+
+        listofImage = [".jpg",".png", ".jpeg", ".gif", ".bmp", '.tif' ]
+        listOfPDFTypes = ['.DOC', '.DOCX','.PDF' ]
+
+        extesionpdf   =  os.path.splitext(str(cv))
+        extesionImg   =  os.path.splitext(str(profile_pictures))
+
+        if fileTypeChecker(extesionpdf[1], listOfPDFTypes ):
+            pass
+        else:
+            print("Document Mismatch")
+            # display error message tells user to change the file typeuse for pdf file
+            print("tttttttttttttttttttt 1000 Error Mismatch in cv file format tttttttttttttttttttttttttt")
+            return render(request, 'Reception/student_information_inserting_page.html')
+
+        if fileTypeChecker(extesionImg[1], listofImage ):
+            pass
+        else:
+            print("Image Mismatch")
+            # display error message tells user to change the file typeuse for pdf file
+            print("tttttttttttttttttttt 1001 Error Mismatch in profile pic file format tttttttttttttttttttttttttt")
+            return render(request, 'Reception/student_information_inserting_page.html')
+
+        try:
+           
+
+            student.firstname = first_name
+            student.middlename = middle_name
+            student.lastname =last_name
+            student.age = age
+            student.country = country
+            student.woredazone = woreda
+            student.streetkebele = street
+            student.phonenumber = phone_number
+            student.profilePicture = profile_pictures
+            student.student_cv_pdf_file = cv
+            student.email = email
+
+            userobject = student.userObject
+            userobject.username  =username
+            userobject.save()
+            student.userObject = userobject
+
+            student.save()
+            print('xxxxxxxxxxxxxxxxxxxxxxxxx 48 Successfully Updated Student Info xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+            return redirect('registerar_student_info_mgt')
+        except:
+            print('xxxxxxxxxxxxxxxx 49 failed to updated the student Info xxxxxxxxxxxxxxxxxxxx')
+            return redirect('registerar_student_info_edit', {'stud_id': stud_id})            
+            
+
+
+    
+    context = {
+        'student':student,
+    }
+    return render(request, 'Reception/student_information_mgt_edit_page.html', context= context)
+
+@login_required(login_url='base_login_page')
+@school_registerar_only
+def student_information_deleting_page(request, stud_id):
+    try:
+        student = StudentInformation.objects.get(userid = stud_id)
+        userobject =  student.userObject
+        userobject.delete()
+        student.delete()
+
+        print('xxxxxxxxxxxxxxxxxxx 50 Successfully deleted student info xxxxxxxxxxxxxxxxxxxxxxxx')
+        
+    except:
+        print('xxxxxxxxxxxxxxxxxxxxx 51 Failed to deleted student Info xxxxxxxxxxxxxxxx')
+    return redirect('registerar_student_info_mgt')

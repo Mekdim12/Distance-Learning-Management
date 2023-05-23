@@ -8,20 +8,30 @@
 </head>
 <body>
     
-    <a href=""><button>Register New Student +</button></a>
+    <a href="{% url 'registerar_student_info_insert' %}"><button>Register New Student +</button></a>
     <br><br>
     <h3>List of Students</h3>
     <br>
     <br>
     <table>
         {% if is_empty  > 0 %}
-            {% for departement in departements %}
+            {% for student in student_object %}
              <tr>
-                <td>{{departement.name_of_department}}</td>
-                <td>{{ departement.faculty_info.full_faculty_name }} </td>
-                <td>{{ departement.departement_head.firstname }}  {{ departement.departement_head.middlename }}</td>
-                <td><a href="{% url 'admin_manage_departement_info_edit' departement.id %}">Edit</a></td>
-                <td><a href="{% url 'admin_manage_departement_info_delete' departement.id %}">Delete</a></td>
+                <td>{{student.firstname}}</td>
+                <td>{{ student.middlename }} </td>
+                <td>{{ student.lastname }}</td>
+                {% if student.is_photos_taken %}
+                    <td>
+                        Photo TAKEN
+                    </td>
+                {% else %}
+                    <td>
+                        <a href="">    <span style="color:red">Take Photo </span> </a>
+                    </td>
+                {% endif %}
+
+                <td><a href="{% url 'registerar_student_info_edit' student.userid %}">Edit</a></td>
+                <td><a href="{% url 'registerar_student_info_delete' student.userid %}">Delete</a></td>
              </tr>
 
             {% endfor %}
