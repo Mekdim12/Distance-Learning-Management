@@ -790,36 +790,46 @@ def admin_course_information_inserting(request):
         lanaguage = request.POST['lanaguage'].strip()
         tottal_credit_hour = request.POST['tottal_credit_hour'].strip()
         departements_selected = request.POST.getlist('departements')
-        
-        for dep in departements_selected:
-            departement_ = Department.objects.get(id = dep)
-            
+        programs =request.POST.getlist('programs')
 
-            flag = True
-            while flag:         
-                randomeNumber = random.randint(1, 100000000000000000000)
-                id_generated = f"{randomeNumber}"
-                try:
-                    id_generated = Courseinformations.objects.get(course_id = id_generated)
-                except:
-                    flag = False
-                    break
+        if len(departements_selected)  == 0:
+            print("xxxxxxxxxxxxxxxxxxxxxx 34.3 no departements selected please  xxxxxxxxxxxxxx")
+            return redirect('course_information_view_management')
             
-            try:
-                course_information = Courseinformations.objects.create(
-                    course_id = id_generated,
-                    course_name = course_name,
-                    level_of_difficulties = level_of_difficulties,
-                    objectiveOfCourse = objectiveOfCourse,
-                    lanaguage = lanaguage,
-                    tottal_credit_hour = tottal_credit_hour,
-                    departement = departement_
-                )
-                print('xxxxxxxxxxxxxxxxx 35 Successfully inserted course info xxxxxxxxxxxxxxxxxxxxx')
+   
+        for program in programs:
+            for dep in departements_selected:
+                departement_ = Department.objects.get(id = dep)
                 
-            except Exception as e:
-                print(e)
-                print("xxxxxxxxxxxxxxxxxxxxxx 34 Failed to inserte course info")
+
+                flag = True
+                while flag:         
+                    randomeNumber = random.randint(1, 100000000000000000000)
+                    id_generated = f"{randomeNumber}"
+                    try:
+                        id_generated = Courseinformations.objects.get(course_id = id_generated)
+                    except:
+                        flag = False
+                        break
+                
+
+                
+                try:
+                    course_information = Courseinformations.objects.create(
+                        course_id = id_generated,
+                        course_name = course_name,
+                        level_of_difficulties = level_of_difficulties,
+                        objectiveOfCourse = objectiveOfCourse,
+                        lanaguage = lanaguage,
+                        tottal_credit_hour = tottal_credit_hour,
+                        departement = departement_,
+                        programs = program
+                    )
+                    print('xxxxxxxxxxxxxxxxx 35 Successfully inserted course info xxxxxxxxxxxxxxxxxxxxx')
+                    
+                except Exception as e:
+                    print(e)
+                    print("xxxxxxxxxxxxxxxxxxxxxx 34 Failed to inserte course info")
 
         return redirect('course_information_view_management')
 

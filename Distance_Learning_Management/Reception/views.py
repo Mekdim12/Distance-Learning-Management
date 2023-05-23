@@ -4,13 +4,20 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-
+from .decorators import *
 from School_Admin.models import *
 # Create your views here.
+
+
+@login_required(login_url='base_login_page')
+@school_registerar_only
 def registerars_landing_page(request):
     return render(request, 'Reception/dashboard_for_reception_display_page.html')
 
 
+
+@login_required(login_url='base_login_page')
+@school_registerar_only
 def manage_personal_account(request):
     user_object = User.objects.get(username=request.user)
     current_employe_object = Employee.objects.get(userObject = user_object)
@@ -77,6 +84,15 @@ def manage_personal_account(request):
     return render(request , 'Reception/personal_account_mgt.html', context=context)
 
 
+
+@login_required(login_url='base_login_page')
+@school_registerar_only
 def registerar_logout(request):
     logout(request)
     return redirect('site_main_landing_page')
+
+@login_required(login_url='base_login_page')
+@school_registerar_only
+def student_information_management_page(request):
+    
+    return render(request, 'Reception/student_information_mgt.html')

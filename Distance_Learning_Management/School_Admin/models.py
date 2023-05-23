@@ -14,6 +14,11 @@ ROLE = [
      ('Admin', 'Admin'),
 
 ]
+PROGRAMS = [
+     ('Bachelor degree', 'Bachelor Degree'),
+     ('Master Degree', 'Master Degree'),
+]
+
 
 class Employee(models.Model):
     firstname = models.CharField(db_column='FirstName', max_length=140)  # Field name made lowercase.
@@ -67,7 +72,7 @@ class Courseinformations(models.Model):
     lanaguage = models.CharField(db_column='Language', max_length= 200, null=True)  # Field name made lowercase.
     tottal_credit_hour = models.IntegerField()
     departement = models.ForeignKey(Department, models.DO_NOTHING, null=True)
-    
+    programs = models.CharField(max_length=100,choices=PROGRAMS)
     class Meta:
         db_table = 'courseinformations'
 

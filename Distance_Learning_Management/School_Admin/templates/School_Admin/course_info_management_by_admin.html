@@ -17,7 +17,7 @@
         {% if is_empty  > 0 %}
             {% for course_infomation in course_infomations %}
              <tr>
-                <td>{{ course_infomation.course_name }} {{course_infomation.departement.name_of_department }}  </td>
+                <td>{{ course_infomation.course_name }} {{course_infomation.departement.name_of_department }}  {{ course_infomation.programs }}</td>
                 <td><a href="">Edit</a></td>
                 <td><a href="{% url 'admin_course_information_delete' course_infomation.course_id %}">Delete</a></td>
              </tr>
