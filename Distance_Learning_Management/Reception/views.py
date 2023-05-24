@@ -270,9 +270,7 @@ def student_information_editing_page(request, stud_id):
             print('xxxxxxxxxxxxxxxx 49 failed to updated the student Info xxxxxxxxxxxxxxxxxxxx')
             return redirect('registerar_student_info_edit', {'stud_id': stud_id})            
             
-
-
-    
+  
     context = {
         'student':student,
     }
@@ -292,3 +290,13 @@ def student_information_deleting_page(request, stud_id):
     except:
         print('xxxxxxxxxxxxxxxxxxxxx 51 Failed to deleted student Info xxxxxxxxxxxxxxxx')
     return redirect('registerar_student_info_mgt')
+
+
+@login_required(login_url='base_login_page')
+@school_registerar_only
+def photo_taken_page(request, stud_id):
+    
+    context = {
+        'student_id': stud_id
+    }
+    return render(request, 'Reception/pcture_taking_page.html', context = context)

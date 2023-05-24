@@ -26,7 +26,7 @@
                     </td>
                 {% else %}
                     <td>
-                        <a href="">    <span style="color:red">Take Photo </span> </a>
+                        <a href="{% url 'add_photos_page' student.userid %}">    <span style="color:red">Take Photo </span> </a>
                     </td>
                 {% endif %}
 
