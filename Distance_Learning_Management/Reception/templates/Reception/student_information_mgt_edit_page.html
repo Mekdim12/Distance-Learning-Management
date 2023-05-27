@@ -66,6 +66,38 @@
         <input type="file" name="cv"  accept=".pdf, .doc, .docx" required>
         
         <br>
+        <br>
+        {% if student_academic_empty > 0 %}
+            <label for="">Previous Program  :  {{ student_academic.programs }}  </label>
+        {% else %}
+            <label for="">Previous Program  : No program has been selected before</label>
+        {% endif %}
+        <br>
+        
+        <label for="program">Choose in which program u will enroll </label>
+        <select name="program" id="">
+            {% for key, value in programs.items %}
+                <option value="{{ key }}">{{ value }}</option>
+            {% endfor %}
+            </select>
+
+        <br>
+
+        {% if student_academic_empty > 0 %}
+            <label for="">Previous Departement  :  {{ student_academic.departement }}  </label>
+        {% else %}
+            <label for="">Previous Departement  : No Departement previouslt has been selected  </label>
+        {% endif %}
+        <br>
+
+        <label for="departement">Choose Departement [ if availabel ]</label>
+        <select name="departement" id="">
+            {% for dep in departement %}
+                <option value="{{ dep.id }}" selected>{{dep.name_of_department}}</option>
+            {% endfor %}
+        </select>
+
+        <br>
 
         
         <button type="submit">Register</button>

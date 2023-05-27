@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from .decorators import *
 from School_Admin.models import *
 from .models import *
@@ -119,6 +120,7 @@ def student_information_management_page(request):
 @login_required(login_url='base_login_page')
 @school_registerar_only
 def student_information_inserting_page(request):
+
     if request.method == 'POST':
         first_name = request.POST['first_name'].strip()
         middle_name = request.POST['middle_name'].strip()
@@ -132,8 +134,10 @@ def student_information_inserting_page(request):
         email = request.POST['email'].strip()
         username = request.POST['username'].strip()
         cv = request.FILES['cv']
-
-
+        choosed_dep = request.POST.getlist('departement')
+        program = request.POST.getlist('program')
+        
+    
         listofImage = [".jpg",".png", ".jpeg", ".gif", ".bmp", '.tif' ]
         listOfPDFTypes = ['.DOC', '.DOCX','.PDF' ]
 
@@ -166,6 +170,39 @@ def student_information_inserting_page(request):
                 except:
                     flag = False
                     break
+                    
+            try:
+                departement = Department.objects.get(id = choosed_dep[0])
+                course_information = Courseinformations.objects.filter(Q(programs = program[0]) & Q(departement = departement) )        
+
+                if not len(course_information) > 0:  
+                    raise Exception
+        
+            except Exception as e:
+                print("-----------------------------")
+                print(e)
+                print("Make sure u add this message if the user got this ")
+                print("xxxxxxxxxxxxxxxxxx 65 The departement student choosed with this program its not availabel so add this message xxxxxxxxxxxxxxxxxxxxxxxx")
+                
+                departement = Department.objects.all()
+    
+                bsc = Courseinformations.objects.filter(programs ='Bchelor Degree')
+                msc = Courseinformations.objects.filter(programs ='Masters Degree')
+                
+                programs = dict()
+                if len(bsc) > 0:
+                    programs['Bchelor Degree'] = 'Bchelor Degree'
+                if len(msc) > 0:  
+                    programs['Masters Degree'] = 'Masters Degree'
+                    
+                context = {
+                    'departement': departement,
+                    'is_empty': len(departement),
+                    'programs' : programs
+                }
+                return render(request, 'Reception/student_information_inserting_page.html', context=context)
+
+
             user_object = User.objects.create(
                 username = username,
                 password = username
@@ -193,19 +230,43 @@ def student_information_inserting_page(request):
             my_group = Group.objects.get_or_create(name='Student') 
             my_group = Group.objects.get(name='Student')
             user_object.groups.add(my_group)
+            StudentAcademicOption.objects.create(
+                            student_id = student,
+                            departement = departement,
+                            programs = program[0]
+                        )
+
             print('xxxxxxxxxxxxxxxxxxx 46 successfully registred student Info xxxxxxxxxxxxxxxxx') 
             return redirect('registerar_student_info_mgt')
         except Exception as e:
            print(e)
            print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx 45 Failed to store student info xxxxxxxxxxxxxxxxxxxx')
-        
+    
+    departement = Department.objects.all()
    
-    return render(request, 'Reception/student_information_inserting_page.html')
+    bsc = Courseinformations.objects.filter(programs ='Bchelor Degree')
+    msc = Courseinformations.objects.filter(programs ='Masters Degree')
+    programs = dict()
+    if len(bsc) > 0:
+        programs['Bchelor Degree'] = 'Bchelor Degree'
+    if len(msc) > 0:  
+        programs['Masters Degree'] = 'Masters Degree'
+        
+    context = {
+        'departement': departement,
+        'is_empty': len(departement),
+        'programs' : programs
+    }
+    return render(request, 'Reception/student_information_inserting_page.html', context=context)
 
 @login_required(login_url='base_login_page')
 @school_registerar_only
 def student_information_editing_page(request, stud_id):
     student = StudentInformation.objects.get(userid = stud_id)
+    try:
+        student_academic = StudentAcademicOption.objects.get(student_id = student.userid)
+    except Exception as e:
+        student_academic = []
 
     if request.method == 'POST':
         first_name = request.POST['first_name'].strip()
@@ -220,12 +281,14 @@ def student_information_editing_page(request, stud_id):
         email = request.POST['email'].strip()
         username = request.POST['username'].strip()
         cv = request.FILES['cv']
+        choosed_dep = request.POST.getlist('departement')
+        program = request.POST.getlist('program')
 
         listofImage = [".jpg",".png", ".jpeg", ".gif", ".bmp", '.tif' ]
         listOfPDFTypes = ['.DOC', '.DOCX','.PDF' ]
 
-        extesionpdf   =  os.path.splitext(str(cv))
-        extesionImg   =  os.path.splitext(str(profile_pictures))
+        extesionpdf  =  os.path.splitext(str(cv))
+        extesionImg  =  os.path.splitext(str(profile_pictures))
 
         if fileTypeChecker(extesionpdf[1], listOfPDFTypes ):
             pass
@@ -245,6 +308,21 @@ def student_information_editing_page(request, stud_id):
 
         try:
            
+            try:
+                departement_ = Department.objects.get(id = choosed_dep[0])
+                course_information = Courseinformations.objects.filter(Q(programs = program[0]) & Q(departement = departement_) )        
+
+                if not len(course_information) > 0:  
+                    raise Exception
+        
+            except Exception as e:
+                print("-----------------------------")
+                print(e)
+                print("Make sure u add this message if the user got this ")
+                print("xxxxxxxxxxxxxxxxxx 66 The departement student choosed with this program its not availabel so add this message xxxxxxxxxxxxxxxxxxxxxxxx")
+
+                return redirect('registerar_student_info_edit', stud_id)
+
 
             student.firstname = first_name
             student.middlename = middle_name
@@ -263,16 +341,46 @@ def student_information_editing_page(request, stud_id):
             userobject.save()
             student.userObject = userobject
 
+            if isinstance(student_academic, list):
+                StudentAcademicOption.objects.create(
+                    student_id = student,
+                    departement = departement_,
+                    programs = program[0]
+                    )
+            else:   
+                student_academic.departement = departement_
+                student_academic.programs = program[0]
+                student_academic.save()
+
+
             student.save()
             print('xxxxxxxxxxxxxxxxxxxxxxxxx 48 Successfully Updated Student Info xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
             return redirect('registerar_student_info_mgt')
-        except:
+        except Exception as e:
+            print(e)
             print('xxxxxxxxxxxxxxxx 49 failed to updated the student Info xxxxxxxxxxxxxxxxxxxx')
-            return redirect('registerar_student_info_edit', {'stud_id': stud_id})            
+            return redirect('registerar_student_info_edit', stud_id)            
             
-  
+    
+
+    departement = Department.objects.all()
+   
+    bsc = Courseinformations.objects.filter(programs ='Bchelor Degree')
+    msc = Courseinformations.objects.filter(programs ='Masters Degree')
+    programs = dict()
+    if len(bsc) > 0:
+        programs['Bchelor Degree'] = 'Bchelor Degree'
+    if len(msc) > 0:  
+        programs['Masters Degree'] = 'Masters Degree'
+ 
+
     context = {
+        'departement': departement,
+        'is_empty': len(departement),
+        'programs' : programs,
         'student':student,
+        'student_academic':student_academic,
+        'student_academic_empty': 1 if student_academic is not None and student_academic != [] else len(student_academic)
     }
     return render(request, 'Reception/student_information_mgt_edit_page.html', context= context)
 
@@ -280,14 +388,23 @@ def student_information_editing_page(request, stud_id):
 @school_registerar_only
 def student_information_deleting_page(request, stud_id):
     try:
+
         student = StudentInformation.objects.get(userid = stud_id)
+        
+        student_academic = StudentAcademicOption.objects.get(student_id = student)
+        student_academic.delete()
+
+        
         userobject =  student.userObject
         userobject.delete()
         student.delete()
 
+        
+
         print('xxxxxxxxxxxxxxxxxxx 50 Successfully deleted student info xxxxxxxxxxxxxxxxxxxxxxxx')
         
-    except:
+    except Exception as e:
+        print(e)
         print('xxxxxxxxxxxxxxxxxxxxx 51 Failed to deleted student Info xxxxxxxxxxxxxxxx')
     return redirect('registerar_student_info_mgt')
 

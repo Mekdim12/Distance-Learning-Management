@@ -1,15 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
+from School_Admin.models import *
 
-'''
-jobtype
-compnayname
-industry
-preffered lanaguage
+PROGRAMS = [
+     ('Bachelor degree', 'Bachelor Degree'),
+     ('Master Degree', 'Master Degree'),
+]
 
-
-'''
 class StudentInformation(models.Model):
     userid = models.CharField(db_column='UserId', primary_key=True, max_length=104)  # Field name made lowercase.
     firstname = models.CharField(db_column='FirstName', max_length=100)  # Field name made lowercase.
@@ -29,3 +27,9 @@ class StudentInformation(models.Model):
     class Meta:
         db_table = 'StudentInformation'
        
+class StudentAcademicOption(models.Model):
+    student_id = models.ForeignKey(StudentInformation, models.DO_NOTHING)
+    departement = models.ForeignKey(Department, models.DO_NOTHING)
+    programs = models.CharField(max_length=100,choices=PROGRAMS)
+    
+    

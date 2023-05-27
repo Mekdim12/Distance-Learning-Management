@@ -237,6 +237,9 @@ def add_photos(request, studentid):
 	try:
 		student_object = StudentInformation.objects.get(userid = studentid )
 		create_dataset(student_object.userid)
+
+		student_object.is_photos_taken = True
+		student_object.save()
 		messages.add_message(request, messages.SUCCESS, 'Successfully Registered Student Photo For model Tranining!')
 		return redirect('add_photos_page', studentid )
 		
@@ -246,10 +249,6 @@ def add_photos(request, studentid):
 		print("ERROR CODE 55 xxxxxxxxxxxxxxxx Registerar View in view_fd xxxxxx")
 		return redirect('add_photos_page', studentid )
 		
-		
-
-
-	return HttpResponse("{}")
 
 
 

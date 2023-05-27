@@ -8,70 +8,93 @@
 </head>
 <body>
 
-    <h2> Student Informaton Inserting</h2>
-    <br>
-
-
-
-    <form  method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label for="first_name"> First Name</label>
-        <input type="text" name="first_name"  required>
-        
-        <br>
-        <label for="middle_name">  Middle Name </label>
-        <input type="text" name="middle_name"  required>
-       
-        <br>
-        <label for="last_name">  Last Name </label>
-        <input type="text" name="last_name"  required>
-       
-        <br>
-
-        <label for="age"> Age </label>
-        <input type="number" name="age"  min="18"  required>
+    {% if is_empty > 0 %}
+        <h2> Student Informaton Inserting</h2>
         <br>
         
-        <label for="country">  Country </label>
-        <input type="text" name="country"  required>
-       
-        <br>
-
-
-        <label for="woreda">  Woreda/Zone </label>
-        <input type="text" name="woreda"  required>
-       
-        <br>
-
-        <label for="street"> Street/Kebele </label>
-        <input type="text" name="street"   required>
-        <br>
-
-        <label for="phone_number"> Phone Number </label>
-        <input type="number" name="phone_number"   required>
-        <br>
-
-        <label for="profile_pictures"> Profile Picture </label>
-        <input type="file" name="profile_pictures"  accept=".png, .jpeg, .jpg, .webm" required>
-        <br>
-
-        <label for="email">Email </label>
-        <input type="email" name="email"   required>
-        <br>
-
-        <label for="username">User Name </label>
-        <input type="text" name="username"   required>
-        <br>
-        <label for="cv">cv </label>
-        <input type="file" name="cv"  accept=".pdf, .doc, .docx" required>
+        <form  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="first_name"> First Name</label>
+            <input type="text" name="first_name"  required>
+            
+            <br>
+            <label for="middle_name">  Middle Name </label>
+            <input type="text" name="middle_name"  required>
         
-        <br>
-
+            <br>
+            <label for="last_name">  Last Name </label>
+            <input type="text" name="last_name"  required>
         
-        <button type="submit">Register</button>
+            <br>
+
+            <label for="age"> Age </label>
+            <input type="number" name="age"  min="18"  required>
+            <br>
+            
+            <label for="country">  Country </label>
+            <input type="text" name="country"  required>
+        
+            <br>
 
 
-    </form>
+            <label for="woreda">  Woreda/Zone </label>
+            <input type="text" name="woreda"  required>
+        
+            <br>
+
+            <label for="street"> Street/Kebele </label>
+            <input type="text" name="street"   required>
+            <br>
+
+            <label for="phone_number"> Phone Number </label>
+            <input type="number" name="phone_number"   required>
+            <br>
+
+            <label for="profile_pictures"> Profile Picture </label>
+            <input type="file" name="profile_pictures"  accept=".png, .jpeg, .jpg, .webm" required>
+            <br>
+            
+            <label for="cv">cv </label>
+            <input type="file" name="cv"  accept=".pdf, .doc, .docx" required>
+            
+            <br>
+
+            <label for="email">Email </label>
+            <input type="email" name="email"   required>
+            <br>
+
+            <label for="username">User Name </label>
+            <input type="text" name="username"   required>
+            <br>
+            <label for="program">Choose in which program u will enroll </label>
+            <select name="program" id="">
+                {% for key, value in programs.items %}
+                    <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
+              </select>
+
+            <br>
+
+            <label for="departement">Choose Departement [ if availabel ]</label>
+            <select name="departement" id="">
+                {% for dep in departement %}
+                    <option value="{{ dep.id }}" selected>{{dep.name_of_department}}</option>
+                {% endfor %}
+            </select>
+
+            <br>
+
+            
+            <button type="submit">Register</button>
+
+
+        </form>
+
+    {% else %}
+
+    <h2>There is no departement currently availabel</h2>
+
+    {% endif %}
    
 
     

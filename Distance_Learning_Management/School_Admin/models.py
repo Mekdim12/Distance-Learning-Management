@@ -109,3 +109,4 @@ class MainCoursecontentdetailcontent(models.Model):
 class PriceForDepartements(models.Model):
     department = models.OneToOneField(Department, on_delete=models.DO_NOTHING)
     price = models.FloatField()
+    
