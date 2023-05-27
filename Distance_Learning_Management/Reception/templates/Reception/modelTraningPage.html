@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row m-5 p-5">
+            <div class="col " id="holder">
+                    <h3 class="text-center fw-bold text-success">This Page will automtically Close After You Press Train Button Below When it finish i will close..
+                        <span style="color:tomato"> Sit tight do not interrupt the process !</span>
+                    </h3>
+                  <a href="{% url 'train_model' %}"><button onclick="waitingdisplay();" class="btn btn-lg btn-outline-success tobeoff" style="border-radius: 8%; margin-left:45%; margin-top: 10%; width: 100px;"> Train </button></a>
+                    
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+       function waitingdisplay(){
+            var mainDiv = document.createElement('div')
+            var rootscript = document.createElement('script')
+                rootscript.setAttribute('src', 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js');
+            var rootlottie = document.createElement('lottie-player');
+                rootlottie.setAttribute('src','https://assets9.lottiefiles.com/packages/lf20_OYpJ8h.json')
+                rootlottie.setAttribute('background','transparent')
+                rootlottie.setAttribute('speed','1')
+                rootlottie.autoplay  = true
+                rootlottie.loop = true;
+                rootlottie.style = ("margin-left:45%","width:300px", "height:300px");
+                rootlottie.classList.add("mt-5")
+            mainDiv.appendChild(rootscript);
+            mainDiv.appendChild(rootlottie);
+        var holder= document.getElementById('holder');
+            holder.appendChild(mainDiv);
+
+        var trainbut = document.querySelector('.tobeoff')
+        trainbut.style.display= "none";
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -417,3 +417,9 @@ def photo_taken_page(request, stud_id):
         'student_id': stud_id
     }
     return render(request, 'Reception/pcture_taking_page.html', context = context)
+
+@login_required(login_url='base_login_page')
+@school_registerar_only
+def  registerar_train_model(request):
+    
+    return render(request, 'Reception/modelTraningPage.html')

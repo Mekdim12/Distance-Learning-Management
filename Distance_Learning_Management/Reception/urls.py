@@ -13,5 +13,7 @@ urlpatterns = [
     path('StudentManagement/Delete/<slug:stud_id>', views.student_information_deleting_page, name="registerar_student_info_delete"),
     path('StudentManagement/TakePhoto/<slug:stud_id>',views.photo_taken_page, name="add_photos_page"),
     path('StudentManagement/TakingPhoto/<slug:studentid>',views_fd.add_photos, name="add_photos"),
+    path('StudentManagement/TrainModelpage',views.registerar_train_model, name="train_model_page"),
+    path('StudentManagement/TrainModel' ,views_fd.train, name="train_model"),
 ]
 

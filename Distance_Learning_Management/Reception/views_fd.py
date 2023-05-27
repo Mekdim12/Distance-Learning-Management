@@ -128,8 +128,8 @@ def train(request):
 	
 	# vizualize_Data(X1,targets)
 	
-	messages.success(request, f'Training Complete.')
-	return redirect('managerDhasboard')
+	messages.success(request, f'xxxxxxxxxxx  100  Training Complete. xxxxxxxxx') 
+	return redirect('registerar_main_landing_page')
 	
 @login_required(login_url='base_login_page')
 @school_registerar_only
