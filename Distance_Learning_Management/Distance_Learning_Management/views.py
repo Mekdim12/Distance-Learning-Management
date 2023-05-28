@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-
+from School_Admin.models import *
 
 import random
 
@@ -39,6 +39,16 @@ def login_page(request):
                         return redirect('admin_main_landing_page')
                     elif str(group).strip().lower() == 'Registerar'.lower():
                         return redirect('registerar_main_landing_page')
+                    elif str(group).strip().lower() == 'Teacher'.lower():
+                        user_object = User.objects.get(username=request.user)
+                        current_employe_object = Employee.objects.get(userObject = user_object)
+                        
+                        if Department.objects.filter(departement_head = current_employe_object).exists():
+                            return redirect('doh_main_landing_page')
+                        # elif  check for fauclty
+                        # else regular teacher
+
+                    
                     
                                       
                 logout(request)

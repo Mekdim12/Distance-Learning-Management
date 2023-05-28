@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'School_Admin',
     'Student',
     'Teacher',
-    'Distance_Learning_Management'
+    'Distance_Learning_Management',
+    'Doh'
 ]
 
 MIDDLEWARE = [

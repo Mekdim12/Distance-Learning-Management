@@ -29,7 +29,8 @@ class Command(BaseCommand):
             my_group = Group.objects.get_or_create(name='School_Manager') 
             Group.objects.get_or_create(name='Registerar') 
             Group.objects.get_or_create(name='Teacher') 
-            Group.objects.get_or_create(name='Student') 
+            Group.objects.get_or_create(name='Student')
+            # Group.objects.get_or_create(name='DOH')  
             
             
             my_group = Group.objects.get(name='School_Manager')

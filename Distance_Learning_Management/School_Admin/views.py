@@ -651,6 +651,7 @@ def admin_manage_departement_info_insert(request):
                 faculty_info = Faculty.objects.get(id =faculty_choosen ),
                 departement_head = Employee.objects.get(employeeid = doh)
             )
+            
             print("xxxxxxxxxxxxxxxxxx  29 successful inserting  xxxxxxxxxxxxxxxxxxx")
             return redirect('admin_manage_departement_info')
         except Exception as e:
