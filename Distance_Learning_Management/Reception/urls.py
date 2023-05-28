@@ -15,5 +15,6 @@ urlpatterns = [
     path('StudentManagement/TakingPhoto/<slug:studentid>',views_fd.add_photos, name="add_photos"),
     path('StudentManagement/TrainModelpage',views.registerar_train_model, name="train_model_page"),
     path('StudentManagement/TrainModel' ,views_fd.train, name="train_model"),
+    path('StudentManagement/Duedate' ,views.registerar_duedate_page, name="due_date_management"),
 ]
 

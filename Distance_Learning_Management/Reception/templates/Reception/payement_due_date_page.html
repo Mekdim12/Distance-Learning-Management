@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>due date management</title>
+</head>
+
+<body>
+    <center>
+        <h3>Due Date Management</h3>
+    </center>
+
+    {% if is_empty %}
+    <table border="1px solid black">
+        <thead>
+            <tr>
+                <td>No</td>
+                <td>Departement Name</td>
+                <td>Number Of Day</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+    </table>
+    {% for dep in departement %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table border="1px solid black">
+            <tbody>
+               
+                <tr>
+                    <td>{{forloop.counter}}</td>
+
+                    <td> {{ dep.name_of_department }}</td>
+                    
+                    {% if is_empty_mapped > 0 %}
+                        {% for due in mapped %}
+                                {% if due.departement.id  == dep.id %}
+                                    <td>
+                                        <input type="text" hidden name="departement_id" value="{{ dep.id }}">
+                                        <input type="number" name="due_date" min="0" max="15" disabled value="{{ due.due_date }}">
+                                    </td>
+                                {% else %}
+                                    <td>
+                                        <input type="text" hidden name="departement_id" value="{{ dep.id }}">
+                                        <input type="number" name="due_date" min="0" max="15">
+                                    </td>
+                                {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <td>
+                            <input type="text" hidden name="departement_id" value="{{ dep.id }}" >
+                            <input type="number" name="due_date" min="0" max="15">
+                        </td>
+                    {% endif %}
+                    
+
+                    <td>
+                        <button type="submit" >Save</button>
+                    </td>
+
+                </tr>
+               
+            </tbody>
+        </table>
+    </form>
+        {% endfor %}
+
+    
+    {% else %}
+    <h4>There is no departement registered </h4>
+    {% endif %}
+
+</body>
+
+</html>
+
+<!-- <script>
+    function editingLine(counter, dep_id) {
+
+        due_date = document.querySelector('[name="due_date-' + counter + '"]')
+
+        duedate = String(due_date.value).split('-')[1]
+        alert(duedate)
+        console.log(duedate)
+        console.log('----------3557-')
+
+        // fetch()
+        document.getElementById("my_form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            formData = new FormData();
+
+            console.log(duedate)
+            console.log(dep_id)
+
+            formData.append('duedate', duedate);
+            formData.append('depId', dep_id);
+
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            alert(formData)
+            console.log(formData)
+            console.log('-----------')
+
+        });
+
+    }
+</script> -->

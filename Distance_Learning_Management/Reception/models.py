@@ -32,4 +32,7 @@ class StudentAcademicOption(models.Model):
     departement = models.ForeignKey(Department, models.DO_NOTHING)
     programs = models.CharField(max_length=100,choices=PROGRAMS)
     
+class DueDatePayemenet(models.Model):
+    departement = models.ForeignKey(Department, models.DO_NOTHING)
+    due_date = models.IntegerField(default=0)
     

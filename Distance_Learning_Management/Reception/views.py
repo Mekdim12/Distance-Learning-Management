@@ -421,5 +421,56 @@ def photo_taken_page(request, stud_id):
 @login_required(login_url='base_login_page')
 @school_registerar_only
 def  registerar_train_model(request):
-    
+
     return render(request, 'Reception/modelTraningPage.html')
+
+
+@login_required(login_url='base_login_page')
+@school_registerar_only
+def registerar_duedate_page(request):
+    
+    if request.method == "POST":
+        due_date = request.POST['due_date']
+        departement_id = request.POST['departement_id']
+        try:
+            if str(due_date).strip() == "":
+                raise Exception
+            
+            parsed_day = int(due_date)
+            
+            departement = Department.objects.get( id = departement_id)
+
+            try:
+                due_date = DueDatePayemenet.objects.get( departement = departement)
+                due_date.due_date = parsed_day
+                due_date.save()
+            except:
+                DueDatePayemenet.objects.create(
+                    departement = departement,
+                    due_date = parsed_day
+                )
+            
+            print("xxxxxxxxxxxxx 65 Due Date is saved successfully xxxxxxxxxxxx")
+            return redirect('due_date_management')
+        except Exception as e:
+            print(e)
+            print("xxxxxxxxxxxxx 65 Due Date is Failed to be saved xxxxxxxxxxxx")
+            return redirect('due_date_management')
+        
+    departement = Department.objects.all()
+
+    mapped  = []
+    for dep in departement:
+        try:
+            due_date = DueDatePayemenet.objects.get( departement = dep)
+            mapped.append(due_date)
+        except:
+            pass
+        
+    context = {
+        'departement':departement,
+        'is_empty':len(departement),
+        'mapped':mapped,
+        'is_empty_mapped':len(mapped)
+    }
+    return render(request, 'Reception/payement_due_date_page.html', context = context)
