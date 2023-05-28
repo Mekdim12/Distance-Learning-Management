@@ -16,5 +16,6 @@ urlpatterns = [
     path('StudentManagement/TrainModelpage',views.registerar_train_model, name="train_model_page"),
     path('StudentManagement/TrainModel' ,views_fd.train, name="train_model"),
     path('StudentManagement/Duedate' ,views.registerar_duedate_page, name="due_date_management"),
+    path('StudentManagement/payementManagement' ,views.student_management_payement_mgt, name="student_mgt_payment"),
 ]
 

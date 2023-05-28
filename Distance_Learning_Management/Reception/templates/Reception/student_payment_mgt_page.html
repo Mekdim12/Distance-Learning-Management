@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Payement Management</title>
+</head>
+<body>
+    <center>
+        <h4>Student Payement Manager</h4>
+    </center>
+
+
+    <table border="1px solid yellow">
+        <thead>
+            <tr>
+                <td>No</td>
+                <td>Id Number</td>
+                <td>Full Name</td>
+                <td>Email</td>
+                <td>Phone Number</td>
+                <td>Departement</td>
+                <td>Is Payed</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in student_informaton %}
+                <tr>
+                    <td>{{ forloop.counter }} </td>
+                    <td>{{ student.userid }}</td>
+                    <td>{{ student.firstname }} {{ student.middlename }} {{ student.lastname }} </td>
+                    <td>{{ student.email }}</td>
+                    <td>{{ student.phonenumber }}</td>
+                    <td>Departement Place Holder</td>
+                    <td>Is Payed place holder</td>
+                    <td>Send Notice id due date reached</td>
+                    <td>Cancel or Hold subscription</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% for student in student_informaton %}
+        {{ student }}
+    {% endfor %}
+
+
+
+    
+</body>
+</html>

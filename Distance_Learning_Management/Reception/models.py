@@ -22,6 +22,7 @@ class StudentInformation(models.Model):
     student_cv_pdf_file = models.FileField(upload_to='Files/')
     email = models.EmailField(max_length=55, null=True)   
     is_photos_taken = models.BooleanField(default=False)
+    is_active =  models.BooleanField(default=True)
     userObject = models.OneToOneField(User, on_delete=models.CASCADE)
     
     class Meta:

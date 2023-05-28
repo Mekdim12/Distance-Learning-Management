@@ -474,3 +474,14 @@ def registerar_duedate_page(request):
         'is_empty_mapped':len(mapped)
     }
     return render(request, 'Reception/payement_due_date_page.html', context = context)
+
+
+@login_required(login_url='base_login_page')
+@school_registerar_only
+def student_management_payement_mgt(request):
+
+    student_informaton = StudentInformation.objects.all()
+    context = {
+        'student_informaton':student_informaton
+    }
+    return render(request, 'Reception/student_payment_mgt_page.html', context = context)
