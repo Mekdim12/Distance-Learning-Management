@@ -47,6 +47,8 @@ def login_page(request):
                             return redirect('doh_main_landing_page')
                         # elif  check for fauclty
                         # else regular teacher
+                        else:
+                            return redirect('teacher_main_landing_page')
 
                     
                     
