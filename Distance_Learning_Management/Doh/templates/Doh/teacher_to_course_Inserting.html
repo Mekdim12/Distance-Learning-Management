@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapping Teacher to Course</title>
+</head>
+<body>
+    {% if is_both_not_empty %}
+        <form action="" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+
+            <label for="teacher">Select Teacher Information</label>
+            <select name="teacher" id="">
+                {% for teacher in teachers %}
+                    <option value="{{ teacher.employee.employeeid }}" selected>{{ teacher.employee.firstname }} {{ teacher.employee.middlename }} {{ teacher.employee.lastname }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="course">Select Course Information[ press ctrl+ click to select multiple]</label>
+            
+            <select name="course" id="" multiple>
+                {% for course in  courses %}
+                    <option value="{{ course.course_id }}" selected>{{ course.course_name }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit"> Save </button>
+
+        </form>
+    {% else %}
+        <h4>Either the There is no teacher information availabel or There is no course information registerd in this departement</h4>   
+    {% endif %}
+</body>
+</html>

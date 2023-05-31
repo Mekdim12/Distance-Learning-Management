@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapping Teacher to Course</title>
+</head>
+<body>
+    {% if is_both_not_empty %}
+        <form action="" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+
+            <label for="teacher">Teacher Full Name:  {{ teacher.firstname }} {{ teacher.middlename }} {{ teacher.lastname }} </label>
+            <br>
+            
+            <label for="teacher">Course Already Assigned: </label>
+            <ul>
+                {% for course in course_this_teachers_assigned %}
+                        <li>{{ course }}</li>
+                {% endfor %}
+            </ul>
+            
+            <label for="course">Select Course Information[ press ctrl+ click to select multiple]</label>
+            <br>
+            <select name="course" id="" multiple>
+                
+                {% for course in final_list_courses %}
+                    {% if course.1 %}
+                        <option value="{{ course.0.course_id }}" selected>{{ course.0.course_name }}</option>
+                    {% else %}
+                        <option value="{{ course.0.course_id }}" >{{ course.0.course_name }}</option>
+                    {% endif %}
+
+                {% endfor %}
+                 
+            </select>
+
+            <br>
+            <br>
+        
+            <a href="">
+                <button type="submit"> Update </button>
+            </a>
+
+        </form>
+    {% else %}
+        <h4>There is no course availabel </h4>   
+    {% endif %}
+</body>
+</html>

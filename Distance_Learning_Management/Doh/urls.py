@@ -14,5 +14,9 @@ urlpatterns = [
     path('', views.departement_head_page, name='doh_main_landing_page' ),
     path('PersonalAccount/Edit', views.manage_personal_account, name='doh_personal_account_edit_page' ),
     path('Logout', views.doh_account_logout, name='doh_acc_logout' ),
+    path('TeacherManagement/view', views.doh_teacher_to_course_mapping_mgt_page, name='teacher_to_course_mgt_page' ),
+    path('TeacherManagement/Insert', views.doh_teacher_to_course_mapping_insert_page, name='teacher_to_course_insert_page' ),
+    path('TeacherManagement/Edit/<slug:teacher_id>', views.doh_teacher_to_course_mapping_editing_page, name='teacher_to_course_edit_page' ),
+    
     
 ]

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teaches Management</title>
+</head>
+<body>
+    
+    <a href="{% url 'teacher_to_course_insert_page' %}">
+        <button>Register Teachers To Course</button>
+    </a>
+
+    {% if is_empty %}
+        <h4>Availabel List of Teachers To Course Information</h4>
+        <table>
+            <thead>
+                <tr>
+                    <td>No</td>
+                    <td>Teacher Full Name</td>
+                    <td>Courses Assigned</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for key, value in grouped.items %}
+                
+                <br>
+                    <tr>
+                        <td> {{ forloop.counter }}</td>
+                        <td> {{ key.firstname }} {{ key.middlename }} {{ key.lastname }}</td>
+                        <td>
+                            <select name="courses" id="">
+                                {% for course in value.0 %}
+                                   <option value="">{{ course.course_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                        <a href="{% url 'teacher_to_course_edit_page' key.employeeid %}">
+                            <button>Edit </button>
+                        </a>
+                       </td>
+                    </tr>
+
+
+                {% endfor %}
+
+            </tbody>
+        </table>
+        
+    {% else %}
+        <h4>There is no teacher assingned to courses</h4>
+    {% endif %}
+   
+</body>
+</html>
