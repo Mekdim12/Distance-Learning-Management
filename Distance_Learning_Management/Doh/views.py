@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .decorators import *
 from School_Admin.models import *
+from Reception.models import *
 from .models import *
 import random
 import os
@@ -289,14 +290,6 @@ def doh_course_information_edit(request, course_info):
         except:
             print("xxxxxxxxxxxxx 81 Failed editing course information xxxxxxxxxxx")
         
-    
-
-        
-
-         
-
-
-
     departements = Department.objects.all()
 
     current_course = Courseinformations.objects.get( course_id = course_info)
@@ -312,3 +305,33 @@ def doh_course_information_edit(request, course_info):
 
     return render(request, 'Doh/course_editing_page.html', context = context)
 
+@login_required(login_url='base_login_page')
+@shoold_doh_only
+def doh_student_information_management_page(request):
+
+
+    user_object = User.objects.get(username=request.user)
+    current_employe_object = Employee.objects.get(userObject = user_object)
+    dep = Department.objects.get(departement_head = current_employe_object)
+
+    
+    student_with_current_dep = StudentAcademicOption.objects.filter(departement = dep )
+    
+    context = {
+        'studdent_dep':student_with_current_dep,
+        'is_empty':len(student_with_current_dep)
+    }
+    return render(request, 'Doh/student_managent_page.html', context = context)
+
+
+@login_required(login_url='base_login_page')
+@shoold_doh_only
+def doh_student_information_detail_page(request, student_id):
+
+    student_info = StudentInformation.objects.get(userid = student_id)
+    
+    context = {
+        'student_info': student_info,
+    }
+
+    return render(request, 'Doh/student_information_detail_page.html' ,context = context)

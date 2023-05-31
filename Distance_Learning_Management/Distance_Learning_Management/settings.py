@@ -54,6 +54,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'csp.middleware.CSPMiddleware'
+
 ]
 
 ROOT_URLCONF = 'Distance_Learning_Management.urls'
@@ -131,6 +134,26 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+
+
+CSP_SPECIAL_SOURCE_VALUE = 'self'
+CSP_SRC = 'http://localhost:3000'
+
+# This will be fallback for all other directives
+# Warning: it's telling the browser to allow everything if no other rule matches!
+
+CSP_DEFAULT_SRC = (f"'{CSP_SPECIAL_SOURCE_VALUE}'", '*')
+
+CSP_FRAME_SRC = (f"'{CSP_SPECIAL_SOURCE_VALUE}'", f'{CSP_SRC}')
+CSP_FRAME_ANCESTORS = (
+    f"'{CSP_SPECIAL_SOURCE_VALUE}'", f'{CSP_SRC}')
+
+
+
+
+
+
 
 
 # Default primary key field type

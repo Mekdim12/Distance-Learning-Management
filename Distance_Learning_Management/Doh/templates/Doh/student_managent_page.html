@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management </title>
+</head>
+<body>
+    
+
+    <h4></h4>
+
+    {% if is_empty > 0 %}
+        <h4>Registered Studetn List</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <td>
+                            No
+                        </td>
+                        <td>Student Name</td>
+                        <td>Departement</td>
+                        <td>Programs</td>
+                        <td>Is Acitve</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for in_dep in studdent_dep %}
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ in_dep.student_id.firstname }} {{ in_dep.student_id.middlename }} {{ in_dep.student_id.lastname }}</td>
+                        <td>{{ in_dep.departement.name_of_department }} </td>
+                        <td>{{ in_dep.programs }}</td>
+                        <td>{{ in_dep.student_id.is_active }}</td>
+                        <td>
+                            <a href="{% url 'doh_student_info_detail_page' in_dep.student_id.userid %}">
+                                <button>View Deialed Inforamtion</button>
+                            </a>
+                        </td>
+                    {% endfor %}
+                </tbody>
+            </table>
+        
+    {% else %}
+        <h5>There is no student registred on this departement yet</h5>
+    {% endif %}
+
+
+    
+
+</body>
+</html>

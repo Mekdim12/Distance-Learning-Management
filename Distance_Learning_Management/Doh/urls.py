@@ -18,7 +18,9 @@ urlpatterns = [
     path('TeacherManagement/Insert', views.doh_teacher_to_course_mapping_insert_page, name='teacher_to_course_insert_page' ),
     path('TeacherManagement/Edit/<slug:teacher_id>', views.doh_teacher_to_course_mapping_editing_page, name='teacher_to_course_edit_page' ),
     path('CourseManagement/View', views.doh_course_management_page, name='doh_course_management' ),
-    path('CourseManagement/Edit/<slug:course_info>', views.doh_course_information_edit, name='doh_course_info_edit' ),
-    
+    path('CourseManagement/Edit/<slug:course_info>', views.doh_course_information_edit, name='doh_course_info_edit'),
+    path('StudentManagement/View', views.doh_student_information_management_page, name='doh_student_info_page'),
+    path('StudentManagement/DetailView/<slug:student_id>', views.doh_student_information_detail_page, name='doh_student_info_detail_page'),
+   
     
 ]
