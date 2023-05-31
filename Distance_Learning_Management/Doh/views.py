@@ -244,6 +244,71 @@ def doh_teacher_to_course_mapping_editing_page(request, teacher_id):
     return render(request , 'Doh/teacher_to_course_editing.html', context)
 
 
+@login_required(login_url='base_login_page')
+@shoold_doh_only
+def doh_course_management_page(request):
+
+    course_info = Courseinformations.objects.all()
+    context = {
+        'course_infos':course_info,
+        'is_empty':len(course_info)
+    }
+    return render(request, 'Doh/course_management_page.html',context = context)
+
+@login_required(login_url='base_login_page')
+@shoold_doh_only
+def doh_course_information_edit(request, course_info):
+
+    if request.method == 'POST':
+        course_name = request.POST['course_name'].strip()
+        level_of_difficulties = request.POST['level_of_difficulties'].strip()
+        objectiveOfCourse = request.POST['objectiveOfCourse'].strip()
+        lanaguage = request.POST['lanaguage'].strip()
+        tottal_credit_hour = request.POST['tottal_credit_hour'].strip()
+        departements_selected = request.POST.getlist('departements')
+        programs =request.POST.getlist('programs')
+
+        if len(departements_selected)  == 0:
+            print("xxxxxxxxxxxxxxxxxxxxxx 80 no departements selected pleasee select one  xxxxxxxxxxxxxx")
+            return redirect('doh_course_info_edit', course_info)
+        
+        try:
+            course_information = Courseinformations.objects.get( course_id = course_info)
+            course_information.course_name = course_name
+            course_information.level_of_difficulties = level_of_difficulties
+            course_information.objectiveOfCourse = objectiveOfCourse
+            course_information.lanaguage = lanaguage
+            course_information.tottal_credit_hour = tottal_credit_hour
+            course_information.programs = programs[0]
+            dep = Department.objects.get(id = departements_selected[0])
+            course_information.departement = dep
+
+            course_information.save()
+            print("xxxxxxxxxxxxxxxxxxxxxx  82 Successfully edited course information xxxxxxxxxxxxxx")
+            return redirect('doh_course_management')
+        except:
+            print("xxxxxxxxxxxxx 81 Failed editing course information xxxxxxxxxxx")
+        
+    
+
+        
+
+         
 
 
+
+    departements = Department.objects.all()
+
+    current_course = Courseinformations.objects.get( course_id = course_info)
+
+    selected_dep = current_course.departement
+    
+    context = {
+        'selected_dep':selected_dep,
+        'current_course':current_course,
+        'departements':departements,
+        'is_empty': len(departements)
+    }
+
+    return render(request, 'Doh/course_editing_page.html', context = context)
 

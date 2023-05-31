@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>course Management</title>
+</head>
+<body>
+    
+    <h4> List Availabel Courses</h4>
+
+    {% if is_empty > 0 %}
+        <table border="solid black 1px">
+            <thead>
+                <tr>
+                    <td>No</td>
+                    <td>Course Name</td>
+                    <td> Course Id </td>
+                    <td>Level of Difficulty</td>
+                    <td>Departement</td>
+                    <td>Programs</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in course_infos %}
+                        <tr>
+                            <td> {{  forloop.counter }}</td>
+                            <td> {{ course.course_name }} </td>
+                            <td> {{ course.course_id }} </td>
+                            <td> {{ course.level_of_difficulties }} </td>
+                            <td> {{ course.departement.name_of_department }} </td>
+                            <td> {{ course.programs }} </td>
+                            <td> <a href="{% url 'doh_course_info_edit' course.course_id %}">
+                                <button>Edit </button>
+                            </a> </td>
+                        </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h5>There is no course registered admin </h5>        
+    {% endif %}
+
+</body>
+</html>

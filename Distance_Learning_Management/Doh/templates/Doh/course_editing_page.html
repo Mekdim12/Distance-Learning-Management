@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Course Information</title>
+</head>
+<body>
+
+    <h2> Edit Course Information</h2>
+    <br>
+
+    <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="course_name"> Course Name</label>
+        <input type="text" name="course_name"  value="{{ current_course.course_name }}" required>
+        <br>
+        <br>
+        <label for="level_of_difficulties"> Level of Difficulties </label>
+        <input type="number" name="level_of_difficulties"  min="0" max="5"   value="{{ current_course.level_of_difficulties }}"  required>
+        <br>
+        <br>
+        <label for="objectiveOfCourse">Objective of the course </label>
+        <input type="text" name="objectiveOfCourse"  value="{{ current_course.objectiveOfCourse }}" required>
+        <br>
+        <br>
+        <label for="lanaguage">Language</label>
+        <input type="text" name="lanaguage" value="{{ current_course.lanaguage }}"  required>
+        
+        <br>
+        <br>
+        <label for="tottal_credit_hour">Total Credit Hour </label>
+        <input type="number" name="tottal_credit_hour"  value="{{ current_course.tottal_credit_hour }}"  required>
+        
+        <br>
+        <br>
+        <label for="programs">Choose Programs </label>
+        
+        <select name="programs" id="" multiple>
+            {% if current_course.programs == "Bchelor Degree" %}
+                <option value="Bchelor Degree" selected>Bchelor Degree</option>
+            {% else %}
+                <option value="Bchelor Degree" >Bchelor Degree</option>
+            {% endif %}
+
+            {% if current_course.programs == "Masters Degree" %}
+                <option value="Masters Degree" selected>Masters Degree</option>
+            {% else %}
+                <option value="Masters Degree">Masters Degree</option>
+            {% endif %}
+            
+        </select>
+
+        <br>
+        <br>
+
+        <label for="">Selected Departement : </label>
+        <label for="departements">Select Departements </label>
+        <select name="departements" id="">
+            {% for departement in  departements %}
+                {% if selected_dep ==  departement %}
+                    <option value="{{ departement.id }}" selected>{{ departement.name_of_department }} </option>
+                {% else %}
+                    <option value="{{ departement.id }}">{{ departement.name_of_department }} </option>
+                {% endif %}
+                    
+            {% endfor %}
+        </select>
+
+
+        
+        <br>
+        <button type="submit">Register</button>
+
+
+    </form>
+    
+</body>
+</html>
