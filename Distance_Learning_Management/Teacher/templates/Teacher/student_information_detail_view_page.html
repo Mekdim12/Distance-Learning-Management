@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail View Student Info View </title>
+</head>
+<body>
+
+    <h4>Student Detail Information View page</h4>
+
+    <img src="{{ student_info.profilePicture.url }}" alt="">
+
+    <label for="">full name : {{ student_info.firstname }} {{ student_info.middlename }} {{ student_info.lastname }}</label>
+    <br><label for="">Country : {{ student_info.country }} </label>
+    <br><label for="">Age : {{ student_info.age }} </label>
+    <br><label for="">woredazone : {{ student_info.woredazone }} </label>
+    <br> <label for="">streetkebele : {{ student_info.streetkebele }} </label>
+    <br><label for="">phonenumber : {{ student_info.phonenumber }} </label>
+    <br><label for="">email : {{ student_info.email }} </label>
+    <br><label for="">is_active : {{ student_info.is_active }} </label>
+    <br><label for="">Cv File :</label>
+
+   
+    <iframe src="{{ student_info.student_cv_pdf_file.url }}" title="pdf" height="100%" width="100%" allowFullScreen />
+
+
+
+
+
+</body>
+</html>

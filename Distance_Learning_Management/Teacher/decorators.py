@@ -10,10 +10,9 @@ def school_teacher_only(view_func):
         if group == 'Teacher':
             user_object = User.objects.get(username=request.user)
             try:
-                current_employe_object = Employee.objects.get(userObject = user_object)
                 return view_func(request,*args,**kwargs)
             except:       
-                 return redirect('base_login_page') 
+                return redirect('base_login_page') 
         else:
             return redirect('base_login_page')
 

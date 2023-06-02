@@ -30,7 +30,7 @@ class Employee(models.Model):
     address = models.CharField(db_column='Country',max_length=104)
     email = models.EmailField(max_length=55, null=True)
     employeeid = models.CharField(db_column='EmployeeID', primary_key=True, max_length=104)  # Field name made lowercase.
-    userObject = models.OneToOneField(User, on_delete=models.CASCADE,)
+    userObject = models.OneToOneField(User, on_delete=models.CASCADE,) 
     class Meta:
         db_table = 'employee'
     def __str__(self):
