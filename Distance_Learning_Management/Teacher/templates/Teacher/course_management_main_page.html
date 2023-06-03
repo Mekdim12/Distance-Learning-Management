@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Of Availabel Courses</title>
+</head>
+<body>
+    <h5>Courses List</h5>
+    {% if is_empty %}
+        {% for course in course_list %}
+                <a href="{% url 'specific_course_information_mgt_by_teacher' course.course_id %}">
+                    <button> {{ course }}</button>
+                </a>
+                <br>
+                <br>   
+        {% endfor %}
+
+    {% else %}
+            <h4>Make sure u registered for courses First</h4>
+    {% endif  %}
+</body>
+</html>

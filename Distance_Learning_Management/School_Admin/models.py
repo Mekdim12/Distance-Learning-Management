@@ -73,6 +73,7 @@ class Courseinformations(models.Model):
     tottal_credit_hour = models.IntegerField()
     departement = models.ForeignKey(Department, models.DO_NOTHING, null=True)
     programs = models.CharField(max_length=100,choices=PROGRAMS)
+
     class Meta:
         db_table = 'courseinformations'
 
@@ -101,6 +102,8 @@ class MainCoursecontentdetailcontent(models.Model):
     audio = models.FileField(upload_to='Files/MainCourseAsset',db_column="Audio")
     video = models.FileField(upload_to='Files/MainCourseAsset',db_column= "Video")
     notes = RichTextUploadingField(blank = True, null = True, db_column="Notes")
+    topic = models.CharField(max_length=150, null=True)
+    course_creator = models.ForeignKey(Employee, models.DO_NOTHING, null=True)
 
     class Meta:
         db_table = 'Maincoursecontentdetailcontent'

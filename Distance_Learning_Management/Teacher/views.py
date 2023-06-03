@@ -10,6 +10,7 @@ from School_Admin.models import *
 from Reception.models import *
 from Doh.models import *
 from .models import *
+from .forms import *
 import random
 import os
 # Create your views here.
@@ -160,7 +161,7 @@ def teacher_student_information_view_page(request):
 @login_required(login_url='base_login_page')
 @school_teacher_only
 def student_detail_information_display_page(request, student_id):
-    
+
     student_info = StudentInformation.objects.get(userid = student_id)
     
     context = {
@@ -168,3 +169,46 @@ def student_detail_information_display_page(request, student_id):
     }
 
     return render(request, 'Teacher/student_information_detail_view_page.html',context = context)
+
+
+@login_required(login_url='base_login_page')
+@school_teacher_only
+def manage_course_information_teacher(request):
+
+    user_object = User.objects.get(username=request.user)
+    current_employe_object = Employee.objects.get(userObject = user_object)
+
+    availabel_course_list = TeacherToCourseMapping.objects.filter(teacher = current_employe_object)
+    
+    availabel_list_courses_list_final = []
+
+    for map in availabel_course_list:
+        [availabel_list_courses_list_final.append(course) for course in map.course_info.all()]
+    
+    context = {
+        'course_list':availabel_list_courses_list_final,
+        'is_empty':len(availabel_list_courses_list_final) > 0
+    }
+    return render(request, 'Teacher/course_management_main_page.html', context = context)
+
+
+@login_required(login_url='base_login_page')
+@school_teacher_only
+def course_specific_management_page(request, course_id):
+    # fetch list of course inserted using this teachere only for crud
+
+    context = {
+        'course_id':course_id
+    }
+    return render(request, 'Teacher/course_specific_mgt_page.html', context = context)
+
+
+@login_required(login_url='base_login_page')
+@school_teacher_only
+def course_specific_main_content_inserting_page(request, course_id):
+
+    forms = MainCoursecontentdetailcontentForm()
+    context = {
+        "form":forms
+    }
+    return render(request, "Teacher/course_material_inserting_page.html", context = context)

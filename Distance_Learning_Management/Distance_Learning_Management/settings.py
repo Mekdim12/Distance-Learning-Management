@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 
+CKEDITOR_UPLOAD_PATH = 'CourseUploads/'
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,7 +44,9 @@ INSTALLED_APPS = [
     'Student',
     'Teacher',
     'Distance_Learning_Management',
-    'Doh'
+    'Doh',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
