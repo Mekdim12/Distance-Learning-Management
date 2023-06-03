@@ -97,7 +97,7 @@ class MainCoursecontent(models.Model):
         unique_together = (('courseid', 'tableofcontent'),)
 
 class MainCoursecontentdetailcontent(models.Model):
-    courseid = models.ForeignKey(MainCoursecontent, models.DO_NOTHING, db_column='courseId')  # Field name made lowercase.
+    courseid = models.ForeignKey(Courseinformations, models.DO_NOTHING, db_column='courseId')  # Field name made lowercase.
     pdf   = models.FileField(upload_to='Files/MainCourseAsset',db_column="PDF" )
     audio = models.FileField(upload_to='Files/MainCourseAsset',db_column="Audio")
     video = models.FileField(upload_to='Files/MainCourseAsset',db_column= "Video")

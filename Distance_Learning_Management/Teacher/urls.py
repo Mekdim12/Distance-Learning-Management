@@ -20,6 +20,8 @@ urlpatterns = [
     path('CourseInformation/CourseSpecific', views.manage_course_information_teacher, name="course_information_mgt_by_teacher"),
     path('CourseInformation/CourseSpecific/ListView/<slug:course_id>', views.course_specific_management_page, name="specific_course_information_mgt_by_teacher"),
     path('CourseInformation/CourseSpecific/Insert/<slug:course_id>', views.course_specific_main_content_inserting_page, name="course_specific_main_content_inserting_page"),
-    
-
+    path('CourseInformation/CourseSpecific/PreviewUpdate/<slug:course_id>/<slug:content_id>', views.course_specific_main_content_preview_and_update_page, name="course_specific_main_content_preview_update_page"),
+    path('ExamInformation/CourseList', views.teacher_examination_mgt_course_view_page, name="teacher_examination_mgt_course_view_page"),
+    path('ExamInformation/ExamList/<slug:course_id>',views.exam_management_for_course_specific, name="exam_management_for_course_specific"),
+    path('ExamInformation/Insert/<slug:course_id>',views.exam_management_question_and_answer_inserting_page, name="exam_mgt_question_and_answer_inserting_page"),
 ]

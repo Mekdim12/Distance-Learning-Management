@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Creation Page </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .error{
+            color:red;
+        }
+        .success{
+            color:rgb(47, 163, 125);
+        }
+        
+        .forhover:hover{
+            border: 4px tomato solid;
+        }
+        input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+
+  border: 2px solid lightskyblue;
+  transition: 0.2s all linear;
+  margin-right: 5px;
+
+  position: relative;
+  top: 2px;
+}
+
+input:checked {
+  border: 8px solid lightskyblue;
+}
+
+    </style>
+</head>
+<body>
+    
+
+    <div class="container-fluid">
+        <div class="row mt-5">
+            <div class="col-1 mx-5">
+                <a href="{% url 'exam_management_for_course_specific' course_id %}"><img src="https://img.icons8.com/external-flaticons-flat-flat-icons/80/000000/external-back-web-flaticons-flat-flat-icons.png"/></a>
+               
+            </div>
+            <div class="col" style="display: flex; align-items: center; ">
+                <h2 class="text-center fw-bold" style="margin-left: 30%;">Exam Creation Page</h2>
+            </div>
+        </div>
+        {% if messages %}
+            <div class="row mt-3 messageHolder">
+                <div class="col card ms-5 px-5">
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li class="text-center" style="list-style: none;" ><img src="https://img.icons8.com/emoji/48/000000/warning-emoji.png"/></li>
+                        <li{% if message.tags %} class="{{ message.tags }}  text-center fw-bold px-5 pb-5 pt-2"{% endif %} style="list-style: none;">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-1 me-5 card text-center forhover" onclick="errorMessageHider();" style="display:flex; align-items: center;justify-content: center;" ><img style="width: 50px; height:50px; " src="https://img.icons8.com/material-outlined/24/000000/delete-sign.png"/></div>
+               
+            </div>
+        {% endif %}
+        <!-- ------------------------------- True/False ----------------------------------  -->
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <div class="row mt-5">
+                <div class="col">
+                    <div class="tab">
+                
+                            <div class="d-flex flex-row align-items-center mb-4 secondTab mt-5">
+                                <div class="form-outline flex-fill mb-0">
+                                    <div class="row rowcontainer rowcontainer_tf mx-5 px-5">
+                                        <div class="col-11 px-2 p-2">
+                                            <div class="row">
+                                                <div class="col-1" style="width: fit-content;">
+                                                    <span class="fw-bold text-center" id="QuestionNumber_tf" style="font-size: 2rem;"> 1 </span>
+                                                </div>
+                                                <div class="col">
+                                                    <input class="form-control " style="height:50px"  placeholder="Question"  name="tableofContent_tf">
+                                                </div>
+                                            </div>
+                                            <div class="row mx-5 my-3">
+                                                    <div class="col-2">
+                                                        <h5 style="font-size: 2rem;font-weight: bold;display: flex; align-items: center;" > Answer:</h5>
+                                                    </div>
+                                                    <div class="col-5 ps-5" style="font-size: 1.5rem; display: flex; align-items: center;justify-content: center;"> <input type="radio" name="ans_tf-1" value="true" id="truee"> <label for="true">True</label></div>
+                                                    <div class="col-5 pe-5" style="font-size: 1.5rem;display: flex; align-items: center;justify-content: center;"> <input type="radio" name="ans_tf-1" value="false" id="falsee"><label for="false">False</label></div>
+                                            </div>                       
+                                        </div>
+                                        
+                                        <div class="col-1 p-2">
+                                            <button  type="button" class="btn btn-success hieghOfInput "  id="addbut_tf" style="width: 50px;">
+                                                <img style="width: 50px; height:50px;" src="https://img.icons8.com/cute-clipart/64/undefined/add.png"/>
+                                            </button>
+                                        
+                                        </div>
+                                    </div>
+                                    
+                                    <input type="text" id="counter_tf" name="counter_tf"  hidden>
+                                    <input type="text" id="removed_tf" name="removed_tf"  hidden>
+                                   
+                                
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- ---------------------------- Multiple Option ------------------------------- -->
+            <div class="row mt-5">
+                        <div class="col">
+                            <div class="tab">
+                           
+                                    <div class="d-flex flex-row align-items-center mb-4 secondTab mt-5">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <div class="row rowcontainer rowcontainer_mp mx-5 px-5">
+                                                <div class="col-11 px-2 p-2">
+                                                    <div class="row">
+                                                        <div class="col-1" style="width: fit-content;">
+                                                            <span class="fw-bold text-center" id="QuestionNumber_mp" style="font-size: 2rem;"> 1 </span>
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control " style="height:50px"  placeholder="Question"  name="tableofContent_mp">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mx-5 my-3">
+                                                            
+                                                            <div class="col-1" style="font-size: 1.5rem; display: flex; align-items: center; width: fit-content;"> <input type="radio" name="ans_mp-1" value="A" id="truee"></div>
+                                                            <div class="col-1" style="display: flex; align-items: center; width: fit-content;">
+                                                                <h5 style="font-weight: bold;">A</h5>
+                                                            </div>
+                                                            <div class="col" style="font-size: 1.5rem;display: flex; align-items: center;"> <input class="form-control"type="text" name="ch-1-" ></div>
+                                                    </div> 
+                                                    <div class="row mx-5 my-3">
+                                                            
+                                                        <div class="col-1" style="font-size: 1.5rem; display: flex; align-items: center; width: fit-content;"> <input type="radio" name="ans_mp-1" value="B" id="truee"></div>
+                                                        <div class="col-1" style="display: flex; align-items: center; width: fit-content;">
+                                                            <h5 style="font-weight: bold;">B</h5>
+                                                        </div>
+                                                        <div class="col" style="font-size: 1.5rem;display: flex; align-items: center;"> <input class="form-control"type="text" name="ch-1-"></div>
+                                                </div> 
+                                                
+                                                <div class="row mx-5 my-3">
+                                                            
+                                                    <div class="col-1" style="font-size: 1.5rem; display: flex; align-items: center; width: fit-content;"> <input type="radio" name="ans_mp-1" value="C" id="truee"></div>
+                                                    <div class="col-1" style="display: flex; align-items: center; width: fit-content;">
+                                                        <h5 style="font-weight: bold;">C</h5>
+                                                    </div>
+                                                    <div class="col" style="font-size: 1.5rem;display: flex; align-items: center;"> <input class="form-control"type="text" name="ch-1-" ></div>
+                                            </div> 
+
+                                            <div class="row mx-5 my-3">
+                                                            
+                                                <div class="col-1" style="font-size: 1.5rem; display: flex; align-items: center; width: fit-content;"> <input type="radio" name="ans_mp-1" value="D" id="truee"></div>
+                                                <div class="col-1" style="display: flex; align-items: center; width: fit-content;">
+                                                    <h5 style="font-weight: bold;">D</h5>
+                                                </div>
+                                                <div class="col" style="font-size: 1.5rem;display: flex; align-items: center;"> <input class="form-control" type="text"  name="ch-1-"></div>
+                                        </div> 
+                                                </div>
+                                                
+                                                <div class="col-1 p-2">
+                                                    <button  type="button" class="btn btn-success hieghOfInput "  id="addbut_mp" style="width: 50px;">
+                                                        <img style="width: 50px; height:50px;" src="https://img.icons8.com/cute-clipart/64/undefined/add.png"/>
+                                                    </button>
+                                                
+                                                </div>
+                                            </div>
+                                            
+                                            <input type="text" id="counter_mp" name="counter_mp"  hidden>
+                                            <input type="text" id="removed_mp" name="removed_mp"  hidden>
+                                            
+                                        
+                                        </div>
+                                    </div>
+                               
+                                
+                            </div>
+                        </div>
+            </div>
+
+            <!-- ---------------------------- Fill In the blank ----------------------------- -->
+            <div class="row mt-5">
+                <div class="col">
+                    <div class="tab">
+                    
+                            <div class="d-flex flex-row align-items-center mb-4 secondTab mt-5">
+                                <div class="form-outline flex-fill mb-0">
+                                    <div class="row rowcontainer rowcontainer_fb mx-5 px-5">
+                                        <div class="col-11 px-2 p-2">
+                                            <div class="row">
+                                                <div class="col-1" style="width: fit-content;">
+                                                    <span class="fw-bold text-center" id="QuestionNumber_fb" style="font-size: 2rem;"> 1 </span>
+                                                </div>
+                                                <div class="col">
+                                                    <input class="form-control " style="height:50px"  placeholder="Question"  name="tableofContent_fb">
+                                                </div>
+                                            </div>
+                                            <div class="row mx-5 my-3">
+                                                    <div class="col-2">
+                                                        <h5 style="font-size: 2rem;font-weight: bold;display: flex; align-items: center;" > Answer:</h5>
+                                                    </div>
+                                                    <div class="col-8 " style="font-size: 1.5rem; display: flex; align-items: center;justify-content: center;height:50px"> <input style="height:50px"   class="form-control" type="text" name="ans_fb-1" placeholder="Soultion"  id="truee"> </div>
+                                                    
+                                            </div>                       
+                                        </div>
+                                        
+                                        <div class="col-1 p-2">
+                                            <button  type="button" class="btn btn-success hieghOfInput "  id="addbut_fb" style="width: 50px;">
+                                                <img style="width: 50px; height:50px;" src="https://img.icons8.com/cute-clipart/64/undefined/add.png"/>
+                                            </button>
+                                        
+                                        </div>
+                                    </div>
+                                    
+                                    <input type="text" id="counter_fb" name="counter_fb"  hidden>
+                                    <input type="text" id="removed_fb" name="removed_fb"  hidden>
+                                    
+                                </div>
+                            </div>
+                    
+                    
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col text-center">
+                    <button class="btn btn-success btn-lg my-5 px-5"> Submit</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <script>
+
+        function errorMessageHider(){
+            var messageBody = document.querySelector('.messageHolder');
+            messageBody.style.display = "none";
+        }
+
+
+
+        var counterVar_mp = document.getElementById("counter_mp");
+        var removed_mp = document.getElementById("removed_mp");
+
+        addButtonForMoreConenet_mp = document.getElementById('addbut_mp')
+
+        
+        containers_mp = document.querySelector('.rowcontainer_mp')
+        
+        addButtonForMoreConenet_mp.addEventListener('click',addNewItem);
+        
+        var removedListHolder_mp = []
+        var givenNumberHoder_mp = []
+        
+        
+        function addNewItem(){
+            
+
+            var  holderDiv =  document.createElement('div')
+            holderDiv.classList.add("row")
+
+       
+            var wrapperCol = document.createElement("div")
+                wrapperCol.classList.add("col-11","px-2","p-2")
+
+
+            // --------------------------------------------------------------------------
+
+            var newDIVManiInputHolder = document.createElement('div');
+                newDIVManiInputHolder.classList.add("row");
+
+            var NumberHolder = document.createElement('div');
+                NumberHolder.classList.add("col-1");
+                NumberHolder.style.width = "fit-content";
+
+            var spanNumberHolder = document.createElement('span');
+                spanNumberHolder.classList.add("fw-bold","text-center");
+                spanNumberHolder.style.fontSize = "2rem";
+                spanNumberHolder.setAttribute("id","QuestionNumber_mp")
+               
+                var number = document.querySelectorAll("#QuestionNumber_mp");
+                
+                numberss = (number.length)+1;
+                for(var i=0; i<givenNumberHoder_mp.length; i++){
+                    if (givenNumberHoder_mp[i] == numberss){
+                        numberss++;
+                        i=-1;
+                    }
+                }
+                
+                givenNumberHoder_mp.push(numberss)
+
+                spanNumberHolder.innerHTML = numberss;
+                var previous = counterVar_mp.innerHTML;
+                counterVar_mp.setAttribute ("value",numberss);
+
+
+
+            
+               
+
+
+               
+
+            NumberHolder.appendChild(spanNumberHolder);
+
+
+            var  mainInputHolder = document.createElement('div');
+                mainInputHolder.classList.add("col");
+            var inputMain = document.createElement('input')
+                inputMain.setAttribute('class',"form-control")
+                inputMain.style.height = "50px";
+                inputMain.setAttribute('placeholder',"Question")
+                inputMain.setAttribute('name', "tableofContent_mp")
+                mainInputHolder.appendChild(inputMain);
+
+
+            newDIVManiInputHolder.appendChild(NumberHolder);
+            newDIVManiInputHolder.appendChild(mainInputHolder);
+
+
+
+
+// -----------------------------Choice  A------------------------------------
+
+            var answeringSectionMainHolder = document.createElement('div');
+                answeringSectionMainHolder.classList.add("row", "mx-5", "my-3");
+
+            var choiceFieldHolder = document.createElement('div');
+                choiceFieldHolder.classList.add("col-1");
+                choiceFieldHolder.style.fontSize = "1.5rem";
+                choiceFieldHolder.style.display = "flex";
+                choiceFieldHolder.style.alignItems = "center";
+                choiceFieldHolder.style.width = "fit-content";
+
+            var choiceInputComp = document.createElement('input');
+                choiceInputComp.setAttribute("type","radio");
+                choiceInputComp.setAttribute("name", "ans_mp-"+((number.length)+1));
+                // choiceInputComp.setAttribute("value","false");
+          
+                choiceInputComp.setAttribute ("value","A");
+                choiceInputComp.setAttribute("id","achoicefield");
+                
+                choiceFieldHolder.appendChild(choiceInputComp);
+
+            var labelAholder = document.createElement('div');
+                labelAholder.classList.add("col-1");
+                labelAholder.style.display = "flex";
+                labelAholder.style.alignItems = "center";
+                labelAholder.style.width = "fit-content";
+
+            var labelLetterA = document.createElement("h5")
+                labelLetterA.style.fontWeight = "bold";
+                labelLetterA.style.display ="flex";
+                labelLetterA.style.alignItems = "center";
+                labelLetterA.innerHTML = "A";
+                
+            labelAholder.appendChild(labelLetterA)
+            
+        var answerInsertingAreaForLetterAHolder = document.createElement("div")
+            answerInsertingAreaForLetterAHolder.classList.add("col")
+            answerInsertingAreaForLetterAHolder.style.fontSize = "1.5rem";
+            answerInsertingAreaForLetterAHolder.style.display = "flex";
+            answerInsertingAreaForLetterAHolder.style.alignItems = "center";
+
+        var answerInsertingAreaForLetterA = document.createElement('input')
+            answerInsertingAreaForLetterA.classList.add("form-control")
+            answerInsertingAreaForLetterA.setAttribute("type", "text");
+            answerInsertingAreaForLetterA.setAttribute("name", "ch-"+((number.length)+1)+"-");
+            answerInsertingAreaForLetterA.setAttribute("id",(number.length)+1 )
+
+        answerInsertingAreaForLetterAHolder.appendChild(answerInsertingAreaForLetterA)
+
+
+        answeringSectionMainHolder.appendChild(choiceFieldHolder)
+        answeringSectionMainHolder.appendChild(labelAholder)
+        answeringSectionMainHolder.appendChild(answerInsertingAreaForLetterAHolder)
+       
+ // -----------------------------Choice  B------------------------------------
+
+            var answeringSectionMainHolderForLetterB = document.createElement('div');
+                answeringSectionMainHolderForLetterB.classList.add("row", "mx-5", "my-3");
+
+            var choiceFieldHolderLetterB = document.createElement('div');
+                choiceFieldHolderLetterB.classList.add("col-1");
+                choiceFieldHolderLetterB.style.fontSize = "1.5rem";
+                choiceFieldHolderLetterB.style.display = "flex";
+                choiceFieldHolderLetterB.style.alignItems = "center";
+                choiceFieldHolderLetterB.style.width = "fit-content";
+
+            var choiceInputCompforLetterB = document.createElement('input');
+                choiceInputCompforLetterB.setAttribute("type","radio");
+                choiceInputCompforLetterB.setAttribute("name", "ans_mp-"+((number.length)+1));
+                choiceInputCompforLetterB.setAttribute("value","B");
+                choiceInputCompforLetterB.setAttribute("id","achoicefield");
+                
+                choiceFieldHolderLetterB.appendChild(choiceInputCompforLetterB);
+
+            var labelholderforLetterB = document.createElement('div');
+                labelholderforLetterB.classList.add("col-1");
+                labelholderforLetterB.style.display = "flex";
+                labelholderforLetterB.style.alignItems = "center";
+                labelholderforLetterB.style.width = "fit-content";
+
+            var labelLetterB = document.createElement("h5")
+                labelLetterB.style.fontWeight = "bold";
+                labelLetterB.style.display ="flex";
+                labelLetterB.style.alignItems = "center";
+                labelLetterB.innerHTML = "B";
+                    
+        labelholderforLetterB.appendChild(labelLetterB)
+            
+        var answerInsertingAreaForLetterBHolder = document.createElement("div")
+            answerInsertingAreaForLetterBHolder.classList.add("col")
+            answerInsertingAreaForLetterBHolder.style.fontSize = "1.5rem";
+            answerInsertingAreaForLetterBHolder.style.display = "flex";
+            answerInsertingAreaForLetterBHolder.style.alignItems = "center";
+
+        var answerInsertingAreaForLetterB = document.createElement('input')
+            answerInsertingAreaForLetterB.classList.add("form-control")
+            answerInsertingAreaForLetterB.setAttribute("type", "text");
+            answerInsertingAreaForLetterB.setAttribute("name", "ch-"+((number.length)+1)+"-");
+            answerInsertingAreaForLetterB.setAttribute("id",(number.length)+1 )
+            answerInsertingAreaForLetterBHolder.appendChild(answerInsertingAreaForLetterB)
+
+
+        answeringSectionMainHolderForLetterB.appendChild(choiceFieldHolderLetterB)
+        answeringSectionMainHolderForLetterB.appendChild(labelholderforLetterB)
+        answeringSectionMainHolderForLetterB.appendChild(answerInsertingAreaForLetterBHolder)           
+          
+ // -----------------------------Choice  C ------------------------------------
+
+            var answeringSectionMainHolderForletterC = document.createElement('div');
+                 answeringSectionMainHolderForletterC.classList.add("row", "mx-5", "my-3");
+
+            var choiceFieldHolderC = document.createElement('div');
+                choiceFieldHolderC.classList.add("col-1");
+                choiceFieldHolderC.style.fontSize = "1.5rem";
+                choiceFieldHolderC.style.display = "flex";
+                choiceFieldHolderC.style.alignItems = "center";
+                choiceFieldHolderC.style.width = "fit-content";
+
+            var choiceInputCompforletterC = document.createElement('input');
+                choiceInputCompforletterC.setAttribute("type","radio");
+                choiceInputCompforletterC.setAttribute("name", "ans_mp-"+((number.length)+1));
+                choiceInputCompforletterC.setAttribute("value","C");
+                choiceInputCompforletterC.setAttribute("id","achoicefield");
+                
+            choiceFieldHolderC.appendChild(choiceInputCompforletterC);
+
+            var labelCholder = document.createElement('div');
+                labelCholder.classList.add("col-1");
+                labelCholder.style.display = "flex";
+                labelCholder.style.alignItems = "center";
+                labelCholder.style.width = "fit-content";
+
+            var labelLetterC = document.createElement("h5")
+                labelLetterC.style.fontWeight = "bold";
+                labelLetterC.style.display ="flex";
+                labelLetterC.style.alignItems = "center";
+                labelLetterC.innerHTML = "C";
+                
+            labelCholder.appendChild(labelLetterC)
+            
+        var answerInsertingAreaForLetterCHolder = document.createElement("div")
+            answerInsertingAreaForLetterCHolder.classList.add("col")
+            answerInsertingAreaForLetterCHolder.style.fontSize = "1.5rem";
+            answerInsertingAreaForLetterCHolder.style.display = "flex";
+            answerInsertingAreaForLetterCHolder.style.alignItems = "center";
+
+        var answerInsertingAreaForLetterC = document.createElement('input')
+            answerInsertingAreaForLetterC.classList.add("form-control")
+            answerInsertingAreaForLetterC.setAttribute("type", "text");
+            answerInsertingAreaForLetterC.setAttribute("name", "ch-"+((number.length)+1)+"-");
+            answerInsertingAreaForLetterC.setAttribute("id",(number.length)+1 )
+            answerInsertingAreaForLetterCHolder.appendChild(answerInsertingAreaForLetterC)
+
+
+        answeringSectionMainHolderForletterC.appendChild(choiceFieldHolderC)
+        answeringSectionMainHolderForletterC.appendChild(labelCholder)
+        answeringSectionMainHolderForletterC.appendChild(answerInsertingAreaForLetterCHolder)   
+
+ // -----------------------------Choice  D------------------------------------
+
+            var answeringSectionMainHolderforLetterD = document.createElement('div');
+                answeringSectionMainHolderforLetterD.classList.add("row", "mx-5", "my-3");
+
+            var choiceFieldHolderD = document.createElement('div');
+                choiceFieldHolderD.classList.add("col-1");
+                choiceFieldHolderD.style.fontSize = "1.5rem";
+                choiceFieldHolderD.style.display = "flex";
+                choiceFieldHolderD.style.alignItems = "center";
+                choiceFieldHolderD.style.width = "fit-content";
+
+            var choiceInputCompD = document.createElement('input');
+                choiceInputCompD.setAttribute("type","radio");
+                choiceInputCompD.setAttribute("name", "ans_mp-"+((number.length)+1));
+                choiceInputCompD.setAttribute("value","D");
+                choiceInputCompD.setAttribute("id","achoicefield");
+                
+            choiceFieldHolderD.appendChild(choiceInputCompD);
+
+            var labelDholder = document.createElement('div');
+                labelDholder.classList.add("col-1");
+                labelDholder.style.display = "flex";
+                labelDholder.style.alignItems = "center";
+                labelDholder.style.width = "fit-content";
+
+            var labelLetterD = document.createElement("h5")
+                labelLetterD.style.fontWeight = "bold";
+                labelLetterD.style.display ="flex";
+                labelLetterD.style.alignItems = "center";
+                labelLetterD.innerHTML = "D";
+                
+            labelDholder.appendChild(labelLetterD)
+            
+
+        var answerInsertingAreaForLetterDHolder = document.createElement("div")
+            answerInsertingAreaForLetterDHolder.classList.add("col")
+            answerInsertingAreaForLetterDHolder.style.fontSize = "1.5rem";
+            answerInsertingAreaForLetterDHolder.style.display = "flex";
+            answerInsertingAreaForLetterDHolder.style.alignItems = "center";
+
+        var answerInsertingAreaForLetterD = document.createElement('input')
+            answerInsertingAreaForLetterD.classList.add("form-control")
+            answerInsertingAreaForLetterD.setAttribute("type", "text");
+            answerInsertingAreaForLetterD.setAttribute("name", "ch-"+((number.length)+1)+"-");
+            answerInsertingAreaForLetterD.setAttribute("id",(number.length)+1 )
+            
+        answerInsertingAreaForLetterDHolder.appendChild(answerInsertingAreaForLetterD)
+
+
+        answeringSectionMainHolderforLetterD.appendChild(choiceFieldHolderD)
+        answeringSectionMainHolderforLetterD.appendChild(labelDholder)
+        answeringSectionMainHolderforLetterD.appendChild(answerInsertingAreaForLetterDHolder)   
+       
+        
+
+
+        wrapperCol.appendChild(newDIVManiInputHolder);
+        wrapperCol.appendChild(answeringSectionMainHolder);
+        wrapperCol.appendChild(answeringSectionMainHolderForLetterB);
+        wrapperCol.appendChild(answeringSectionMainHolderForletterC);
+        wrapperCol.appendChild(answeringSectionMainHolderforLetterD);
+        
+        
+
+
+
+
+            var secondDiv = document.createElement('div')
+                secondDiv.setAttribute("class", "col-1 p-2")
+            var minusSign = document.createElement('button')
+                minusSign.setAttribute("class", "btn btn-warning  ")
+                minusSign.setAttribute('style', "width: 50px;")
+                minusSign.setAttribute('type' ,"button")
+        
+            var imgicon = document.createElement('img')
+                imgicon.setAttribute("style", " border:50")
+                imgicon.style.width ="50px"
+                imgicon.style.height ="50px"
+            
+                imgicon.setAttribute("src", "https://img.icons8.com/external-febrian-hidayat-outline-color-febrian-hidayat/64/undefined/external-minus-ui-essential-febrian-hidayat-outline-color-febrian-hidayat.png")
+                
+                minusSign.appendChild(imgicon)
+                secondDiv.appendChild(minusSign)
+
+            
+
+                containers_mp.appendChild(wrapperCol)
+                containers_mp.appendChild(secondDiv)
+            
+        
+            
+            minusSign.onclick = () => { 
+                removedListHolder_mp.push(wrapperCol.firstChild.firstChild.firstChild.innerHTML);
+                removed_mp.setAttribute("value", removedListHolder_mp)
+
+                containers_mp.removeChild(wrapperCol);
+                containers_mp.removeChild(secondDiv);
+                
+        
+            }
+            
+            
+        
+        
+        }
+
+        </script>
+
+<script>
+
+    
+    var counterVar_tf = document.getElementById("counter_tf");
+    var removed_tf = document.getElementById("removed_tf");
+    
+    addButtonForMoreConene_tf = document.getElementById('addbut_tf')
+
+    containers_tf = document.querySelector('.rowcontainer_tf')
+    
+    addButtonForMoreConene_tf.addEventListener('click',addNewItem_tf);
+    
+    var removedListHolder_tf = []
+    var givenNumberHoder_tf = []
+
+    
+    // let num= 0 ;
+    
+    function addNewItem_tf(){
+        
+
+        var  holderDiv =  document.createElement('div')
+        holderDiv.classList.add("row")
+
+   
+        var wrapperCol = document.createElement("div")
+            wrapperCol.classList.add("col-11","px-2","p-2")
+
+
+        // --------------------------------------------------------------------------
+
+        var newDIVManiInputHolder = document.createElement('div');
+            newDIVManiInputHolder.classList.add("row");
+
+        var NumberHolder = document.createElement('div');
+            NumberHolder.classList.add("col-1");
+            NumberHolder.style.width = "fit-content";
+
+        var spanNumberHolder = document.createElement('span');
+            spanNumberHolder.classList.add("fw-bold","text-center");
+            spanNumberHolder.style.fontSize = "2rem";
+            spanNumberHolder.setAttribute("id","QuestionNumber_tf")
+           
+            var number = document.querySelectorAll("#QuestionNumber_tf");
+            
+        
+            
+            
+            numberss = (number.length)+1;
+            for(var i=0; i<givenNumberHoder_tf.length; i++){
+                if (givenNumberHoder_tf[i] == numberss){
+                    numberss++;
+                    i=-1;
+                }
+                
+            }
+            
+            givenNumberHoder_tf.push(numberss)
+
+            spanNumberHolder.innerHTML = numberss;
+            var previous = counterVar_tf.innerHTML;
+            counterVar_tf.setAttribute ("value",numberss);
+
+
+        NumberHolder.appendChild(spanNumberHolder);
+
+
+        var  mainInputHolder = document.createElement('div');
+            mainInputHolder.classList.add("col");
+        var inputMain = document.createElement('input')
+            inputMain.setAttribute('class',"form-control")
+            inputMain.style.height = "50px";
+            inputMain.setAttribute('placeholder',"Question")
+            inputMain.setAttribute('name', "tableofContent_tf")
+            mainInputHolder.appendChild(inputMain);
+
+
+        newDIVManiInputHolder.appendChild(NumberHolder);
+        newDIVManiInputHolder.appendChild(mainInputHolder);
+
+
+
+
+// -----------------------------------------------------------------
+
+        var answeringSectionMainHolder = document.createElement('div');
+            answeringSectionMainHolder.classList.add("row", "mx-5", "my-3");
+
+        var labelTittleHolder = document.createElement('div');
+            labelTittleHolder.classList.add("col-2");
+
+        var maintittleHolderForAnswer = document.createElement("h5")
+            maintittleHolderForAnswer.style.fontWeight = "bold";
+            maintittleHolderForAnswer.style.fontSize = "2rem";
+            maintittleHolderForAnswer.style.display ="flex";
+            maintittleHolderForAnswer.style.alignItems = "center";
+            maintittleHolderForAnswer.innerHTML = "Answer :";
+
+            labelTittleHolder.appendChild(maintittleHolderForAnswer);
+
+
+
+        var TrueChoiceHolder = document.createElement("div");
+            TrueChoiceHolder.classList.add("col-5", "ps-5")
+            TrueChoiceHolder.style.fontSize = "1.5rem";
+            TrueChoiceHolder.style.display = "flex";
+            TrueChoiceHolder.style.alignItems = "center";
+            TrueChoiceHolder.style.justifyContent = "center";
+
+        var trueInputComponent = document.createElement("input")
+            trueInputComponent.setAttribute("type", "radio")
+            trueInputComponent.setAttribute("name", "ans_tf-"+((number.length)+1))
+            trueInputComponent.setAttribute("value","true")
+            trueInputComponent.setAttribute("id","truee")
+
+        var trueLabel = document.createElement("label");
+            trueLabel.setAttribute("for","true")
+            trueLabel.innerHTML = "True"
+            TrueChoiceHolder.appendChild(trueInputComponent)
+            TrueChoiceHolder.appendChild(trueLabel)
+
+
+        var falsechoiceholder = document.createElement("div");
+            falsechoiceholder.classList.add("col-5", "ps-5");
+            falsechoiceholder.style.fontSize = "1.5rem";
+            falsechoiceholder.style.display = "flex";
+            falsechoiceholder.style.alignItems = "center";
+            falsechoiceholder.style.justifyContent = "center";
+        
+        var falseInputComponent = document.createElement("input")
+            falseInputComponent.setAttribute("type", "radio")
+            falseInputComponent.setAttribute("name", "ans_tf-"+((number.length)+1))
+            falseInputComponent.setAttribute("value","false")
+            falseInputComponent.setAttribute("id","falsee")
+
+        var falseLabel = document.createElement("label");
+            falseLabel.setAttribute("for","true")
+            falseLabel.innerHTML = "False"
+
+
+            falsechoiceholder.appendChild(falseInputComponent)
+            falsechoiceholder.appendChild(falseLabel)
+
+            
+            answeringSectionMainHolder.appendChild(labelTittleHolder)
+            answeringSectionMainHolder.appendChild(TrueChoiceHolder)
+            answeringSectionMainHolder.appendChild(falsechoiceholder)
+
+
+            wrapperCol.appendChild(newDIVManiInputHolder);
+            wrapperCol.appendChild(answeringSectionMainHolder);
+
+
+
+
+
+
+
+        var secondDiv = document.createElement('div')
+            secondDiv.setAttribute("class", "col-1 p-2")
+        var minusSign = document.createElement('button')
+            minusSign.setAttribute("class", "btn btn-warning  ")
+            minusSign.setAttribute('style', "width: 50px;")
+            minusSign.setAttribute('type' ,"button")
+    
+        var imgicon = document.createElement('img')
+            imgicon.setAttribute("style", " border:50")
+            imgicon.style.width ="50px"
+            imgicon.style.height ="50px"
+        
+            imgicon.setAttribute("src", "https://img.icons8.com/external-febrian-hidayat-outline-color-febrian-hidayat/64/undefined/external-minus-ui-essential-febrian-hidayat-outline-color-febrian-hidayat.png")
+            
+            minusSign.appendChild(imgicon)
+            secondDiv.appendChild(minusSign)
+
+        
+
+            containers_tf.appendChild(wrapperCol)
+            containers_tf.appendChild(secondDiv)
+        
+    
+        
+        minusSign.onclick = () => { 
+            // alert(wrapperCol.firstChild.firstChild.firstChild.innerHTML)
+            
+            removedListHolder_tf.push(wrapperCol.firstChild.firstChild.firstChild.innerHTML);
+            removed_tf.setAttribute("value", removedListHolder_tf)
+            
+          
+            containers_tf.removeChild(wrapperCol);
+            containers_tf.removeChild(secondDiv);
+            
+            
+    
+        }
+        
+        
+    
+    
+    }
+
+    </script>
+
+<script>
+
+    var counterVar = document.getElementById("counter_fb");
+    var removed_fb = document.getElementById("removed_fb");
+    
+    addButtonForMoreConenet_fb = document.getElementById('addbut_fb')
+
+    
+    containers_fb = document.querySelector('.rowcontainer_fb')
+    
+    addButtonForMoreConenet_fb.addEventListener('click',addNewItem_fb);
+    
+    var removedListHolder_fb = []
+    var givenNumberHoder_fb = []
+
+    
+    let num= 0 ;
+    
+    function addNewItem_fb(){
+        
+
+        var  holderDiv =  document.createElement('div')
+        holderDiv.classList.add("row")
+
+   
+        var wrapperCol = document.createElement("div")
+            wrapperCol.classList.add("col-11","px-2","p-2")
+
+
+        // --------------------------------------------------------------------------
+
+        var newDIVManiInputHolder = document.createElement('div');
+            newDIVManiInputHolder.classList.add("row");
+
+        var NumberHolder = document.createElement('div');
+            NumberHolder.classList.add("col-1");
+            NumberHolder.style.width = "fit-content";
+
+        var spanNumberHolder = document.createElement('span');
+            spanNumberHolder.classList.add("fw-bold","text-center");
+            spanNumberHolder.style.fontSize = "2rem";
+            spanNumberHolder.setAttribute("id","QuestionNumber_fb")
+           
+            var number = document.querySelectorAll("#QuestionNumber_fb");
+            
+        
+            
+            
+            numberss = (number.length)+1;
+            for(var i=0; i<givenNumberHoder_fb.length; i++){
+                if (givenNumberHoder_fb[i] == numberss){
+                    numberss++;
+                    i=-1;
+                }
+                
+            }
+            
+            givenNumberHoder_fb.push(numberss)
+
+            spanNumberHolder.innerHTML = numberss;
+            var previous = counterVar.innerHTML;
+            counterVar.setAttribute ("value",numberss);
+
+
+        NumberHolder.appendChild(spanNumberHolder);
+
+
+        var  mainInputHolder = document.createElement('div');
+            mainInputHolder.classList.add("col");
+        var inputMain = document.createElement('input')
+            inputMain.setAttribute('class',"form-control")
+            inputMain.style.height = "50px";
+            inputMain.setAttribute('placeholder',"Question")
+            inputMain.setAttribute('name', "tableofContent_fb")
+            mainInputHolder.appendChild(inputMain);
+
+
+        newDIVManiInputHolder.appendChild(NumberHolder);
+        newDIVManiInputHolder.appendChild(mainInputHolder);
+
+
+
+
+// -----------------------------------------------------------------
+
+                                                    
+        var answeringSectionMainHolder = document.createElement('div');
+            answeringSectionMainHolder.classList.add("row", "mx-5", "my-3");
+
+        var labelTittleHolder = document.createElement('div');
+            labelTittleHolder.classList.add("col-2");
+
+        var maintittleHolderForAnswer = document.createElement("h5")
+            maintittleHolderForAnswer.style.fontWeight = "bold";
+            maintittleHolderForAnswer.style.fontSize = "2rem";
+            maintittleHolderForAnswer.style.display ="flex";
+            maintittleHolderForAnswer.style.alignItems = "center";
+            maintittleHolderForAnswer.innerHTML = "Answer :";
+
+            labelTittleHolder.appendChild(maintittleHolderForAnswer);
+
+        var answerHolder = document.createElement('div')
+            answerHolder.classList.add("col-8")
+            answerHolder.style.fontSize = "1.5rem";
+            answerHolder.style.display = "flex";
+            answerHolder.style.alignItems = "center";
+            answerHolder.style.justifyContent = "center";
+            answerHolder.style.height = "50px";
+        var anserInputReciver = document.createElement("input")
+            anserInputReciver.style.height = "50px";
+            anserInputReciver.classList.add("form-control")
+            anserInputReciver.setAttribute("type", "text")
+            anserInputReciver.setAttribute("name", "ans_fb-"+((number.length)+1))
+            anserInputReciver.setAttribute("placeholder", "Solution...")
+            anserInputReciver.setAttribute("id", "truee")
+
+            answerHolder.appendChild(anserInputReciver)
+            answeringSectionMainHolder.appendChild(labelTittleHolder);
+            answeringSectionMainHolder.appendChild(answerHolder);
+
+
+            wrapperCol.appendChild(newDIVManiInputHolder);
+            wrapperCol.appendChild(answeringSectionMainHolder);
+
+
+
+
+
+
+
+        var secondDiv = document.createElement('div')
+            secondDiv.setAttribute("class", "col-1 p-2")
+        var minusSign = document.createElement('button')
+            minusSign.setAttribute("class", "btn btn-warning  ")
+            minusSign.setAttribute('style', "width: 50px;")
+            minusSign.setAttribute('type' ,"button")
+    
+        var imgicon = document.createElement('img')
+            imgicon.setAttribute("style", " border:50")
+            imgicon.style.width ="50px"
+            imgicon.style.height ="50px"
+        
+            imgicon.setAttribute("src", "https://img.icons8.com/external-febrian-hidayat-outline-color-febrian-hidayat/64/undefined/external-minus-ui-essential-febrian-hidayat-outline-color-febrian-hidayat.png")
+            
+            minusSign.appendChild(imgicon)
+            secondDiv.appendChild(minusSign)
+
+        
+
+        containers_fb.appendChild(wrapperCol)
+        containers_fb.appendChild(secondDiv)
+        
+    
+        
+        minusSign.onclick = () => { 
+            // alert(wrapperCol.firstChild.firstChild.firstChild.innerHTML)
+            
+            removedListHolder_fb.push(wrapperCol.firstChild.firstChild.firstChild.innerHTML);
+            removed_fb.setAttribute("value", removedListHolder_fb)
+            
+          
+            containers_fb.removeChild(wrapperCol);
+            containers_fb.removeChild(secondDiv);
+            
+            
+    
+        }
+        
+        
+    
+    
+    }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
