@@ -48,7 +48,10 @@
                             <ul class="nav nav-tabs card-header-tabs nav-fill " data-bs-tabs="tabs">
                                 
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="true" data-bs-toggle="tab" href="#notes">Notes</a>
+                                    <a class="nav-link active" aria-current="true" data-bs-toggle="tab" href="#tittle">Tittle</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"  data-bs-toggle="tab" href="#notes">Notes</a>
                                 </li>
               
                                 <li class="nav-item">
@@ -71,16 +74,23 @@
                           {% csrf_token %}
                            
 
-                          
+                          <div  style="text-align:center ;" class="tab-pane active m-5 p-5 " id="tittle" role="tabpanel" aria-labelledby="home-tab">
+                              
+                            <h3>  Enter the topic or Tittle of the content </h3>
+            
+                            {{ form.topic }}
 
-                          <div style="text-align:center ;" class="tab-pane active my-5" id="notes" role="tabpanel" aria-labelledby="home-tab">
+                        </div>
+
+
+                          <div style="text-align:center ;" class="tab-pane  my-5" id="notes" role="tabpanel" aria-labelledby="note-tab">
                             {{ form.media }}
                             {{ form.notes }}
                           </div>
                                 
                            
                             <div  style="text-align:center ;" class="tab-pane m-5 p-5 " id="pdf" role="tabpanel" aria-labelledby="profile-tab">
-                              
+                                
                                 <h3> <img src="https://img.icons8.com/clouds/100/undefined/attach.png"/>  Upload Ur File </h3>
                 
                                 {{ form.pdf }}
