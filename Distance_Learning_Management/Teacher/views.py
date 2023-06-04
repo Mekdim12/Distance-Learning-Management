@@ -409,9 +409,9 @@ def exam_management_for_course_specific(request, course_id):
     user_object = User.objects.get(username=request.user)
     current_employe_object = Employee.objects.get(userObject = user_object)
 
-    tf_questions = Examinationsection.objects.filter(Q(teacherid = current_employe_object) & Q(type = 'TF') )
-    mc_questions = Examinationsection.objects.filter(Q(teacherid = current_employe_object) & Q(type = 'MC') )
-    fb_questions = Examinationsection.objects.filter(Q(teacherid = current_employe_object) & Q(type = 'FB') )
+    tf_questions = Examinationsection.objects.filter(Q(teacherid = current_employe_object) & Q(type = 'TF') & Q(courseinfn = Courseinformations.objects.get(course_id = course_id ))  )
+    mc_questions = Examinationsection.objects.filter(Q(teacherid = current_employe_object) & Q(type = 'MC') & Q(courseinfn = Courseinformations.objects.get(course_id = course_id ))  )
+    fb_questions = Examinationsection.objects.filter(Q(teacherid = current_employe_object) & Q(type = 'FB') & Q(courseinfn = Courseinformations.objects.get(course_id = course_id ))  )
     
     
     context = {
@@ -686,7 +686,8 @@ def exam_management_question_and_answer_inserting_page(request, course_id):
     }
     return render(request, 'Teacher/examination_question_and_answer_inserting_page.html', context= context)
     
-
+@login_required(login_url='base_login_page')
+@school_teacher_only
 def exam_management_detail_view_page(request, course_id, examsection_id):
     
     exams_list = ExaminationContent.objects.filter(questionid = Examinationsection.objects.get(id = examsection_id))
@@ -717,3 +718,93 @@ def exam_management_detail_view_page(request, course_id, examsection_id):
         'is_fb_empty':len(fb_list)>0
     }
     return render(request, 'Teacher/examination_information_detail_view_page.html', context = context)
+
+
+
+
+@login_required(login_url='base_login_page')
+@school_teacher_only
+def assignment_mgt_course_list_view_page(request):
+    user_object = User.objects.get(username=request.user)
+    current_employe_object = Employee.objects.get(userObject = user_object)
+
+    availabel_course_list = TeacherToCourseMapping.objects.filter(teacher = current_employe_object)
+    
+    availabel_list_courses_list_final = []
+
+    for map in availabel_course_list:
+        [availabel_list_courses_list_final.append(course) for course in map.course_info.all()]
+    
+    context = {
+        'course_list':availabel_list_courses_list_final,
+        'is_empty':len(availabel_list_courses_list_final) > 0
+    }
+    return render(request, 'Teacher/assignment_mgt_page.html' , context = context)
+
+
+@login_required(login_url='base_login_page')
+@school_teacher_only
+def assignment_mgt_course_specific_list_view_page(request, course_id):
+
+    user_object = User.objects.get(username=request.user)
+    current_employe_object = Employee.objects.get(userObject = user_object)
+    
+    courseinfn = Courseinformations.objects.get(course_id = course_id )
+    assignement = AssignmentContent.objects.filter(Q(courseinfn = courseinfn) & Q(teacherid = current_employe_object))
+
+    
+    context = {
+        'course_id':course_id,
+        'assignements':assignement,
+        'is_assignment_empty':len(assignement) > 0
+    }
+    return render(request, 'Teacher/assignment_mgt_course_specific_mgt_page.html', context = context)
+
+@login_required(login_url='base_login_page')
+@school_teacher_only
+def assignment_mgt_assignment_uploding_page(request, course_id):
+
+    if request.method == "POST":
+        
+        listOfPDFTypes = ['.DOC', '.DOCX', '.ODT','.PDF', '.XLSX', '.XLS', '.ODS', '.PPT','.PPTX','.TXT' ]
+ 
+        file = request.FILES['assignment_file']
+        extesionpdf   =  os.path.splitext(str(request.FILES['assignment_file']))
+        
+        if fileTypeChecker(extesionpdf[1], listOfPDFTypes ):
+            pass
+        else:
+            print("Document Mismatch")
+            # display error message tells user to change the file typeuse for pdf file
+            return redirect('assignment_mgt_assignment_uploding_page', course_id )
+        user_object = User.objects.get(username=request.user)
+        current_employe_object = Employee.objects.get(userObject = user_object)
+        
+        try:
+            AssignmentContent.objects.create(
+                pdf = file,
+                teacherid = current_employe_object,
+                courseinfn = Courseinformations.objects.get(course_id = course_id )
+            )
+            print('xxxxxxxxxxxxxxxxxxxxxxxx Successfully registered Assignment information xxxxxxxxxxxxxxxxxxxxxxx ')
+
+            return redirect('assignment_mgt_course_specific_list_view_page', course_id)
+        except:
+            print("xxxxxxxxxxxxxxxxxxxxxx Failed to registred Assignement information xxxxxxxxxxxxxxxxxxxxxxxxxx")
+
+            return redirect('assignment_mgt_assignment_uploding_page', course_id)
+    
+    return render(request,'Teacher/assignment_content_uploading_page.html')
+
+@login_required(login_url='base_login_page')
+@school_teacher_only
+def assignment_content_detail_view_page(request, course_id, assignment_id):
+
+
+    ass_content = AssignmentContent.objects.get(id = assignment_id)
+    context = {
+        'course_id':course_id,
+        'assignment_id':assignment_id,
+        'ass_content':ass_content
+    }
+    return render(request, 'Teacher/assignment_content_detail_view_page.html', context)

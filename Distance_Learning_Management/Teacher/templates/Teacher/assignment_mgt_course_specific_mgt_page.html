@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Of Assignments</title>
+</head>
+<body>
+    <a href="{% url 'assignment_mgt_assignment_uploding_page' course_id %}">
+        <button>Add Assignments</button>
+    </a>
+
+    <a href="">
+        <button>Submitted Assignment</button>
+    </a>
+    <br>
+    <h3>List Of Assignments</h3>
+
+    {% if is_assignment_empty %}
+        <table>
+            <thead>
+                <tr>
+                    <td>No</td>
+                    <td>Date</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assignment in assignements %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ assignment.date }}</td>
+                        <td>
+                            <a href="{% url 'assignment_content_detail_view_page' course_id assignment.id %}">
+                                <button>View Detail</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+            <h3>There is no assignement registred by you </h3>
+    {% endif %}
+
+
+    
+</body>
+</html>

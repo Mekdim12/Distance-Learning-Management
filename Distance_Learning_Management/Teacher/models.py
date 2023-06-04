@@ -52,3 +52,16 @@ class StudentEngageExaminationSection(models.Model):
 
     class Meta:
         db_table = 'StudentEngageExaminationSection'
+
+class AssignmentContent(models.Model):
+    pdf   = models.FileField(upload_to='Files/Assignments',db_column="PDF" )
+    date = models.DateField(default = date.today, db_column="Date", blank=True, null=True)
+    teacherid = models.ForeignKey(Employee, models.DO_NOTHING, db_column='teacherId')  # Field name made lowercase.
+    courseinfn = models.ForeignKey(Courseinformations,models.DO_NOTHING, db_column='courseInformationId', blank=True)  # Field name made lowercase.
+    
+class AssignmentAssesment(models.Model):
+    stduentid = models.ForeignKey(StudentInformation, models.DO_NOTHING, db_column='StduentID')  # Field name made lowercase.
+    assignment_id = models.ForeignKey(AssignmentContent, models.DO_NOTHING,db_column='AssignmentsID')  # Field name made lowercase.
+    tottalMark = models.IntegerField(db_column='Tottal_Mark')  # Field name made lowercase.
+    result = models.FloatField(db_column='Result')  # Field name made lowercase.
+    date = models.DateField(default = date.today, db_column="Date", blank=True, null=True)

@@ -24,5 +24,10 @@ urlpatterns = [
     path('ExamInformation/CourseList', views.teacher_examination_mgt_course_view_page, name="teacher_examination_mgt_course_view_page"),
     path('ExamInformation/ExamList/<slug:course_id>',views.exam_management_for_course_specific, name="exam_management_for_course_specific"),
     path('ExamInformation/Insert/<slug:course_id>',views.exam_management_question_and_answer_inserting_page, name="exam_mgt_question_and_answer_inserting_page"),
-    path('ExamInformation/DetailView/<slug:course_id>/<slug:examsection_id>',views.exam_management_detail_view_page, name='exam_management_detail_view_page')
+    path('ExamInformation/DetailView/<slug:course_id>/<slug:examsection_id>',views.exam_management_detail_view_page, name='exam_management_detail_view_page'),
+    path('AssignmentInformation/CourseList',views.assignment_mgt_course_list_view_page, name='assignment_mgt_course_list_view_page'),
+    path('AssignmentInformation/CourseSpecific/<slug:course_id>',views.assignment_mgt_course_specific_list_view_page, name='assignment_mgt_course_specific_list_view_page'),
+    path('AssignmentInformation/Uploading/<slug:course_id>', views.assignment_mgt_assignment_uploding_page, name="assignment_mgt_assignment_uploding_page"),
+    path('AssignmentInformation/DetailView/<slug:course_id>/<slug:assignment_id>', views.assignment_content_detail_view_page, name="assignment_content_detail_view_page")
+
 ]

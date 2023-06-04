@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploading Assignments</title>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <h3>Upload Assignment File </h3>
+        <label for="assignment">Upload Assignment File </label>
+        <input type="file" name="assignment_file" accept=".pdf, .doc, .docx" required>
+        <br>
+        <br>
+
+        <button type="submit"> Upload </button>
+    </form>
+</body>
+</html>

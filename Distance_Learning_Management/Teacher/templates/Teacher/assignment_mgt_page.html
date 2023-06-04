@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Of Availabel Courses For Examination</title>
+</head>
+<body>
+    <h5> Availabel List of Assigned courses</h5>
+    {% if is_empty %}
+        {% for course in course_list %}
+                <a href="{% url 'assignment_mgt_course_specific_list_view_page' course.course_id %}">
+                    <button> {{ course }}</button>
+                </a>
+                <br>
+                <br>   
+        {% endfor %}
+    {% else %}
+            <h4>Make sure You Have registered courses before inserting examination page</h4>
+    {% endif  %}
+</body>
+</html>
