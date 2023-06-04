@@ -8,19 +8,19 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         # removing the user name from main model cusz its in Unser onejct
         
-        userObject = User.objects.create_user(username = 'mekdimtam', email= 'mekdimtamiratcoder@gmail.com', password = 'mekdimtam')
-        userObject.first_name = 'Mekdim'
-        userObject.last_name = 'Tamirat'
+        userObject = User.objects.create_user(username = 'doh-admin', email= 'doh@gmail.com', password = 'doh')
+        userObject.first_name = 'doh'
+        userObject.last_name = 'project'
         userObject.save()
 
         admin_emply = Employee(
-                 firstname = 'Mekdim',
-                middlename= 'Tamirat',
-                lastname="hailu",
+                 firstname = 'Doh',
+                middlename= 'Project',
+                lastname="Admin",
                 gender = 'M',
-                phonenumber = '0924041650',
-                address = "Addis ababa",
-                email="mekdimtamiratcoder@gmail.com",
+                phonenumber = '999999999',
+                address = "Debretabor",
+                email="doh@gmail.com",
                 employeeid='AD00001', 
                 userObject =  userObject  
         )
