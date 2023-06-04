@@ -24,4 +24,5 @@ urlpatterns = [
     path('ExamInformation/CourseList', views.teacher_examination_mgt_course_view_page, name="teacher_examination_mgt_course_view_page"),
     path('ExamInformation/ExamList/<slug:course_id>',views.exam_management_for_course_specific, name="exam_management_for_course_specific"),
     path('ExamInformation/Insert/<slug:course_id>',views.exam_management_question_and_answer_inserting_page, name="exam_mgt_question_and_answer_inserting_page"),
+    path('ExamInformation/DetailView/<slug:course_id>/<slug:examsection_id>',views.exam_management_detail_view_page, name='exam_management_detail_view_page')
 ]

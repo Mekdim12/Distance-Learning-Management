@@ -12,6 +12,72 @@
     </a>
     
     <h3>List Of Examination</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <td>
+                    <td>No</td>
+                    <td>Date Question Inserted</td>
+                    <td>Type</td>
+                    <td>Action</td>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            {% if is_tf_empty %}
+                {% for exam in tf_questions %}
+                    <tr>
+                        <td> {{ forloop.counter }}</td>
+                        <td> {{ exam.date  }}</td>
+                        <td> True/False</td>
+                        <td><a href="{% url 'exam_management_detail_view_page' course_id exam.id %}">
+                            <button>
+                                View Detail
+                            </button>
+                        </a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+
+            <br>
+
+            {% if is_mc_empty %}
+                {% for exam in mc_questions %}
+                    <tr>
+                        <td> {{ forloop.counter }}</td>
+                        <td> {{ exam.date  }}</td>
+                        <td> Multiple Questions</td>
+                        <td><a href="{% url 'exam_management_detail_view_page' course_id exam.id %}">
+                            <button>
+                                View Detail
+                            </button>
+                        </a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+
+           
+
+            {% if is_fb_empty %}
+                
+                {% for exam in fb_questions %}
+                    <tr>
+                        <td> {{ forloop.counter }}</td>
+                        <td> {{ exam.date  }}</td>
+                        <td> Fill In the Blank</td>
+                        <td><a href="{% url 'exam_management_detail_view_page' course_id exam.id %}">
+                            <button>
+                                View Detail
+                            </button>
+                        </a></td>
+                    </tr>
+                {% endfor %}
+                
+            {% endif %}
+
+        </tbody>
+    </table>
     
 </body>
 </html>

@@ -406,9 +406,24 @@ def teacher_examination_mgt_course_view_page(request):
 @school_teacher_only
 def exam_management_for_course_specific(request, course_id):
     #  list of examination added will be listed here by this teacher
+    user_object = User.objects.get(username=request.user)
+    current_employe_object = Employee.objects.get(userObject = user_object)
+
+    tf_questions = Examinationsection.objects.filter(Q(teacherid = current_employe_object) & Q(type = 'TF') )
+    mc_questions = Examinationsection.objects.filter(Q(teacherid = current_employe_object) & Q(type = 'MC') )
+    fb_questions = Examinationsection.objects.filter(Q(teacherid = current_employe_object) & Q(type = 'FB') )
+    
+    
     context = {
-        'course_id':course_id
+        'course_id':course_id,
+        'tf_questions':tf_questions,
+        'is_tf_empty':len(tf_questions) > 0,
+        'mc_questions':mc_questions,
+        'is_mc_empty':len(mc_questions)>0,
+        'fb_questions':fb_questions,
+        'is_fb_empty':len(fb_questions)>0
     }
+
     return render(request, 'Teacher/examination_information_course_specific_mgt_page.html', context = context)
 
 
@@ -671,3 +686,34 @@ def exam_management_question_and_answer_inserting_page(request, course_id):
     }
     return render(request, 'Teacher/examination_question_and_answer_inserting_page.html', context= context)
     
+
+def exam_management_detail_view_page(request, course_id, examsection_id):
+    
+    exams_list = ExaminationContent.objects.filter(questionid = Examinationsection.objects.get(id = examsection_id))
+
+    tf_list = []
+    mc_list = []
+    fb_list = []
+    for exam in exams_list:
+        if exam.questionid.type == 'TF':
+            tf_list.append(exam)
+        elif exam.questionid.type == 'MC':
+            mc_list.append(exam)
+        elif exam.questionid.type == 'FB':
+            fb_list.append(exam)
+
+    
+    context = {
+        'course_id':course_id,
+        'examsection_id':examsection_id,
+        
+        'tf_list':tf_list,
+        'is_tf_empty':len(tf_list) > 0,
+        
+        'mc_list':mc_list,
+        'is_mc_empty':len(mc_list)>0,
+
+        'fb_list':fb_list,
+        'is_fb_empty':len(fb_list)>0
+    }
+    return render(request, 'Teacher/examination_information_detail_view_page.html', context = context)

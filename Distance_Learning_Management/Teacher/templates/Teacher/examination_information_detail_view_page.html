@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Detail View Page</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row mt-5">
+            <div class="col-1 mx-5">
+                <a href="{% url 'exam_management_for_course_specific' course_id %}"><img src="https://img.icons8.com/external-flaticons-flat-flat-icons/80/000000/external-back-web-flaticons-flat-flat-icons.png"/></a>
+               
+            </div>
+            <div class="col" style="display: flex; align-items: center; ">
+                <h2 class="text-center fw-bold" style="margin-left: 30%;">Exam Details</h2>
+            </div>
+        </div>
+
+        {% if is_tf_empty %}
+            <h3>Question True False </h3>
+            {% for exam in tf_list %}
+                <label for="">{{ forloop.counter }} Question : {{ exam.question  }}</label>
+                <br>
+                <label for="">Answer: {{ exam.Answer }}</label>
+                <br>
+                <br>
+            {% endfor %}
+        {% endif %}
+
+
+        {% if is_mc_empty %}
+            <h3>Question of Multiple Choice </h3>
+            {% for exam in mc_list %}
+                <label for="">{{ forloop.counter }} Question : {{ exam.question  }}</label>
+                {% if exam.Answer == 'A' %}
+                    <label for="" style="color: aquamarine;">{{ exam.Soultion1 }}</label>
+                {% else %}
+                     <label for="">{{ exam.Soultion1 }} </label>
+                {% endif %}
+
+                <br>
+
+                {% if exam.Answer == 'B' %}
+                    <label for="" style="color: aquamarine;">{{ exam.Soultion2 }}</label>
+                {% else %}
+                     <label for="">{{ exam.Soultion2 }} </label>
+                {% endif %}
+
+                <br>
+
+                {% if exam.Answer == 'C' %}
+                    <label for="" style="color: aquamarine;">{{ exam.Soultion3 }}</label>
+                {% else %}
+                     <label for="">{{ exam.Soultion3 }} </label>
+                {% endif %}
+
+                <br>
+
+
+                {% if exam.Answer == 'D' %}
+                    <label for="" style="color: aquamarine;">{{ exam.Soultion4 }}</label>
+                {% else %}
+                     <label for="">{{ exam.Soultion4 }} </label>
+                {% endif %}
+
+                <br>
+                <br>
+            {% endfor %}
+        {% endif %}
+        
+        {% if is_fb_empty %}
+            <h3>Question Fill in the blank Question</h3>
+            {% for exam in fb_list %}
+                <label for="">{{ forloop.counter }} Question : {{ exam.question  }}</label>
+                <br>
+                <label for="">Answer: {{ exam.Answer }}</label>
+                <br>
+                <br>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+</body>
+</html>
