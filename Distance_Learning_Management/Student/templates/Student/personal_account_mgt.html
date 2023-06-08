@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="author" content="colorlib.com">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Student Personal Information</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'studentregpage/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+    <link rel="stylesheet" href="{% static 'studentregpage/vendor/nouislider/nouislider.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'studentregpage/css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="main">
+
+        <div class="container">
+            <form method="POST" id="signup-form" class="signup-form" action="#">
+                <div>
+                    <h3>Personal info</h3>
+                    <fieldset>
+                        <h2>Student Personal information</h2>
+                        <p class="desc">Notice : If you want to change any of these information please contact the registerar </p>
+                        <div class="fieldset-content">
+                            <div class="form-row">
+                                <label class="form-label">Name</label>
+                                <div class="form-flex">
+                                    <div class="form-group">
+                                        <input type="text" name="first_name"  value="{{student_info.firstname }} {{student_info.middlename }}" id="first_name" disabled />
+                                        <span class="text-input">First And Father</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="last_name" id="last_name"  disabled value="{{student_info.lastname }} "/>
+                                        <span class="text-input">Last</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" name="email" id="email"  disabled value="{{ student_info.email }} "/>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" name="phone" id="phone"  disabled value="{{ student_info.phonenumber}}"/>
+                            </div>
+            
+                            <div class="form-group">
+                                <label for="ssn" class="form-label">Country</label>
+                                <input type="text" name="ssn" id="ssn"  disabled value="{{ student_info.country }}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ssn" class="form-label">Woreda/Zone</label>
+                                <input type="text" name="ssn" id="ssn" disabled value="{{ student_info.woredazone }}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ssn" class="form-label">Kebele</label>
+                                <input type="text" name="ssn" id="ssn" disabled value="{{ student_info.streetkebele }}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="ssn" class="form-label">Phone Number</label>
+                                <input type="text" name="ssn" id="ssn" disabled value="{{ student_info.phonenumber }}" />
+                            </div>
+
+                        </div>
+                    </fieldset>
+
+                    <h3>Profile Picture Information</h3>
+                    <fieldset>
+                        <h2>Profile Picture</h2>
+                        <p class="desc">If there is any profile picture set while regiseration it will be here</p>
+                        <div class="fieldset-content">
+                            <div class="form-group">
+                                <img src="{{ student_info.profilePicture.url }}" alt="" style="width: 100%; object-fit: contain; height: 600px; border-radius: 50%;">
+                            </div>        
+                        </div>
+                    </fieldset>
+
+                    <h3>Education info</h3>
+                    <fieldset>
+                        <h2>Current Education Information</h2>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">program</label>
+                            <input type="email" name="email" id="email"  disabled value="{{ acadamic_info.programs }} "/>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Departement Name</label>
+                            <input type="email" name="email" id="email"  disabled value="{{ acadamic_info.departement.name_of_department }} "/>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Faculty Name</label>
+                            <input type="email" name="email" id="email"  disabled value="{{ acadamic_info.departement.faculty_info.full_faculty_name }} "/>
+                        </div>
+                        
+                        <h2>Document For Your Education Background</h2>
+                        <p class="desc">If there is document about your previous education background it will be displayed here</p>
+                        <div class="fieldset-content">
+                            <div class="form-group">
+                                    <Object data="{{student_info.student_cv_pdf_file.url}}" width="100%" height="600px"></Object>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="{% static 'studentregpage/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'studentregpage/vendor/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'studentregpage/vendor/jquery-validation/dist/additional-methods.min.js' %}"></script>
+    <script src="{% static 'studentregpage/vendor/jquery-steps/jquery.steps.min.js' %}"></script>
+    <script src="{% static 'studentregpage/vendor/minimalist-picker/dobpicker.js' %}"></script>
+    <script src="{% static 'studentregpage/vendor/nouislider/nouislider.min.js' %}"></script>
+    <script src="{% static 'studentregpage/vendor/wnumb/wNumb.js ' %}"></script>
+    <script src="{% static 'studentregpage/js/main.js' %}"></script>
+</body>
+
+</html>

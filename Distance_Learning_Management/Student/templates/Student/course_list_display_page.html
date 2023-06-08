@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course List</title>
+</head>
+<body>
+    
+    {% if is_course_empty %}
+        <table>
+            <thead>
+                <tr>
+                    <td>No</td>
+                    <td>Course Name</td>
+                    <td>Level Of Difficulty</td>
+                    <td>Language</td>
+                    <td>Credit Hour</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for course in courses %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{ course.course_name }}</td>
+                        <td>{{ course.level_of_difficulties }}</td>
+                        <td>{{ course.lanaguage }}</td>
+                        <td>{{ course.tottal_credit_hour }}</td>
+                        <td><a href="{% url 'list_of_courses_materials_for_specific_courses' course.course_id %}">view</a></td>
+                    </tr>
+                
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    {% else %}
+        <center><h3>There is no course regisered for the departemtn and program you in enrolled in</h3></center>
+    {% endif %}   
+
+   
+</body>
+</html>

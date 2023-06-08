@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignements</title>
+</head>
+<body>
+    {% if is_assingment_empty %}
+        {% for assignement in list_of_assignment %}
+        <div style="width: 250px; height: 150px; border: 1px solid dodgerblue;">
+            <b>Issued Date : {{ assignement.date }}</b>
+            <br>
+            {% for key,interaction in list_of_interaction.items %}
+
+                    {% if key == assignement.id %}
+                        {% if interaction %}
+                            <b>submitted</b>
+                        {% else %}
+                            <b>New</b>
+                        {% endif %}
+                        
+                    {% endif %}
+
+
+            {% endfor %}
+
+            <a href="{% url 'assignment_detail_student_view' course_id assignement.id %}">
+                <button>
+                    View
+                </button>
+            </a>
+        </div>
+            <br>
+        {% endfor %}
+    {% else %}  
+
+    <center>
+        <h3>There is no Assignement Assigned To This course Yet </h3>
+    </center>
+
+    {% endif %}
+</body>
+</html>

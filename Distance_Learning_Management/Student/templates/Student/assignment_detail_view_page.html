@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Assignement View</title>
+</head>
+<body>
+    <h3>The pdf Contains the Assignement</h3>
+    
+    <object data="{{ assingment.pdf.url }}" type="" width="100%" height="500px"></object>
+
+    <br><br>
+
+    {% if is_submiited %}
+        {% if isevaluated %}
+            <label for="">Result of this assignement</label>
+            <b>Tottal Marks : {{ evaluation.tottalMark}}</b>
+            <b>Result : {{ evaluation.tottalMark}}</b>
+            <b>Date : {{ evaluation.date}}</b>
+        {% else %}
+            <b>You submitted the assignement but its not evaluted by the teacher yet</b>
+        {% endif %}
+    {% else %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+   
+        <label for="">Submit the assignment</label>
+        <input type="file" name="assignment" accept=".pdf, .doc, .docx" required>
+        <button type="submit">Submit</button>
+    </form>
+    {% endif %}
+
+    
+</body>
+</html>

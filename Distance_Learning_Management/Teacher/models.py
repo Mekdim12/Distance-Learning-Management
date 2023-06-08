@@ -65,3 +65,18 @@ class AssignmentAssesment(models.Model):
     tottalMark = models.IntegerField(db_column='Tottal_Mark')  # Field name made lowercase.
     result = models.FloatField(db_column='Result')  # Field name made lowercase.
     date = models.DateField(default = date.today, db_column="Date", blank=True, null=True)
+
+class AssignmentStudentInteraction(models.Model):
+    stduentid = models.ForeignKey(StudentInformation, models.DO_NOTHING, db_column='StduentID')  # Field name made lowercase.
+    assignment = models.ForeignKey(AssignmentContent, models.DO_NOTHING)
+    is_submitted = models.BooleanField(default=False)
+    submitted   = models.FileField(upload_to='Files/submittedAssignments',db_column="PDF" )
+    
+
+
+
+
+
+
+
+

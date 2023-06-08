@@ -130,7 +130,7 @@ def teacher_student_information_view_page(request):
             student_with_current_dep = StudentAcademicOption.objects.filter(departement = dep)
             [list_student_related.append(y) if y not in list_student_related else None for y in student_with_current_dep ]
         
-        
+                    
 
         student_for_degree_program = StudentAcademicOption.objects.filter(programs = 'Bchelor Degree')
         student_for_masteres_program = StudentAcademicOption.objects.filter(programs = 'Masters Degree')
@@ -152,7 +152,7 @@ def teacher_student_information_view_page(request):
                 dep_for_students[msc] = student.departement
        
         context = {
-            'msc_student':msc_students,
+            'msc_students':msc_students,
             'bsc_students':bsc_students,
             'is_bsc_len':len(bsc_students),
             'is_msc_len':len(msc_students),

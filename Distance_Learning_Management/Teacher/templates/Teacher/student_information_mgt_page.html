@@ -52,6 +52,51 @@
         {% else %}
             <h5>There is no bsc student registered</h5>
         {% endif %}
+
+        {% if is_msc_len > 0 %}
+            <h3>Masters Degree</h3>
+            <table border="solid 1px black">
+            <thead>
+                    <tr>
+                        <td>No</td>
+                        <td>Profile pic</td>
+                        <td>Full Name</td>
+                        <td>Departement</td>
+                        <td>active</td>
+                        <td>Action</td>
+                    </tr>
+            </thead>
+            <tbody>
+                {% for bsc in msc_students %}
+                  
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><img src="{{ bsc.student_id.profilePicture.url }}" width="50px" height="50px" alt=""></td>
+                        <td> {{ bsc.student_id.firstname }} {{ bsc.student_id.middlename }}{{ bsc.student_id.lastname }}</td>
+                        <td>
+                            {% for student,dep in stud_map_with_dep.items %}
+                                {% if student.userid == bsc.userid %}
+                                    {{ dep.name_of_department }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        {% if  bsc.student_id.is_active  %}
+                            <td>Active</td>
+                        {% else %}
+                            <td>Not Active</td>
+                        {% endif %}
+
+                        <td><a href="{% url 'student_information_detail_page_by_teacher' bsc.student_id.userid %}">
+                            <button>View Detail</button>
+                        </a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        {% else %}
+            <h5>There is no msc student registered</h5>
+        {% endif %}
+
     {% else %}
         <h4>There is no course assigned to you, so studen will come up here realted to the coureses u are assigned on</h4>
     {% endif %}
