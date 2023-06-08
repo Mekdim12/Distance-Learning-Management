@@ -11,6 +11,7 @@ from Reception.models import *
 from Doh.models import *
 from .models import *
 from .forms import *
+
 from django.contrib import messages
 import random
 import os
@@ -808,3 +809,65 @@ def assignment_content_detail_view_page(request, course_id, assignment_id):
         'ass_content':ass_content
     }
     return render(request, 'Teacher/assignment_content_detail_view_page.html', context)
+
+@login_required(login_url='base_login_page')
+@school_teacher_only
+def assignment_submmited_management_page(request, course_id):
+
+    user_object = User.objects.get(username=request.user)
+    current_employe_object = Employee.objects.get(userObject = user_object)
+        
+    assignement_interaction_student = AssignmentStudentInteraction.objects.all()
+
+    assignment_for_current_teacher = []
+    for studnet_intex in assignement_interaction_student:
+        if studnet_intex.assignment.teacherid.employeeid == current_employe_object.employeeid:
+            assignment_for_current_teacher.append(studnet_intex)
+    
+    context = {
+        'list_of_submmited_assignements' : assignment_for_current_teacher,
+        'is_there_new_submission':len(assignment_for_current_teacher) > 0,
+        'course_id':course_id
+    }
+    return render(request, 'Teacher/assignment_submmited_management_page.html', context= context)
+
+
+@login_required(login_url='base_login_page')
+@school_teacher_only
+def assignement_submitted_detail_view_page(request, course_id, intx_id):
+    course_intx = AssignmentStudentInteraction.objects.get(id = intx_id)
+
+    if request.method == "POST":
+        tottal_mark = request.POST['tottal_mark']
+        result = request.POST['result']
+        try:
+            AssignmentAssesment.objects.create(
+                stduentid = course_intx.stduentid,
+                assignment_id = course_intx.assignment,
+                tottalMark = tottal_mark,
+                result = result,
+                std_intx = course_intx
+            )
+            print("xxxxxxxxxxxx 117 successfully inserted result for assignment xxxxxxxxxxxxxxxxxxxxxxx")
+            return redirect('assignment_submmited_management_page',course_id )
+        except:  
+            print("xxxxxxxxxxxxxxxxxxxxxxxxx Filed 116 to sore result for student assignement xxxxxxxxxxxxxxxx")
+            return redirect('assignement_submitted_detail_view_page',course_id, intx_id )
+    
+    context = {
+        'course_id':course_id,
+        'intx_id':intx_id,
+        "interaction":course_intx, 
+    }
+
+    try:
+        assesment = AssignmentAssesment.objects.get(stduentid = course_intx.stduentid, assignment_id= course_intx.assignment, std_intx = course_intx)
+        context['is_marked']  = True
+        context["marks"] = assesment
+    except:
+        context['is_marked']  = False
+
+    return render(request, "Teacher/assignment_submitted_detail_view_page.html", context=context)
+
+
+

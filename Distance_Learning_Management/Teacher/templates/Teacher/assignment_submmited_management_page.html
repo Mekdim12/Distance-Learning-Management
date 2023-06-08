@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of submitted assignment</title>
+</head>
+<body>
+
+    {% if is_there_new_submission %}
+        <table border="1px solid black">
+            <thead>
+                <tr>
+                    <td>No</td>
+                    <td>Student Full Name</td>
+                    <td>Issued Date</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+            
+                {% for assignment_ in  list_of_submmited_assignements %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{assignment_.stduentid.firstname }} {{assignment_.stduentid.middlename }} {{assignment_.stduentid.lastname }}</td>
+                        <td>{{assignment_.assignment.date}}</td>
+                        <td>
+                            <a href="{% url 'assignement_submitted_detail_view_page' course_id assignment_.id %}">
+                                <button> View</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    {% else %}
+        <center><h2>There is no new submitted assignments from students for this course</h2></center>
+    {% endif %}
+    
+</body>
+</html>

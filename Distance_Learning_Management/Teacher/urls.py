@@ -28,6 +28,8 @@ urlpatterns = [
     path('AssignmentInformation/CourseList',views.assignment_mgt_course_list_view_page, name='assignment_mgt_course_list_view_page'),
     path('AssignmentInformation/CourseSpecific/<slug:course_id>',views.assignment_mgt_course_specific_list_view_page, name='assignment_mgt_course_specific_list_view_page'),
     path('AssignmentInformation/Uploading/<slug:course_id>', views.assignment_mgt_assignment_uploding_page, name="assignment_mgt_assignment_uploding_page"),
-    path('AssignmentInformation/DetailView/<slug:course_id>/<slug:assignment_id>', views.assignment_content_detail_view_page, name="assignment_content_detail_view_page")
+    path('AssignmentInformation/DetailView/<slug:course_id>/<slug:assignment_id>', views.assignment_content_detail_view_page, name="assignment_content_detail_view_page"),
+    path('AssignmentInformation/SubmittedList/<slug:course_id>', views.assignment_submmited_management_page, name="assignment_submmited_management_page"),
+    path('AssignmentInformation/Submitted/Detail/<slug:course_id>/<slug:intx_id>', views.assignement_submitted_detail_view_page, name="assignement_submitted_detail_view_page"),
 
 ]
