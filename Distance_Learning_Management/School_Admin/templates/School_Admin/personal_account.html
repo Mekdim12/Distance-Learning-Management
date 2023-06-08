@@ -1,71 +1,126 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Account</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Personal Account</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'registerationpage/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'registerationpage/css/style.css' %}">
 </head>
 <body>
 
-    <br>
-    <form  method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label for="firstname">First name</label>
-        <input type="text" name="firstname" value="{{ personal_info.firstname }}">
-        <br>
-        <br>
-        <label for="middlename">middle Name</label>
-        <input type="text" name="middlename" value="{{ personal_info.middlename }}">
-        <br>
-        <br>
-        <label for="lastname">Last Name</label>
-        <input type="text" name="lastname" value="{{ personal_info.lastname }}">
-        <br>
-        <br>
-        <label for="username">User Name</label>
-        <input type="text" name="username" value="{{ personal_info.username }}">
-        
-        <br>
-        <br>
+    <div class="main">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-img">
+                    <img src="{% static 'registerationpage/images/boosshelf.jpg' %}" alt="">
+                </div>
+                <div class="signup-form">
+                    <form method="POST" class="register-form" id="register-form">
+                        {% csrf_token %}
+                        
+                        <h1>Site Admin Personal Account Management</h1>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Name :</label>
+                                <input type="text" name="firstname" id="name" value="{{ personal_info.firstname }}" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="father_name">Father Name :</label>
+                                <input type="text" name="middlename" id="father_name" value="{{ personal_info.middlename }}" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last Name :</label>
+                            <input type="text" name="lastname" id="address" value="{{ personal_info.lastname }}" required/>
+                        </div>
 
-        <label for="gender">Gender</label>
-        <input type="text" name="gender" value="{{ personal_info.gender }}">
-        
-        <br>
-        <br>
+                        <div class="form-group">
+                            <label for="address">User Name :</label>
+                            <input type="text" name="username" id="address"  value="{{ personal_info.username }}" required/>
+                        </div>
 
-        <label for="phonenumber">Phone number</label>
-        <input type="text" name="phonenumber" value="{{ personal_info.phonenumber }}">
-        
-        <br>
-        <br>
+                        <div class="form-group">
+                            <label for="address">Address :</label>
+                            <input type="text" name="address" id="address"  value="{{ personal_info.address }}" required/>
+                        </div>
 
-        <label for="address">Address</label>
-        <input type="text" name="address" value="{{ personal_info.address }}">
-        <br>
-        <br>
+                        <div class="form-radio">
+                            <label for="gender" class="radio-label">Gender :</label>
+                            {% if personal_info.gender.starts_with == 'M' %}
+                            <div class="form-radio-item">
+                                <input type="radio" name="gender" id="male" checked>
+                                <label for="male">Male</label>
+                                <span class="check"></span>
+                            </div>
+                            <div class="form-radio-item">
+                                <input type="radio" name="gender" id="female">
+                                <label for="female">Female</label>
+                                <span class="check"></span>
+                            </div>
+                            {% else %}
+                            <div class="form-radio-item">
+                                <input type="radio" name="gender" id="male" >
+                                <label for="male">Male</label>
+                                <span class="check"></span>
+                            </div>
+                            <div class="form-radio-item">
+                                <input type="radio" name="gender" id="female" checked>
+                                <label for="female">Female</label>
+                                <span class="check"></span>
+                            </div>
+                            {% endif %}
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="phonenumber">Phone Number :</label>
+                            
+                            <input type="text" name="phonenumber" id="address"   value="{{ personal_info.phonenumber }}"  required/>
+                        </div>
 
-        <label for="email">Email</label>
-        <input type="text" name="email" value="{{ personal_info.email }}">
+                        
+                        <div class="form-group">
+                            <label for="email">Email :</label>
+                            <input type="email" name="email"  value="{{ personal_info.email }}" id="birth_date">
+                        </div>
 
-        <br>
-        <br>
-        <label for="">If u want to change a passoword optional</label>
-        <label for="">old password</label>
-        <input  name="oldpassword" type="password">
+                        <label for="" style="color:dodgerblue">If u want to change a passoword optional</label>
+       
+                        <div class="form-group">
+                            <label for="oldpassword">Old Password :</label>
+                            <input type="password" name="oldpassword" id="pincode">
+                        </div>
 
-        <br>
-        <br>
-        <label for="">new password</label>
-        <input name="newpassword" type="password">
-        
+                        <div class="form-group">
+                            <label for="newpassword">New Password :</label>
+                            <input type="password" name="newpassword" id="pincode">
+                        </div>
+                       
+    
+                        <div class="form-submit">
+                            <a href="">
+                            <button  type="button" value="Reset All" class="submit" name="reset" id="reset"> 
+                                Reset All
+                            </button>
+                            </a>
+                            <input type="submit" value="Submit Form" class="submit" name="submit" id="submit" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-        <br>
-        <br>
-        <button type="submit"> Save Changes</button>
+    </div>
 
-
-    </form>
-</body>
+    <!-- JS -->
+    <script src="{% static 'registerationpage/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'registerationpage/js/main.js' %}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

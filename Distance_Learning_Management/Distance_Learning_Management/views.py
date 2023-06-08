@@ -49,6 +49,10 @@ def login_page(request):
                         # else regular teacher
                         else:
                             return redirect('teacher_main_landing_page')
+                        
+                    elif str(group).strip().lower() == 'Student'.lower():
+                        print("********")
+                        return redirect('student_main_landing_page')
 
                     
                     

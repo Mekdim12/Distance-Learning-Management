@@ -1,63 +1,103 @@
+
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Register New School Admin</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'registerationpage/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'registerationpage/css/style.css' %}">
 </head>
 <body>
 
-    <h2> Register new School Adminstration</h2>
-    <br>
+    <div class="main">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-img">
+                    <img src="{% static 'registerationpage/images/admin.jpg' %}" alt="">
+                </div>
+                <div class="signup-form">
+                    <form method="POST" class="register-form" id="register-form">
+                        {% csrf_token %}
+                        
+                        <h1>Register New Site Adminstrator</h1>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Name :</label>
+                                <input type="text" name="firstname" id="name" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="father_name">Father Name :</label>
+                                <input type="text" name="middlename" id="father_name" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last Name :</label>
+                            <input type="text" name="lastname" id="address"  required/>
+                        </div>
 
-    <form  method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label for="firstname">First name</label>
-        <input type="text" name="firstname"  required>
-        <br>
-        <br>
-        <label for="middlename">middle Name</label>
-        <input type="text" name="middlename"  required>
-        <br>
-        <br>
-        <label for="lastname">Last Name</label>
-        <input type="text" name="lastname" required>
-        <br>
-        <br>
-        <label for="username">User Name</label>
-        <input type="text" name="username"  required>
-        
-        <br>
-        <br>
+                        <div class="form-group">
+                            <label for="address">User Name :</label>
+                            <input type="text" name="username" id="address" required/>
+                        </div>
 
-        <label for="gender">Gender</label>
-        <input type="text" name="gender"  required>
-        
-        <br>
-        <br>
+                        <div class="form-group">
+                            <label for="address">Address :</label>
+                            <input type="text" name="address" id="address"  required/>
+                        </div>
 
-        <label for="phonenumber">Phone number</label>
-        <input type="tel" name="phonenumber"  required>
-        
-        <br>
-        <br>
+                        <div class="form-radio">
+                            <label for="gender" class="radio-label">Gender :</label>
+                            <div class="form-radio-item">
+                                <input type="radio" name="gender" id="male" checked>
+                                <label for="male">Male</label>
+                                <span class="check"></span>
+                            </div>
+                            <div class="form-radio-item">
+                                <input type="radio" name="gender" id="female">
+                                <label for="female">Female</label>
+                                <span class="check"></span>
+                            </div>
+                            
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="phonenumber">Phone Number :</label>
+                            
+                            <input type="text" name="phonenumber" id="address"    required/>
+                        </div>
 
-        <label for="address">Address</label>
-        <input type="text" name="address" required>
-        <br>
-        <br>
-
-        <label for="email"> Email</label>
-        <input type="email" name="email"  required>
-        
-        <br>
-        <br>
-        <button type="submit">Register</button>
-
-
-    </form>
+                        
+                        <div class="form-group">
+                            <label for="email">Email :</label>
+                            <input type="email" name="email"  id="birth_date">
+                        </div>
 
     
-</body>
+                        <div class="form-submit">
+                            <a href="">
+                            <button  type="button" value="Reset All" class="submit" name="reset" id="reset"> 
+                                Reset All
+                            </button>
+                            </a>
+                            <input type="submit" value="Submit Form" class="submit" name="submit" id="submit" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="{% static 'registerationpage/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'registerationpage/js/main.js' %}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

@@ -1,23 +1,116 @@
+
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+	<title>Login Page</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'loginpage/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginpage/vendor/bootstrap/css/bootstrap.min.css' %} ">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginpage/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginpage/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginpage/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'loginpage/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginpage/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginpage/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'loginpage/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginpage/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'loginpage/css/main.css' %}">
+<!--===============================================================================================-->
 </head>
 <body>
-    
+	
+	
+	<div class="limiter">
+		
+	
+		<div class="container-login100">
+			
+			
+			<div class="wrap-login100">
+				<div style="margin-left: auto; margin-right:auto; background: #ebeeef; color: #ebeeef; display: flex; justify-content: center; align-items: center;" >
+					<center>
 
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label for="username">User Name</label>
-        <input type="text" name="username">
-        <label for="password">Password</label>
-        <input type="password" name="password">
-    
-        <button type="submit"> Login</button>
-    </form>
+						<div class="container" style="">
+							<img  class=""  src = "{% static 'commonasset/dtlogo.jpg' %}" alt="">
+						</div>
+
+					</center>
+				</div>
+				
+				<div class="login100-form-title" style="background-image: url({%static 'loginpage/images/bg-01.jpg' %});">
+					<span class="login100-form-title-1">
+						Log In
+					</span>
+				</div>
+
+				<form class="login100-form validate-form" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+						<span class="label-input100">Username</span>
+						<input class="input100" type="text" name="username" placeholder="Enter username">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+						<span class="label-input100">Password</span>
+						<input class="input100" type="password" name="password" placeholder="Enter password">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="flex-sb-m w-full p-b-30">
+						<div class="contact100-form-checkbox">
+							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+							<label class="label-checkbox100" for="ckb1">
+								Remember me
+							</label>
+						</div>
+
+						<div>
+							<a href="#" class="txt1">
+								Forgot Password?
+							</a>
+						</div>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button type="submit" class="login100-form-btn">
+							Login
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<!--===============================================================================================-->
+	<script src="{% static 'loginpage/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'loginpage/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'loginpage/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'loginpage/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'loginpage/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'loginpage/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'loginpage/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'loginpage/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'loginpage/js/main.js' %}"></script>
 
 </body>
 </html>
