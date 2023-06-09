@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .decorators  import *
 from .models import Employee,RoleInSchool,Faculty,Department,Courseinformations,PriceForDepartements
 
-
+from Reception.models import * 
 import random
 # Create your views here.
 
@@ -43,25 +43,42 @@ def login_page(request):
                         return redirect('admin_main_landing_page')
                                       
                 logout(request)
-                return redirect('landing_page_school_admin')
+                return redirect('admin_main_landing_page')
         else:
-            return redirect('landing_page_school_admin')
+            return redirect('admin_main_landing_page')
             
     return render(request, 'School_Admin/login.html')
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def school_admin_logout(request):
     logout(request)
-    return redirect('landing_page_school_admin')
+    return redirect('admin_main_landing_page')
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_main_landing_page(request):
     user_object = User.objects.get(username=request.user)
-    return render(request, 'School_Admin/landing_page.html')
+    empl = Employee.objects.all()
+    stude = StudentInformation.objects.all()
+    departements = Department.objects.all()
+    facult = Faculty.objects.all()
+    tottal_empl = len(empl)
+    tottal_std = len(stude)
+    tottal_dep = len(departements)
+    tottal_faculty = len(facult)
 
-@login_required(login_url='admin_login_page')
+    context = {
+        "employees":empl,
+        "tottal_empl":tottal_empl,
+        "tottal_std":tottal_std,
+        "tottal_dep":tottal_dep,
+        "tottal_faculty":tottal_faculty
+    }
+
+    return render(request, 'School_Admin/landing_page.html', context = context)
+
+@login_required(login_url='base_login_page')
 @school_manager_only
 def school_admin_personal_account(request):
     user_object = User.objects.get(username=request.user)
@@ -128,7 +145,7 @@ def school_admin_personal_account(request):
     }
     return render(request , 'School_Admin/personal_account.html', context=context)
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_manage_teacher(request):  
     teacher_roles = RoleInSchool.objects.filter(employee_role = 'Teacher')
@@ -140,7 +157,7 @@ def admin_manage_teacher(request):
     }
     return render(request, 'School_Admin/teacher_information_mgt.html',context=context)
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_teacher_inserting_information(request):
     
@@ -209,7 +226,7 @@ def admin_teacher_inserting_information(request):
         
     return render(request, 'School_Admin/teacher_information_inserting_page.html')
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_teacher_information_deleting_url(request, eployee_id):
     try:
@@ -224,7 +241,7 @@ def admin_teacher_information_deleting_url(request, eployee_id):
         print("xxxxxxx 5 Failed to delete teacher information xxxxxxxxxx")
         return redirect('view_list_teachers')
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_teacher_information_editing_url(request, eployee_id):
     try:
@@ -275,7 +292,7 @@ def admin_teacher_information_editing_url(request, eployee_id):
         return redirect('view_list_teachers')
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_manage_registerar(request):
     registerar_roles = RoleInSchool.objects.filter(employee_role = 'Registrar')
@@ -287,7 +304,7 @@ def admin_manage_registerar(request):
     return render(request, 'School_Admin/registerar_information_mgt.html',context=context)
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_registerar_info_insert(request):
     if request.method == "POST":
@@ -355,7 +372,7 @@ def admin_registerar_info_insert(request):
 
     return render(request, 'School_Admin/registerar_information_inserting_page.html')
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_registerar_delete(request, eployee_id):
     try:
@@ -371,7 +388,7 @@ def admin_registerar_delete(request, eployee_id):
         print("xxxxxxx 10 Failed to delete Registerar information xxxxxxxxxx")
         return redirect('view_list_registerar')
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_regiseterar_information_edit(request, eployee_id):
     try:
@@ -421,7 +438,7 @@ def admin_regiseterar_information_edit(request, eployee_id):
         return redirect('view_list_registerar')
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_list_of_adminstrations_staffs(request):
 
@@ -435,7 +452,7 @@ def admin_list_of_adminstrations_staffs(request):
     return render(request, 'School_Admin/school_admins_listViewPage.html', context=context)
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def school_admin_registering_page(request):
     if request.method == "POST":
@@ -503,7 +520,7 @@ def school_admin_registering_page(request):
 
     return render(request, 'School_Admin/school_admin_new_admin_regisetering_page.html')
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def school_admin_account_delete(request, eployee_id):
     try:
@@ -519,7 +536,7 @@ def school_admin_account_delete(request, eployee_id):
         return redirect('admin_staffs_display_page')
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_manage_faculty(request):
     stored_faculty = Faculty.objects.all()
@@ -530,7 +547,7 @@ def admin_manage_faculty(request):
     
     return render(request, 'School_Admin/faculty_list_admin_view_page.html', context = context)
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_new_faculty_register(request):
     
@@ -567,7 +584,7 @@ def admin_new_faculty_register(request):
     return render(request, 'School_Admin/faculty_register_new_faculty_info.html', context= context)
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_view_faculty_info_delete(request, faculty_id):
     try:
@@ -580,7 +597,7 @@ def admin_view_faculty_info_delete(request, faculty_id):
     return redirect('admin_manage_faculty_info')
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_view_update_faculty_info(request, faculty_id):
     
@@ -625,7 +642,7 @@ def admin_view_update_faculty_info(request, faculty_id):
         return redirect('admin_manage_faculty_info')
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_manage_departement(request):
     departements = Department.objects.all()
@@ -636,7 +653,7 @@ def admin_manage_departement(request):
     return render(request, 'School_Admin/departement_info_mgt.html', context= context)
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_manage_departement_info_insert(request):
 
@@ -691,7 +708,7 @@ def admin_manage_departement_info_insert(request):
     return render(request, 'School_Admin/departement_registering_page.html', context = context)
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_delete_departement_information(request, departement_id):
     try:
@@ -702,7 +719,7 @@ def admin_delete_departement_information(request, departement_id):
         print("xxxxxxxxxxxxxxx 31 Failed to delete departement info  xxxxxxxxxxxxxxxxx")
     return redirect('admin_manage_departement_info')
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_editing_departement_info(request, departement_id):
     
@@ -768,7 +785,7 @@ def admin_editing_departement_info(request, departement_id):
 
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_coures_information_management(request):
 
@@ -781,7 +798,7 @@ def admin_coures_information_management(request):
     return render(request, 'School_Admin/course_info_management_by_admin.html', context)
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_course_information_inserting(request):
     if request.method == "POST":
@@ -844,7 +861,7 @@ def admin_course_information_inserting(request):
     
     return render(request, 'School_Admin/course_info_inserting_page.html', context = context)
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_course_information_deleting(request, course_id):
     try:
@@ -857,7 +874,7 @@ def admin_course_information_deleting(request, course_id):
     return redirect('course_information_view_management')
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_departement_price_fixation(request):
 
@@ -869,7 +886,7 @@ def admin_departement_price_fixation(request):
     return render(request, 'School_Admin/price_fixation_management_page.html', context = context)
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_departement_price_inserting(request):
     
@@ -907,7 +924,7 @@ def admin_departement_price_inserting(request):
     return render(request, 'School_Admin/price_fixation_inserting_page.html',context = context)
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_departement_price_editing(request, price_id):
 
@@ -953,7 +970,7 @@ def admin_departement_price_editing(request, price_id):
     return render(request, 'School_Admin/price_fixation_editing_page.html', context = context)
 
 
-@login_required(login_url='admin_login_page')
+@login_required(login_url='base_login_page')
 @school_manager_only
 def admin_departement_price_delete(request, price_id):
     try:
