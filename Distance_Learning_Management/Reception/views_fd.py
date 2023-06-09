@@ -60,13 +60,13 @@ mpl.use('Agg')
 
 
 
-def faceMarkPhotoShootingpage(request,familyId, studentid):
-	context = {
-        'familyId':familyId,
-        'studentid':studentid
-    }
+# def faceMarkPhotoShootingpage(request,familyId, studentid):
+# 	context = {
+#         'familyId':familyId,
+#         'studentid':studentid
+#     }
 
-	return render(request, 'faceMarkPhotoShootingpage.html', context)
+# 	return render(request, 'faceMarkPhotoShootingpage.html', context)
 
 @login_required(login_url='base_login_page')
 @school_registerar_only

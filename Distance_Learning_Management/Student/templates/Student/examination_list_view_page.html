@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taken Exam List</title>
+</head>
+<body>
+    <a href="{% url 'student_exam_list_view_for_newer_exams' %}">
+        <button>Newer Exams</button>
+    </a>
+    <br>
+
+    {% if is_empty %}
+        <table border="1px solid black">
+            <thead>
+                <tr>
+                    <td>No</td>
+                    <td> Tottal Mark</td>
+                    <td>Result</td>
+                    <td>date</td>
+                    <td>Correct Answers</td>
+                    <td>Incorrect Answers</td>
+                    <td>Trial Count</td>
+                </tr>
+            </thead>
+        <tbody>
+        {% for exam in final_list_of_exams %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ exam.tottalMark }}</td>
+                <td>{{ exam.result }}</td>
+                <td>{{ exam.date }}</td>
+                <td>{{ exam.listofCorrectEntries }}</td>
+                <td>{{ exam.listofInCorrectEntries }}</td>
+                <td>{{ exam.listOfTrial }}</td>
+            </tr>
+        
+        {% endfor %}
+    </tbody>
+    </table>
+    {% else %}
+        <center><h3>There is no  examination you have tried before</h3></center>
+    {% endif %}
+</body>
+</html>

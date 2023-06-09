@@ -4,7 +4,7 @@ from School_Admin.models import *
 from Reception.models import *
 
 from datetime import date
-
+import random
 # Create your models here.
 
 #-----------------------------------------------------------------------------------------
@@ -15,6 +15,7 @@ class Examinationsection(models.Model):
     date = models.DateField(default = date.today, db_column="Date", blank=True, null=True)
     teacherid = models.ForeignKey(Employee, models.DO_NOTHING, db_column='teacherId')  # Field name made lowercase.
     courseinfn = models.ForeignKey(Courseinformations,models.DO_NOTHING, db_column='courseInformationId', blank=True)  # Field name made lowercase.
+    exam_tag = models.BigIntegerField(default=random.randint(100000, 100000000000000))
     class Meta:
         db_table = 'Examinationsection'
         

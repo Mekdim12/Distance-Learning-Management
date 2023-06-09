@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Result</title>
+</head>
+<body>
+    <center>
+        <h3>Student Exam Result</h3>
+    </center>
+    <b>Tottal Question</b> {{assement.tottalMark}} <br>
+    
+    <br>
+    <b>Correct Answer  </b>{{ assement.listofCorrectEntries }}<br>
+    <b>InCorrect Answer </b>{{ assement.listofInCorrectEntries}}
+
+    <br>
+    <a href="{% url 'student_exam_list_view_for_newer_exams' %}">
+        <button>
+            Back To Exam Lists
+        </button>
+    </a>
+
+    
+</body>
+</html>

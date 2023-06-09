@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newer Exams</title>
+</head>
+<body>
+    <center>
+        <h3>Newer Examinations</h3>
+    </center>    
+
+    <br>
+    {% if is_empty %}
+        <table border="1px black solid">
+            <thead>
+                <tr>
+                    <td>No</td>
+                    <td>Date</td>
+                    <td>Questions</td>
+                    <td>Course</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+              {% for examsection, values in new_exams.items %}
+                <tr>
+                    <td>{{ forloop.counter}}</td>
+                    <td>{{ examsection.date }}</td>
+                    <td>TF: {{ values.0 }}      MC: {{ values.1 }} FB: {{ values.2 }}</td>
+                    <td>{{ examsection.courseinfn.course_name }}</td>
+                    <td><a href="{% url 'examination_student_taking_page' examsection.exam_tag %}">
+                        <button>
+                            View
+                        </button>
+                    </a> </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <center> <h2>There is no new examination uploaded from teachers</h2></center>
+    {% endif %}
+</body>
+</html>

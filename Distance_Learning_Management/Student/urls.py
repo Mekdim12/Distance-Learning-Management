@@ -15,5 +15,10 @@ urlpatterns = [
     path('Assignement/Courselist',views.assignment_course_list_view_page, name="assignment_course_list_view_page"),
     path('Assignement/list/<slug:course_id>',views.assignment_list_view_for_course_specific, name="assignment_list_view_for_course_specific"),
     path('Assignement/view/<slug:course_id>/<slug:assignment_id>',views.assignment_detail_student_view, name="assignment_detail_student_view"),
+    path('Examination/Listview',views.student_exam_list_view_page, name="student_exam_list_view_page"),
+    path('Examination/NewerExams',views.student_exam_list_view_for_newer_exams, name="student_exam_list_view_for_newer_exams"),
+    path('Examination/NewerExams/TakeExam/<slug:tag_id>',views.examination_student_taking_page, name="examination_student_taking_page"),
+    path("Examination/ExamResult/<slug:asses_id>", views.exam_result_showing_page, name="exam_result")
+    
 
 ]

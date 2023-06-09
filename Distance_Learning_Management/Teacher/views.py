@@ -569,10 +569,12 @@ def exam_management_question_and_answer_inserting_page(request, course_id):
                         return redirect('exam_mgt_question_and_answer_inserting_page', course_id)       
                 counter += 1
 
+        random_number = random.randint(100000, 100000000000000)
 
         if len(QuestionWithAns_tf.values()) > 0:
             try:
                 ExamSection = Examinationsection(
+                                exam_tag = random_number,
                                 type = "TF",
                                 teacherid = current_employe_object,
                                 courseinfn = Courseinformations.objects.get(course_id = course_id),
@@ -580,9 +582,10 @@ def exam_management_question_and_answer_inserting_page(request, course_id):
                 
                 ExamSection.save()
             except Exception as ww:
+                print(ww)
                 print("Xxxxxxxxxxxxxxxxxxxxx ERROR CODE 110 -------------Failed to save exam section of true false xxxxxxxxxxxxxxxxxx")
-            
-            
+                return redirect('exam_mgt_question_and_answer_inserting_page', course_id)
+
             QuestionNumber = 1
             for quest , ans in QuestionWithAns_tf.items():
                 try:
@@ -606,6 +609,7 @@ def exam_management_question_and_answer_inserting_page(request, course_id):
         if len(QuestionWithAns_mp.values()) > 0:
             try:
                 ExamSection = Examinationsection(
+                                exam_tag = random_number,
                                 type = "MC",
                                 teacherid = current_employe_object,
                                 courseinfn = Courseinformations.objects.get(course_id = course_id),
@@ -646,6 +650,7 @@ def exam_management_question_and_answer_inserting_page(request, course_id):
         if len(QuestionWithAns_fb.values()) > 0:
             try:
                 ExamSection = Examinationsection(
+                                exam_tag = random_number,
                                 type = "FB",
                                 teacherid = current_employe_object,
                                 courseinfn = Courseinformations.objects.get(course_id = course_id),
